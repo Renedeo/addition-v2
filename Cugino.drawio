@@ -1,0 +1,335 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17" pages="4">
+  <diagram name="MCD - Modèle Conceptuel" id="0KDKpnZfEL2bE2Tspjqe">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1200" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-1" value="&lt;b&gt;SYSTÈME DE GESTION&lt;/b&gt;&lt;br&gt;&lt;b&gt;CUGINO - RESTAURATION&lt;/b&gt;&lt;br&gt;&lt;br&gt;Serveur &amp;amp; Base de données" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=12;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="400" y="40" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-2" value="&lt;b&gt;BASE DE DONNÉES RELATIONNELLE&lt;/b&gt;&lt;br&gt;Gestion des Utilisateurs et Établissements" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Helvetica;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="290" y="140" width="500" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;" parent="1" source="5bXEaIKBqLUHFRjAeTa8-10" target="5bXEaIKBqLUHFRjAeTa8-12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-17" value="&lt;b&gt;travaille dans&lt;/b&gt;&lt;br&gt;(1,N) → (1,1)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=10;fillColor=#f5f5f5;strokeColor=#333333;fontColor=#000000;" parent="5bXEaIKBqLUHFRjAeTa8-16" vertex="1" connectable="0">
+          <mxGeometry x="-0.2038" y="2" relative="1" as="geometry">
+            <mxPoint x="20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-10" value="&lt;b&gt;UTILISATEUR&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Helvetica;fontSize=12;fontColor=#121111;" parent="1" vertex="1">
+          <mxGeometry x="80" y="250" width="220" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-6" value="🔑 id_utilisateur (PK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1" parent="5bXEaIKBqLUHFRjAeTa8-10" vertex="1">
+          <mxGeometry x="15" y="30" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-7" value="👤 role" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fillColor=#f5f5f5;strokeColor=#333333;fontColor=#000000;" parent="5bXEaIKBqLUHFRjAeTa8-10" vertex="1">
+          <mxGeometry x="15" y="60" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-8" value="📝 nom" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fillColor=#f5f5f5;strokeColor=#333333;fontColor=#000000;" parent="5bXEaIKBqLUHFRjAeTa8-10" vertex="1">
+          <mxGeometry x="15" y="90" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-38" value="🔒 mot_de_passe_hash" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;fillColor=#f5f5f5;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-10">
+          <mxGeometry x="15" y="120" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-39" value="🔗 id_etablissement (FK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontStyle=1" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-10">
+          <mxGeometry x="15" y="150" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-12" value="&lt;b&gt;ÉTABLISSEMENT&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Entité abstraite)&lt;/i&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontFamily=Helvetica;fontSize=12;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="450" y="250" width="220" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-13" value="🔑 id_etablissement (PK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1" parent="5bXEaIKBqLUHFRjAeTa8-12" vertex="1">
+          <mxGeometry x="15" y="50" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-14" value="🏢 type" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-12" vertex="1">
+          <mxGeometry x="15" y="70" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-15" value="📝 nom" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-12" vertex="1">
+          <mxGeometry x="15" y="100" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-40" value="ℹ️ information" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-12">
+          <mxGeometry x="15" y="130" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=2;strokeColor=#CC0000;" edge="1" parent="1" source="5bXEaIKBqLUHFRjAeTa8-18" target="5bXEaIKBqLUHFRjAeTa8-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-36" value="&lt;b&gt;hérite de&lt;/b&gt;&lt;br&gt;(spécialisation)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=10;fillColor=#ffffff;strokeColor=none;" connectable="0" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-35">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="15" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;" parent="1" source="5bXEaIKBqLUHFRjAeTa8-18" target="5bXEaIKBqLUHFRjAeTa8-23" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-27" value="&lt;b&gt;propose&lt;/b&gt;&lt;br&gt;(1,1) → (1,N)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=10;fillColor=#ffffff;strokeColor=none;" parent="5bXEaIKBqLUHFRjAeTa8-26" vertex="1" connectable="0">
+          <mxGeometry x="-0.054" y="-2" relative="1" as="geometry">
+            <mxPoint x="15" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-18" value="&lt;b&gt;RESTAURATION&lt;/b&gt;&lt;br&gt;(hérite d&#39;Établissement)" style="swimlane;whiteSpace=wrap;html=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="80" y="500" width="220" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-19" value="🍽️ type_cuisine" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-18" vertex="1">
+          <mxGeometry x="15" y="40" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-20" value="👥 capacite" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-18" vertex="1">
+          <mxGeometry x="15" y="70" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-37" value="🕐 horaires_ouverture" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-18">
+          <mxGeometry x="15" y="100" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-41" value="📞 telephone" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-18">
+          <mxGeometry x="15" y="130" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-22" value="&lt;b&gt;COUCHE MÉTIER - RESTAURATION&lt;/b&gt;&lt;br&gt;Gestion des Menus et Produits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Helvetica;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="150" y="720" width="500" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;" parent="1" source="5bXEaIKBqLUHFRjAeTa8-23" target="5bXEaIKBqLUHFRjAeTa8-28" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-32" value="&lt;b&gt;contient&lt;/b&gt;&lt;br&gt;(1,1) → (1,N)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=10;fillColor=#ffffff;strokeColor=none;" parent="5bXEaIKBqLUHFRjAeTa8-31" vertex="1" connectable="0">
+          <mxGeometry x="-0.0269" y="-2" relative="1" as="geometry">
+            <mxPoint x="15" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-23" value="&lt;b&gt;MENU&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="450" y="500" width="220" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-42" value="🔑 id_menu (PK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-23">
+          <mxGeometry x="15" y="30" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-24" value="⏰ moment" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-23" vertex="1">
+          <mxGeometry x="15" y="60" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-25" value="🔗 id_restauration (FK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontStyle=1" parent="5bXEaIKBqLUHFRjAeTa8-23" vertex="1">
+          <mxGeometry x="15" y="90" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-43" value="📅 date_creation" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-23">
+          <mxGeometry x="15" y="120" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-28" value="&lt;b&gt;PRODUIT&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Helvetica;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="450" y="800" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-44" value="🔑 id_produit (PK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-28">
+          <mxGeometry x="15" y="30" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-29" value="📝 nom" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-28" vertex="1">
+          <mxGeometry x="15" y="60" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-30" value="💰 prix" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-28" vertex="1">
+          <mxGeometry x="15" y="90" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-33" value="📖 description" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" parent="5bXEaIKBqLUHFRjAeTa8-28" vertex="1">
+          <mxGeometry x="15" y="120" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-34" value="🔗 id_menu (FK)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontStyle=1" parent="5bXEaIKBqLUHFRjAeTa8-28" vertex="1">
+          <mxGeometry x="15" y="150" width="190" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="5bXEaIKBqLUHFRjAeTa8-45" value="🏷️ categorie" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;" vertex="1" parent="5bXEaIKBqLUHFRjAeTa8-28">
+          <mxGeometry x="15" y="180" width="190" height="15" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="MLD - Modèle Logique" id="MLD-page">
+    <mxGraphModel dx="1793" dy="1045" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mld-title" value="&lt;b&gt;MODÈLE LOGIQUE DE DONNÉES (MLD)&lt;/b&gt;&lt;br&gt;&lt;b&gt;SYSTÈME CUGINO - RESTAURATION&lt;/b&gt;&lt;br&gt;&lt;i&gt;avec types de données PostgreSQL&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="450" y="20" width="400" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-etablissement" value="&lt;b&gt;ETABLISSEMENT&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Table abstraite)&lt;/i&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontFamily=Helvetica;fontSize=12;fontStyle=1;startSize=50;" parent="1" vertex="1">
+          <mxGeometry x="500" y="150" width="300" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-etab-id" value="🔑 id_etablissement : SERIAL PRIMARY KEY" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-etablissement" vertex="1">
+          <mxGeometry x="10" y="55" width="280" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-etab-type" value="   type : VARCHAR(100) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-etablissement" vertex="1">
+          <mxGeometry x="10" y="85" width="280" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-etab-nom" value="   nom : VARCHAR(255) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-etablissement" vertex="1">
+          <mxGeometry x="10" y="115" width="280" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-etab-info" value="   information : TEXT" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-etablissement" vertex="1">
+          <mxGeometry x="10" y="145" width="280" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-etab-created" value="   created_at : TIMESTAMP DEFAULT NOW()" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-etablissement" vertex="1">
+          <mxGeometry x="10" y="175" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-utilisateur" value="&lt;b&gt;UTILISATEUR&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Helvetica;fontSize=12;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="100" y="150" width="320" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-user-id" value="🔑 id_utilisateur : SERIAL PRIMARY KEY" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-utilisateur" vertex="1">
+          <mxGeometry x="10" y="45" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-user-role" value="   role : VARCHAR(50) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-utilisateur" vertex="1">
+          <mxGeometry x="10" y="75" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-user-nom" value="   nom : VARCHAR(255) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-utilisateur" vertex="1">
+          <mxGeometry x="10" y="105" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-user-pwd" value="   mot_de_passe_hash : VARCHAR(255) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-utilisateur" vertex="1">
+          <mxGeometry x="10" y="135" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-user-fk" value="🔗 id_etablissement : INTEGER REFERENCES etablissement(id)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-utilisateur" vertex="1">
+          <mxGeometry x="10" y="165" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-restauration" value="&lt;b&gt;RESTAURATION&lt;/b&gt;&lt;br&gt;&lt;i&gt;(hérite d&#39;ETABLISSEMENT)&lt;/i&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Helvetica;fontSize=12;fontStyle=1;startSize=50;" parent="1" vertex="1">
+          <mxGeometry x="100" y="400" width="320" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-resto-id" value="🔑 id_restauration : INTEGER PRIMARY KEY" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-restauration" vertex="1">
+          <mxGeometry x="10" y="55" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-resto-fk" value="🔗 FOREIGN KEY (id_restauration) REFERENCES etablissement(id)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=9;fontStyle=1;align=left;" parent="mld-restauration" vertex="1">
+          <mxGeometry x="10" y="85" width="300" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-resto-cuisine" value="   type_cuisine : VARCHAR(100)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-restauration" vertex="1">
+          <mxGeometry x="10" y="110" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-resto-capacite" value="   capacite : INTEGER CHECK (capacite &gt; 0)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-restauration" vertex="1">
+          <mxGeometry x="10" y="140" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-resto-horaires" value="   horaires_ouverture : JSONB" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-restauration" vertex="1">
+          <mxGeometry x="10" y="170" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-resto-tel" value="   telephone : VARCHAR(20)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-restauration" vertex="1">
+          <mxGeometry x="10" y="200" width="300" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-menu" value="&lt;b&gt;MENU&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=12;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="500" y="400" width="320" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-menu-id" value="🔑 id_menu : SERIAL PRIMARY KEY" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-menu" vertex="1">
+          <mxGeometry x="10" y="45" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-menu-moment" value="   moment : VARCHAR(50) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-menu" vertex="1">
+          <mxGeometry x="10" y="75" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-menu-date" value="   date_creation : DATE DEFAULT CURRENT_DATE" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-menu" vertex="1">
+          <mxGeometry x="10" y="105" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-menu-actif" value="   actif : BOOLEAN DEFAULT TRUE" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-menu" vertex="1">
+          <mxGeometry x="10" y="135" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-menu-fk" value="🔗 id_restauration : INTEGER REFERENCES restauration(id)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-menu" vertex="1">
+          <mxGeometry x="10" y="165" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-produit" value="&lt;b&gt;PRODUIT&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Helvetica;fontSize=12;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="100" y="700" width="320" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-id" value="🔑 id_produit : SERIAL PRIMARY KEY" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="45" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-nom" value="   nom : VARCHAR(255) NOT NULL" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="75" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-prix" value="   prix : DECIMAL(10,2) NOT NULL CHECK (prix &gt;= 0)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="105" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-desc" value="   description : TEXT" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="135" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-cat" value="   categorie : VARCHAR(100)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="165" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-dispo" value="   disponible : BOOLEAN DEFAULT TRUE" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=10;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="195" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-prod-fk" value="🔗 id_menu : INTEGER REFERENCES menu(id_menu)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=10;fontStyle=1;align=left;" parent="mld-produit" vertex="1">
+          <mxGeometry x="10" y="225" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-legende" value="&lt;b&gt;LÉGENDE&lt;/b&gt;&lt;br&gt;🔑 Clé primaire (PK)&lt;br&gt;🔗 Clé étrangère (FK)&lt;br&gt;   Attribut simple&lt;br&gt;&lt;br&gt;&lt;b&gt;CONTRAINTES:&lt;/b&gt;&lt;br&gt;• NOT NULL : obligatoire&lt;br&gt;• CHECK : validation&lt;br&gt;• DEFAULT : valeur par défaut&lt;br&gt;• REFERENCES : intégrité référentielle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontFamily=Helvetica;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="500" y="700" width="300" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-index" value="&lt;b&gt;INDEX RECOMMANDÉS&lt;/b&gt;&lt;br&gt;&lt;br&gt;CREATE INDEX idx_utilisateur_etablissement&lt;br&gt;ON utilisateur(id_etablissement);&lt;br&gt;&lt;br&gt;CREATE INDEX idx_menu_restauration&lt;br&gt;ON menu(id_restauration);&lt;br&gt;&lt;br&gt;CREATE INDEX idx_produit_menu&lt;br&gt;ON produit(id_menu);&lt;br&gt;&lt;br&gt;CREATE INDEX idx_produit_categorie&lt;br&gt;ON produit(categorie);" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f3ff;strokeColor=#1ba1e2;fontFamily=Courier New;fontSize=9;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="900" y="150" width="400" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-rel1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;endArrow=classic;" parent="1" source="mld-user-fk" target="mld-etab-id" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-rel2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#CC0000;endArrow=block;endFill=0;" parent="1" source="mld-resto-fk" target="mld-etab-id" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-rel3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;endArrow=classic;" parent="1" source="mld-menu-fk" target="mld-resto-id" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mld-rel4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;endArrow=classic;" parent="1" source="mld-prod-fk" target="mld-menu-id" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="MPD - Modèle Physique" id="MPD-page">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Titre principal -->
+        <mxCell id="mpd-title" value="&lt;b&gt;MODÈLE PHYSIQUE DE DONNÉES (MPD)&lt;/b&gt;&lt;br&gt;&lt;b&gt;SYSTÈME CUGINO - RESTAURATION&lt;/b&gt;&lt;br&gt;&lt;i&gt;Implémentation PostgreSQL avec optimisations&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="500" height="80" as="geometry" />
+        </mxCell>
+        <!-- Script de création ETABLISSEMENT -->
+        <mxCell id="mpd-etab-script" value="&lt;b&gt;TABLE ETABLISSEMENT&lt;/b&gt;&lt;br&gt;&lt;br&gt;CREATE TABLE etablissement (&lt;br&gt;    id_etablissement SERIAL PRIMARY KEY,&lt;br&gt;    type VARCHAR(100) NOT NULL,&lt;br&gt;    nom VARCHAR(255) NOT NULL,&lt;br&gt;    information TEXT,&lt;br&gt;    created_at TIMESTAMP DEFAULT NOW(),&lt;br&gt;    updated_at TIMESTAMP DEFAULT NOW()&lt;br&gt;);&lt;br&gt;&lt;br&gt;-- Index pour améliorer les performances&lt;br&gt;CREATE INDEX idx_etablissement_type ON etablissement(type);&lt;br&gt;CREATE INDEX idx_etablissement_nom ON etablissement(nom);" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Courier New;fontSize=10;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="50" y="130" width="450" height="200" as="geometry" />
+        </mxCell>
+        <!-- Script de création UTILISATEUR -->
+        <mxCell id="mpd-user-script" value="&lt;b&gt;TABLE UTILISATEUR&lt;/b&gt;&lt;br&gt;&lt;br&gt;CREATE TABLE utilisateur (&lt;br&gt;    id_utilisateur SERIAL PRIMARY KEY,&lt;br&gt;    role VARCHAR(50) NOT NULL,&lt;br&gt;    nom VARCHAR(255) NOT NULL,&lt;br&gt;    mot_de_passe_hash VARCHAR(255) NOT NULL,&lt;br&gt;    id_etablissement INTEGER NOT NULL,&lt;br&gt;    created_at TIMESTAMP DEFAULT NOW(),&lt;br&gt;    is_active BOOLEAN DEFAULT TRUE,&lt;br&gt;    FOREIGN KEY (id_etablissement) &lt;br&gt;        REFERENCES etablissement(id_etablissement)&lt;br&gt;        ON DELETE CASCADE&lt;br&gt;);&lt;br&gt;&lt;br&gt;-- Index et contraintes&lt;br&gt;CREATE INDEX idx_utilisateur_etablissement &lt;br&gt;    ON utilisateur(id_etablissement);&lt;br&gt;CREATE INDEX idx_utilisateur_role ON utilisateur(role);" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Courier New;fontSize=10;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="550" y="130" width="450" height="250" as="geometry" />
+        </mxCell>
+        <!-- Script de création RESTAURATION -->
+        <mxCell id="mpd-resto-script" value="&lt;b&gt;TABLE RESTAURATION&lt;/b&gt;&lt;br&gt;&lt;br&gt;CREATE TABLE restauration (&lt;br&gt;    id_restauration INTEGER PRIMARY KEY,&lt;br&gt;    type_cuisine VARCHAR(100),&lt;br&gt;    capacite INTEGER CHECK (capacite &gt; 0),&lt;br&gt;    horaires_ouverture JSONB,&lt;br&gt;    telephone VARCHAR(20),&lt;br&gt;    adresse TEXT,&lt;br&gt;    latitude DECIMAL(10, 8),&lt;br&gt;    longitude DECIMAL(11, 8),&lt;br&gt;    FOREIGN KEY (id_restauration) &lt;br&gt;        REFERENCES etablissement(id_etablissement)&lt;br&gt;        ON DELETE CASCADE&lt;br&gt;);&lt;br&gt;&lt;br&gt;-- Index spécialisés&lt;br&gt;CREATE INDEX idx_restauration_cuisine &lt;br&gt;    ON restauration(type_cuisine);&lt;br&gt;CREATE INDEX idx_restauration_capacite &lt;br&gt;    ON restauration(capacite);&lt;br&gt;-- Index GIN pour JSONB&lt;br&gt;CREATE INDEX idx_restauration_horaires &lt;br&gt;    ON restauration USING GIN (horaires_ouverture);" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Courier New;fontSize=10;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="50" y="360" width="450" height="300" as="geometry" />
+        </mxCell>
+        <!-- Script de création MENU -->
+        <mxCell id="mpd-menu-script" value="&lt;b&gt;TABLE MENU&lt;/b&gt;&lt;br&gt;&lt;br&gt;CREATE TABLE menu (&lt;br&gt;    id_menu SERIAL PRIMARY KEY,&lt;br&gt;    moment VARCHAR(50) NOT NULL,&lt;br&gt;    date_creation DATE DEFAULT CURRENT_DATE,&lt;br&gt;    actif BOOLEAN DEFAULT TRUE,&lt;br&gt;    id_restauration INTEGER NOT NULL,&lt;br&gt;    description TEXT,&lt;br&gt;    prix_fixe DECIMAL(10,2),&lt;br&gt;    FOREIGN KEY (id_restauration) &lt;br&gt;        REFERENCES restauration(id_restauration)&lt;br&gt;        ON DELETE CASCADE&lt;br&gt;);&lt;br&gt;&lt;br&gt;-- Index et contraintes&lt;br&gt;CREATE INDEX idx_menu_restauration &lt;br&gt;    ON menu(id_restauration);&lt;br&gt;CREATE INDEX idx_menu_moment ON menu(moment);&lt;br&gt;CREATE INDEX idx_menu_actif ON menu(actif);&lt;br&gt;&lt;br&gt;-- Contrainte unique pour éviter les doublons&lt;br&gt;CREATE UNIQUE INDEX idx_menu_unique &lt;br&gt;    ON menu(id_restauration, moment, date_creation) &lt;br&gt;    WHERE actif = TRUE;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Courier New;fontSize=10;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="550" y="410" width="450" height="320" as="geometry" />
+        </mxCell>
+        <!-- Script de création PRODUIT -->
+        <mxCell id="mpd-prod-script" value="&lt;b&gt;TABLE PRODUIT&lt;/b&gt;&lt;br&gt;&lt;br&gt;CREATE TABLE produit (&lt;br&gt;    id_produit SERIAL PRIMARY KEY,&lt;br&gt;    nom VARCHAR(255) NOT NULL,&lt;br&gt;    prix DECIMAL(10,2) NOT NULL CHECK (prix &gt;= 0),&lt;br&gt;    description TEXT,&lt;br&gt;    categorie VARCHAR(100),&lt;br&gt;    disponible BOOLEAN DEFAULT TRUE,&lt;br&gt;    allergenes TEXT[],&lt;br&gt;    calories INTEGER,&lt;br&gt;    temps_preparation INTEGER,&lt;br&gt;    id_menu INTEGER NOT NULL,&lt;br&gt;    FOREIGN KEY (id_menu) &lt;br&gt;        REFERENCES menu(id_menu)&lt;br&gt;        ON DELETE CASCADE&lt;br&gt;);&lt;br&gt;&lt;br&gt;-- Index pour optimisation&lt;br&gt;CREATE INDEX idx_produit_menu ON produit(id_menu);&lt;br&gt;CREATE INDEX idx_produit_categorie ON produit(categorie);&lt;br&gt;CREATE INDEX idx_produit_disponible ON produit(disponible);&lt;br&gt;CREATE INDEX idx_produit_prix ON produit(prix);&lt;br&gt;&lt;br&gt;-- Index de recherche textuelle&lt;br&gt;CREATE INDEX idx_produit_recherche &lt;br&gt;    ON produit USING GIN (to_tsvector(&#39;french&#39;, nom || &#39; &#39; || COALESCE(description, &#39;&#39;)));" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Courier New;fontSize=10;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="50" y="700" width="450" height="350" as="geometry" />
+        </mxCell>
+        <!-- Triggers et procédures -->
+        <mxCell id="mpd-triggers" value="&lt;b&gt;TRIGGERS ET PROCÉDURES&lt;/b&gt;&lt;br&gt;&lt;br&gt;-- Trigger pour updated_at&lt;br&gt;CREATE OR REPLACE FUNCTION update_modified_column()&lt;br&gt;RETURNS TRIGGER AS $$&lt;br&gt;BEGIN&lt;br&gt;    NEW.updated_at = NOW();&lt;br&gt;    RETURN NEW;&lt;br&gt;END;&lt;br&gt;$$ language &#39;plpgsql&#39;;&lt;br&gt;&lt;br&gt;CREATE TRIGGER update_etablissement_modtime &lt;br&gt;    BEFORE UPDATE ON etablissement &lt;br&gt;    FOR EACH ROW EXECUTE FUNCTION update_modified_column();&lt;br&gt;&lt;br&gt;-- Fonction de recherche de produits&lt;br&gt;CREATE OR REPLACE FUNCTION rechercher_produits(&lt;br&gt;    terme_recherche TEXT,&lt;br&gt;    id_resto INTEGER DEFAULT NULL&lt;br&gt;) RETURNS TABLE(&lt;br&gt;    id_produit INTEGER,&lt;br&gt;    nom_produit VARCHAR,&lt;br&gt;    prix_produit DECIMAL,&lt;br&gt;    nom_restaurant VARCHAR&lt;br&gt;) AS $$&lt;br&gt;BEGIN&lt;br&gt;    RETURN QUERY&lt;br&gt;    SELECT p.id_produit, p.nom, p.prix, e.nom&lt;br&gt;    FROM produit p&lt;br&gt;    JOIN menu m ON p.id_menu = m.id_menu&lt;br&gt;    JOIN restauration r ON m.id_restauration = r.id_restauration&lt;br&gt;    JOIN etablissement e ON r.id_restauration = e.id_etablissement&lt;br&gt;    WHERE p.disponible = TRUE&lt;br&gt;    AND (id_resto IS NULL OR r.id_restauration = id_resto)&lt;br&gt;    AND to_tsvector(&#39;french&#39;, p.nom || &#39; &#39; || COALESCE(p.description, &#39;&#39;)) &lt;br&gt;        @@ plainto_tsquery(&#39;french&#39;, terme_recherche);&lt;br&gt;END;&lt;br&gt;$$ LANGUAGE plpgsql;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Courier New;fontSize=9;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="550" y="760" width="500" height="400" as="geometry" />
+        </mxCell>
+        <!-- Performances et maintenance -->
+        <mxCell id="mpd-maintenance" value="&lt;b&gt;MAINTENANCE ET PERFORMANCES&lt;/b&gt;&lt;br&gt;&lt;br&gt;-- Partitioning pour la table menu par date&lt;br&gt;CREATE TABLE menu_2024 PARTITION OF menu&lt;br&gt;FOR VALUES FROM (&#39;2024-01-01&#39;) TO (&#39;2025-01-01&#39;);&lt;br&gt;&lt;br&gt;-- Vues pour simplifier les requêtes&lt;br&gt;CREATE VIEW vue_menu_complet AS&lt;br&gt;SELECT &lt;br&gt;    m.id_menu,&lt;br&gt;    m.moment,&lt;br&gt;    m.date_creation,&lt;br&gt;    e.nom as nom_restaurant,&lt;br&gt;    r.type_cuisine,&lt;br&gt;    COUNT(p.id_produit) as nb_produits,&lt;br&gt;    AVG(p.prix) as prix_moyen&lt;br&gt;FROM menu m&lt;br&gt;JOIN restauration r ON m.id_restauration = r.id_restauration&lt;br&gt;JOIN etablissement e ON r.id_restauration = e.id_etablissement&lt;br&gt;LEFT JOIN produit p ON m.id_menu = p.id_menu&lt;br&gt;WHERE m.actif = TRUE&lt;br&gt;GROUP BY m.id_menu, e.nom, r.type_cuisine;&lt;br&gt;&lt;br&gt;-- Jobs de maintenance automatique&lt;br&gt;-- Suppression des menus obsolètes&lt;br&gt;DELETE FROM menu &lt;br&gt;WHERE actif = FALSE &lt;br&gt;AND date_creation &lt; NOW() - INTERVAL &#39;1 year&#39;;&lt;br&gt;&lt;br&gt;-- Réindexation périodique&lt;br&gt;REINDEX DATABASE cugino_db;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Courier New;fontSize=9;align=left;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="130" width="450" height="400" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Dictionnaire de Données" id="DD-page">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dd-title" value="&lt;b&gt;DICTIONNAIRE DE DONNÉES&lt;/b&gt;&lt;br&gt;&lt;b&gt;SYSTÈME CUGINO - RESTAURATION&lt;/b&gt;&lt;br&gt;&lt;i&gt;Description détaillée de tous les attributs&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=14;fontStyle=1;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="500" y="20" width="500" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-etablissement" value="&lt;b&gt;TABLE: ETABLISSEMENT&lt;/b&gt;&lt;br&gt;&lt;table border=&#39;1&#39; style=&#39;border-collapse: collapse; width: 100%; font-size: 10px;&#39;&gt;&lt;tr style=&#39;background-color: #f0f0f0;&#39;&gt;&lt;th&gt;Attribut&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Contraintes&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_etablissement&lt;/b&gt;&lt;/td&gt;&lt;td&gt;SERIAL&lt;/td&gt;&lt;td&gt;PK, NOT NULL&lt;/td&gt;&lt;td&gt;Identifiant unique de l&#39;établissement&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;type&lt;/td&gt;&lt;td&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Type d&#39;établissement (restaurant, café, bar...)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;nom&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Nom commercial de l&#39;établissement&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;information&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Informations générales, description&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;created_at&lt;/td&gt;&lt;td&gt;TIMESTAMP&lt;/td&gt;&lt;td&gt;DEFAULT NOW()&lt;/td&gt;&lt;td&gt;Date de création de l&#39;enregistrement&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;updated_at&lt;/td&gt;&lt;td&gt;TIMESTAMP&lt;/td&gt;&lt;td&gt;DEFAULT NOW()&lt;/td&gt;&lt;td&gt;Date de dernière modification&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="50" y="130" width="700" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-utilisateur" value="&lt;b&gt;TABLE: UTILISATEUR&lt;/b&gt;&lt;br&gt;&lt;table border=&#39;1&#39; style=&#39;border-collapse: collapse; width: 100%; font-size: 10px;&#39;&gt;&lt;tr style=&#39;background-color: #fff2cc;&#39;&gt;&lt;th&gt;Attribut&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Contraintes&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_utilisateur&lt;/b&gt;&lt;/td&gt;&lt;td&gt;SERIAL&lt;/td&gt;&lt;td&gt;PK, NOT NULL&lt;/td&gt;&lt;td&gt;Identifiant unique de l&#39;utilisateur&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;role&lt;/td&gt;&lt;td&gt;VARCHAR(50)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Rôle: admin, manager, serveur, cuisinier&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;nom&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Nom complet de l&#39;utilisateur&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;mot_de_passe_hash&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Hash sécurisé du mot de passe (bcrypt)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_etablissement&lt;/b&gt;&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;FK, NOT NULL&lt;/td&gt;&lt;td&gt;Référence vers l&#39;établissement d&#39;affectation&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;created_at&lt;/td&gt;&lt;td&gt;TIMESTAMP&lt;/td&gt;&lt;td&gt;DEFAULT NOW()&lt;/td&gt;&lt;td&gt;Date de création du compte&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;is_active&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;DEFAULT TRUE&lt;/td&gt;&lt;td&gt;Statut actif/inactif du compte&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="800" y="130" width="700" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-restauration" value="&lt;b&gt;TABLE: RESTAURATION (hérite d&#39;ETABLISSEMENT)&lt;/b&gt;&lt;br&gt;&lt;table border=&#39;1&#39; style=&#39;border-collapse: collapse; width: 100%; font-size: 10px;&#39;&gt;&lt;tr style=&#39;background-color: #ffe6cc;&#39;&gt;&lt;th&gt;Attribut&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Contraintes&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_restauration&lt;/b&gt;&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;PK, FK&lt;/td&gt;&lt;td&gt;Identifiant, référence vers etablissement&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;type_cuisine&lt;/td&gt;&lt;td&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Type de cuisine: française, italienne, asiatique...&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;capacite&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;CHECK &gt; 0&lt;/td&gt;&lt;td&gt;Nombre de places assises maximum&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;horaires_ouverture&lt;/td&gt;&lt;td&gt;JSONB&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Horaires par jour de la semaine (format JSON)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;telephone&lt;/td&gt;&lt;td&gt;VARCHAR(20)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Numéro de téléphone de contact&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;adresse&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Adresse complète du restaurant&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;latitude&lt;/td&gt;&lt;td&gt;DECIMAL(10,8)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Coordonnée géographique latitude&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;longitude&lt;/td&gt;&lt;td&gt;DECIMAL(11,8)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Coordonnée géographique longitude&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="50" y="340" width="700" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-menu" value="&lt;b&gt;TABLE: MENU&lt;/b&gt;&lt;br&gt;&lt;table border=&#39;1&#39; style=&#39;border-collapse: collapse; width: 100%; font-size: 10px;&#39;&gt;&lt;tr style=&#39;background-color: #e1d5e7;&#39;&gt;&lt;th&gt;Attribut&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Contraintes&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_menu&lt;/b&gt;&lt;/td&gt;&lt;td&gt;SERIAL&lt;/td&gt;&lt;td&gt;PK, NOT NULL&lt;/td&gt;&lt;td&gt;Identifiant unique du menu&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;moment&lt;/td&gt;&lt;td&gt;VARCHAR(50)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Moment du service: petit-déjeuner, déjeuner, dîner&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;date_creation&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;DEFAULT TODAY&lt;/td&gt;&lt;td&gt;Date de création du menu&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;actif&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;DEFAULT TRUE&lt;/td&gt;&lt;td&gt;Menu actuellement proposé ou non&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_restauration&lt;/b&gt;&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;FK, NOT NULL&lt;/td&gt;&lt;td&gt;Référence vers le restaurant&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;description&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Description ou thème du menu&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;prix_fixe&lt;/td&gt;&lt;td&gt;DECIMAL(10,2)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Prix fixe si menu unique (optionnel)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="800" y="340" width="700" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-produit" value="&lt;b&gt;TABLE: PRODUIT&lt;/b&gt;&lt;br&gt;&lt;table border=&#39;1&#39; style=&#39;border-collapse: collapse; width: 100%; font-size: 10px;&#39;&gt;&lt;tr style=&#39;background-color: #d5e8d4;&#39;&gt;&lt;th&gt;Attribut&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Contraintes&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_produit&lt;/b&gt;&lt;/td&gt;&lt;td&gt;SERIAL&lt;/td&gt;&lt;td&gt;PK, NOT NULL&lt;/td&gt;&lt;td&gt;Identifiant unique du produit&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;nom&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;td&gt;Nom du plat ou produit&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;prix&lt;/td&gt;&lt;td&gt;DECIMAL(10,2)&lt;/td&gt;&lt;td&gt;NOT NULL, ≥ 0&lt;/td&gt;&lt;td&gt;Prix unitaire en euros&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;description&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Description détaillée du produit&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;categorie&lt;/td&gt;&lt;td&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Catégorie: entrée, plat, dessert, boisson...&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;disponible&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;DEFAULT TRUE&lt;/td&gt;&lt;td&gt;Disponibilité actuelle du produit&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;allergenes&lt;/td&gt;&lt;td&gt;TEXT[]&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Liste des allergènes présents&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;calories&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Nombre de calories (information nutritionnelle)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;temps_preparation&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;td&gt;Temps de préparation en minutes&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;id_menu&lt;/b&gt;&lt;/td&gt;&lt;td&gt;INTEGER&lt;/td&gt;&lt;td&gt;FK, NOT NULL&lt;/td&gt;&lt;td&gt;Référence vers le menu contenant&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="50" y="580" width="700" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-regles" value="&lt;b&gt;RÈGLES MÉTIER ET CONTRAINTES&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Contraintes d&#39;intégrité:&lt;/b&gt;&lt;br&gt;• Un utilisateur ne peut être affecté qu&#39;à un seul établissement&lt;br&gt;• Un restaurant hérite de toutes les propriétés d&#39;un établissement&lt;br&gt;• Un menu ne peut être actif que pour une période donnée&lt;br&gt;• Les prix doivent être positifs ou nuls&lt;br&gt;• La capacité d&#39;un restaurant doit être strictement positive&lt;br&gt;&lt;br&gt;&lt;b&gt;Règles de gestion:&lt;/b&gt;&lt;br&gt;• Les mots de passe sont hachés avec bcrypt (coût 12)&lt;br&gt;• Les horaires sont stockés en JSON pour flexibilité&lt;br&gt;• La recherche textuelle utilise l&#39;indexation PostgreSQL&lt;br&gt;• Les coordonnées GPS permettent la géolocalisation&lt;br&gt;• Les allergènes sont stockés dans un tableau pour recherche&lt;br&gt;&lt;br&gt;&lt;b&gt;Performances:&lt;/b&gt;&lt;br&gt;• Index sur toutes les clés étrangères&lt;br&gt;• Index GIN pour recherche JSON et textuelle&lt;br&gt;• Partitioning des menus par date&lt;br&gt;• Archivage automatique des données obsolètes&lt;br&gt;&lt;br&gt;&lt;b&gt;Sécurité:&lt;/b&gt;&lt;br&gt;• Hachage des mots de passe&lt;br&gt;• Contraintes CASCADE pour intégrité référentielle&lt;br&gt;• Validation côté base et application&lt;br&gt;• Audit trail avec created_at/updated_at" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="800" y="580" width="600" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="dd-legende" value="&lt;b&gt;LÉGENDE DES TYPES DE DONNÉES&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Types PostgreSQL:&lt;/b&gt;&lt;br&gt;• &lt;b&gt;SERIAL&lt;/b&gt;: Entier auto-incrémenté (1, 2, 3...)&lt;br&gt;• &lt;b&gt;INTEGER&lt;/b&gt;: Nombre entier (-2147483648 à 2147483647)&lt;br&gt;• &lt;b&gt;VARCHAR(n)&lt;/b&gt;: Chaîne de caractères de longueur variable (max n)&lt;br&gt;• &lt;b&gt;TEXT&lt;/b&gt;: Chaîne de caractères de longueur illimitée&lt;br&gt;• &lt;b&gt;DECIMAL(p,s)&lt;/b&gt;: Nombre décimal (p chiffres, s après virgule)&lt;br&gt;• &lt;b&gt;BOOLEAN&lt;/b&gt;: Valeur vraie/fausse (TRUE/FALSE)&lt;br&gt;• &lt;b&gt;TIMESTAMP&lt;/b&gt;: Date et heure précises&lt;br&gt;• &lt;b&gt;DATE&lt;/b&gt;: Date uniquement (YYYY-MM-DD)&lt;br&gt;• &lt;b&gt;JSONB&lt;/b&gt;: Données JSON binaires (optimisées)&lt;br&gt;• &lt;b&gt;TEXT[]&lt;/b&gt;: Tableau de chaînes de caractères&lt;br&gt;&lt;br&gt;&lt;b&gt;Contraintes:&lt;/b&gt;&lt;br&gt;• &lt;b&gt;PK&lt;/b&gt;: Clé primaire (Primary Key)&lt;br&gt;• &lt;b&gt;FK&lt;/b&gt;: Clé étrangère (Foreign Key)&lt;br&gt;• &lt;b&gt;NOT NULL&lt;/b&gt;: Valeur obligatoire&lt;br&gt;• &lt;b&gt;DEFAULT&lt;/b&gt;: Valeur par défaut&lt;br&gt;• &lt;b&gt;CHECK&lt;/b&gt;: Contrainte de validation&lt;br&gt;• &lt;b&gt;UNIQUE&lt;/b&gt;: Valeur unique dans la table" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
+          <mxGeometry x="50" y="900" width="600" height="350" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
