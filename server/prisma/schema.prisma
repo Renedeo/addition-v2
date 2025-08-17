@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Etablissement {
+  id          Int      @id @default(autoincrement())
+  type        String   @db.VarChar(100)
+  nom         String   @db.VarChar(255)
+  information String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  utilisateurs  Utilisateur[]
+  restaurations Restauration[]
+
+  @@map("etablissement")
+}
+
+model Restauration {
+  id                 Int     @id @default(autoincrement())
+  etablissementId    Int     @map("etablissement_id")
+  typeCuisine        String? @map("type_cuisine") @db.VarChar(100)
+  capacite           Int?
+  horairesOuverture  Json?   @map("horaires_ouverture")
+  telephone          String? @db.VarChar(20)
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  etablissement Etablissement @relation(fields: [etablissementId], references: [id], onDelete: Cascade)
+  menus         Menu[]
+
+  @@map("restauration")
+}
+
+model Utilisateur {
+  id                 Int    @id @default(autoincrement())
+  role               String @db.VarChar(50)
+  nom                String @db.VarChar(255)
+  motDePasseHash     String @map("mot_de_passe_hash") @db.VarChar(255)
+  etablissementId    Int?   @map("etablissement_id")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  etablissement Etablissement? @relation(fields: [etablissementId], references: [id], onDelete: SetNull)
+
+  @@map("utilisateur")
+}
+
+model Menu {
+  id             Int      @id @default(autoincrement())
+  moment         String   @db.VarChar(50)
+  dateCreation   DateTime @default(now()) @map("date_creation") @db.Date
+  actif          Boolean  @default(true)
+  restaurationId Int      @map("restauration_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  restauration Restauration @relation(fields: [restaurationId], references: [id], onDelete: Cascade)
+  produits     Produit[]
+
+  @@map("menu")
+}
+
+model Produit {
+  id          Int     @id @default(autoincrement())
+  nom         String  @db.VarChar(255)
+  prix        Decimal @db.Decimal(10, 2)
+  description String? @db.Text
+  categories  Json?
+  menuId      Int     @map("menu_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@map("produit")
+}
+
+// Enums pour la validation
+enum TypeEtablissement {
+  restaurant
+  hotel
+  bar
+  cafe
+}
+
+enum RoleUtilisateur {
+  admin
+  manager
+  serveur
+}
+
+enum MomentMenu {
+  petit_dejeuner @map("petit-dejeuner")
+  dejeuner
+  diner
+  brunch
+}
