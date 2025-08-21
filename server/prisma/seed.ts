@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, MomentMenu } from '@prisma/client';
 
 const prisma = new PrismaClient();
-
 async function main() {
   console.log('🌱 Début du seeding...');
 
@@ -113,12 +112,11 @@ async function main() {
     ]
   });
 
-  // Insertion de menus
   const menusData = [
-    { moment: 'dejeuner', restaurationId: resto1.id, actif: true },
-    { moment: 'diner', restaurationId: resto1.id, actif: true },
-    { moment: 'dejeuner', restaurationId: resto2.id, actif: true },
-    { moment: 'diner', restaurationId: resto2.id, actif: true }
+    { moment: MomentMenu.dejeuner, restaurationId: resto1.id, actif: true },
+    { moment: MomentMenu.diner, restaurationId: resto1.id, actif: true },
+    { moment: MomentMenu.dejeuner, restaurationId: resto2.id, actif: true },
+    { moment: MomentMenu.diner, restaurationId: resto2.id, actif: true }
   ];
 
   const menus: Awaited<ReturnType<typeof prisma.menu.create>>[] = [];
