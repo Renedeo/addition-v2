@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Etablissement {
-  id          Int      @id @default(autoincrement())
-  type        String   @db.VarChar(100)
-  nom         String   @db.VarChar(255)
-  information String?  @db.Text
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id          Int                @id @default(autoincrement())
+  type        TypeEtablissement
+  nom         String             @db.VarChar(255)
+  information String?            @db.Text
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
 
   // Relations
   utilisateurs  Utilisateur[]
@@ -43,13 +43,13 @@ model Restauration {
 }
 
 model Utilisateur {
-  id                 Int    @id @default(autoincrement())
-  role               String @db.VarChar(50)
-  nom                String @db.VarChar(255)
-  motDePasseHash     String @map("mot_de_passe_hash") @db.VarChar(255)
-  etablissementId    Int?   @map("etablissement_id")
-  createdAt          DateTime @default(now()) @map("created_at")
-  updatedAt          DateTime @updatedAt @map("updated_at")
+  id                 Int               @id @default(autoincrement())
+  role               RoleUtilisateur
+  nom                String            @db.VarChar(255)
+  motDePasseHash     String            @map("mot_de_passe_hash") @db.VarChar(255)
+  etablissementId    Int?              @map("etablissement_id")
+  createdAt          DateTime          @default(now()) @map("created_at")
+  updatedAt          DateTime          @updatedAt @map("updated_at")
 
   // Relations
   etablissement Etablissement? @relation(fields: [etablissementId], references: [id], onDelete: SetNull)
@@ -58,13 +58,13 @@ model Utilisateur {
 }
 
 model Menu {
-  id             Int      @id @default(autoincrement())
-  moment         String   @db.VarChar(50)
-  dateCreation   DateTime @default(now()) @map("date_creation") @db.Date
-  actif          Boolean  @default(true)
-  restaurationId Int      @map("restauration_id")
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  id             Int         @id @default(autoincrement())
+  moment         MomentMenu
+  dateCreation   DateTime    @default(now()) @map("date_creation") @db.Date
+  actif          Boolean     @default(true)
+  restaurationId Int         @map("restauration_id")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
 
   // Relations
   restauration Restauration @relation(fields: [restaurationId], references: [id], onDelete: Cascade)

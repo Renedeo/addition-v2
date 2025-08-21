@@ -1,4 +1,4 @@
-import { PrismaClient, MomentMenu } from '@prisma/client';
+import { PrismaClient, MomentMenu, TypeEtablissement, RoleUtilisateur } from '@prisma/client';
 
 const prisma = new PrismaClient();
 async function main() {
@@ -15,17 +15,17 @@ async function main() {
   const etablissements = await prisma.etablissement.createMany({
     data: [
       {
-        type: 'restaurant',
+        type: TypeEtablissement.restaurant,
         nom: 'Cugino Centrale',
         information: 'Restaurant italien traditionnel au cœur de la ville'
       },
       {
-        type: 'restaurant',
+        type: TypeEtablissement.restaurant,
         nom: 'Cugino Marina',
         information: 'Restaurant avec vue sur le port'
       },
       {
-        type: 'cafe',
+        type: TypeEtablissement.cafe,
         nom: 'Cugino Café',
         information: 'Café-bar décontracté pour petit-déjeuner et pause'
       }
@@ -80,31 +80,31 @@ async function main() {
   await prisma.utilisateur.createMany({
     data: [
       {
-        role: 'admin',
+        role: RoleUtilisateur.admin,
         nom: 'Marco Rossi',
         motDePasseHash: '$2b$10$dummy.hash.for.admin.user',
         etablissementId: cugino1.id
       },
       {
-        role: 'manager',
+        role: RoleUtilisateur.manager,
         nom: 'Sofia Bianchi',
         motDePasseHash: '$2b$10$dummy.hash.for.manager.user',
         etablissementId: cugino1.id
       },
       {
-        role: 'serveur',
+        role: RoleUtilisateur.serveur,
         nom: 'Luca Verdi',
         motDePasseHash: '$2b$10$dummy.hash.for.serveur.user',
         etablissementId: cugino1.id
       },
       {
-        role: 'manager',
+        role: RoleUtilisateur.manager,
         nom: 'Elena Russo',
         motDePasseHash: '$2b$10$dummy.hash.for.manager.user',
         etablissementId: cugino2.id
       },
       {
-        role: 'serveur',
+        role: RoleUtilisateur.serveur,
         nom: 'Antonio Neri',
         motDePasseHash: '$2b$10$dummy.hash.for.serveur.user',
         etablissementId: cugino2.id
