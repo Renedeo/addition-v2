@@ -251,32 +251,11 @@ export class Utilisateur implements IUtilisateurEntity {
   }
 
   /**
-   * Validation de la force du mot de passe
+   * Validation de la force du mot de passe (méthode d'instance)
+   * Délègue à la méthode statique pour éviter la duplication
    */
   private validatePasswordStrength(motDePasse: string): void {
-    const hasUpperCase = /[A-Z]/.test(motDePasse);
-    const hasLowerCase = /[a-z]/.test(motDePasse);
-    const hasNumbers = /\d/.test(motDePasse);
-    const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(motDePasse);
-
-    const errors: string[] = [];
-
-    if (!hasUpperCase) {
-      errors.push('au moins une majuscule');
-    }
-    if (!hasLowerCase) {
-      errors.push('au moins une minuscule');
-    }
-    if (!hasNumbers) {
-      errors.push('au moins un chiffre');
-    }
-    if (!hasSpecialChars) {
-      errors.push('au moins un caractère spécial');
-    }
-
-    if (errors.length > 0) {
-      throw new Error(`Le mot de passe doit contenir: ${errors.join(', ')}`);
-    }
+    Utilisateur.validatePasswordStrengthStatic(motDePasse);
   }
 
   /**

@@ -11,8 +11,16 @@ import {
 export interface IUtilisateurEntity extends IDomainEntity {
   role: RoleUtilisateur;
   nom: string;
-  motDePasseHash: string;
   etablissementId?: number;
+}
+
+/**
+ * Interface étendue pour l'accès sécurisé au hash du mot de passe
+ * Utilisée par le repository et les services internes
+ */
+export interface IUtilisateurEntityWithPassword extends IUtilisateurEntity {
+  motDePasseHash: string;
+  verifyPassword?(motDePasse: string): Promise<boolean>;
 }
 
 // ========== TYPES POUR LES OPÉRATIONS CRUD ==========
