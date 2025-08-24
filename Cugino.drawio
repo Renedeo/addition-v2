@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17" pages="4">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17" pages="5">
   <diagram name="MCD - Modèle Conceptuel" id="0KDKpnZfEL2bE2Tspjqe">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1200" pageHeight="1600" math="0" shadow="0">
       <root>
@@ -328,6 +328,35 @@
         </mxCell>
         <mxCell id="dd-legende" value="&lt;b&gt;LÉGENDE DES TYPES DE DONNÉES&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Types PostgreSQL:&lt;/b&gt;&lt;br&gt;• &lt;b&gt;SERIAL&lt;/b&gt;: Entier auto-incrémenté (1, 2, 3...)&lt;br&gt;• &lt;b&gt;INTEGER&lt;/b&gt;: Nombre entier (-2147483648 à 2147483647)&lt;br&gt;• &lt;b&gt;VARCHAR(n)&lt;/b&gt;: Chaîne de caractères de longueur variable (max n)&lt;br&gt;• &lt;b&gt;TEXT&lt;/b&gt;: Chaîne de caractères de longueur illimitée&lt;br&gt;• &lt;b&gt;DECIMAL(p,s)&lt;/b&gt;: Nombre décimal (p chiffres, s après virgule)&lt;br&gt;• &lt;b&gt;BOOLEAN&lt;/b&gt;: Valeur vraie/fausse (TRUE/FALSE)&lt;br&gt;• &lt;b&gt;TIMESTAMP&lt;/b&gt;: Date et heure précises&lt;br&gt;• &lt;b&gt;DATE&lt;/b&gt;: Date uniquement (YYYY-MM-DD)&lt;br&gt;• &lt;b&gt;JSONB&lt;/b&gt;: Données JSON binaires (optimisées)&lt;br&gt;• &lt;b&gt;TEXT[]&lt;/b&gt;: Tableau de chaînes de caractères&lt;br&gt;&lt;br&gt;&lt;b&gt;Contraintes:&lt;/b&gt;&lt;br&gt;• &lt;b&gt;PK&lt;/b&gt;: Clé primaire (Primary Key)&lt;br&gt;• &lt;b&gt;FK&lt;/b&gt;: Clé étrangère (Foreign Key)&lt;br&gt;• &lt;b&gt;NOT NULL&lt;/b&gt;: Valeur obligatoire&lt;br&gt;• &lt;b&gt;DEFAULT&lt;/b&gt;: Valeur par défaut&lt;br&gt;• &lt;b&gt;CHECK&lt;/b&gt;: Contrainte de validation&lt;br&gt;• &lt;b&gt;UNIQUE&lt;/b&gt;: Valeur unique dans la table" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=10;align=left;fontColor=#000000;" parent="1" vertex="1">
           <mxGeometry x="50" y="900" width="600" height="350" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Ce7oZGwbFnUAxUQy9sQ4" name="Page-5">
+    <mxGraphModel dx="1352" dy="783" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="NSSYaR3oIqiusx0iCYiy-1" value="Base de donnée" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="210" y="160" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="NSSYaR3oIqiusx0iCYiy-6" value="API REST" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NSSYaR3oIqiusx0iCYiy-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.692;entryY=0.007;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="NSSYaR3oIqiusx0iCYiy-1" target="NSSYaR3oIqiusx0iCYiy-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="215" as="sourcePoint" />
+            <mxPoint x="460" y="215" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NSSYaR3oIqiusx0iCYiy-11" value="Persistance" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="NSSYaR3oIqiusx0iCYiy-10">
+          <mxGeometry x="-0.1665" y="1" relative="1" as="geometry">
+            <mxPoint x="-35" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NSSYaR3oIqiusx0iCYiy-13" value="Couche de persistance&lt;br&gt;Creer un modele de la base de données&amp;nbsp;&lt;div&gt;Conceptuelle (Fonctionnelle)&lt;br&gt;Logique ( logique métier )&lt;/div&gt;&lt;div&gt;Physique ( modele d&#39;mplementation dans la base données )&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;div&gt;Couche metier&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp;&lt;div&gt;Couche application&lt;br&gt;Couche business&amp;nbsp;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="150" width="620" height="260" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
