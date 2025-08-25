@@ -24,7 +24,7 @@ import { UtilisateurRepository, UtilisateurService } from '../implementations';
 export class ExpressApp {
   public app: Application;
   private prisma: PrismaClient;
-  
+
   // Services injectés
   private utilisateurRepository!: UtilisateurRepository;
   private utilisateurService!: UtilisateurService;
@@ -32,10 +32,10 @@ export class ExpressApp {
   constructor() {
     this.app = express();
     this.prisma = new PrismaClient();
-    
+
     // Injection de dépendances
     this.initializeDependencies();
-    
+
     // Configuration de l'application
     this.configureMiddlewares();
     this.configureRoutes();
@@ -47,10 +47,10 @@ export class ExpressApp {
    */
   private initializeDependencies(): void {
     console.log('🔧 Initialisation des dépendances...');
-    
+
     // Repository layer
     this.utilisateurRepository = new UtilisateurRepository(this.prisma);
-    
+
     // Service layer
     this.utilisateurService = new UtilisateurService(
       this.utilisateurRepository,
@@ -98,7 +98,9 @@ export class ExpressApp {
     this.app.use('/api/', limiter);
 
     // Body parsers
-    this.app.use(express.json({ limit: '10mb' }));
+    this.app.use(express.json({
+      limit: '10mb',
+    }));
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
     // Logger personnalisé
@@ -115,13 +117,13 @@ export class ExpressApp {
 
     // Route de santé
     this.app.get('/health', this.healthCheck.bind(this));
-    
+
     // Route d'information de l'API
     this.app.get('/api', this.apiInfo.bind(this));
 
     // Routes d'authentification
     this.app.use('/api/auth', authRoutes(this.utilisateurService));
-    
+
     // Routes des utilisateurs
     this.app.use('/api/utilisateurs', utilisateurRoutes(this.utilisateurService));
 
@@ -136,7 +138,7 @@ export class ExpressApp {
    */
   private configureErrorHandling(): void {
     console.log('Configuration de la gestion d\'erreurs...');
-    
+
     // Middleware de gestion d'erreurs (doit être le dernier)
     this.app.use(errorHandler);
 
@@ -150,7 +152,7 @@ export class ExpressApp {
     try {
       // Vérifier la connexion à la base de données
       await this.prisma.$queryRaw`SELECT 1`;
-      
+
       const healthStatus = {
         status: 'healthy',
         timestamp: new Date().toISOString(),
@@ -233,7 +235,7 @@ export class ExpressApp {
    */
   public async shutdown(): Promise<void> {
     console.log('🛑 Arrêt du serveur...');
-    
+
     try {
       await this.prisma.$disconnect();
       console.log('✅ Connexion à la base de données fermée');

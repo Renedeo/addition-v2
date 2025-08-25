@@ -68,44 +68,32 @@ export const authRoutes = (utilisateurService: UtilisateurService): Router => {
       throw new ValidationError('Nom d\'utilisateur et mot de passe requis');
     }
 
-    try {
-      // Tentative de connexion avec notre service
-      const utilisateur = await utilisateurService.verifyCredentials(nom, motDePasse);
-      
-      if (!utilisateur) {
-        throw new AuthenticationError('Identifiants invalides');
-      }
-
-      // Générer le token JWT
-      const token = generateJWTToken(utilisateur, process.env.JWT_SECRET || 'default-secret');
-
-      // Réponse de succès
-      res.status(200).json({
-        success: true,
-        message: 'Connexion réussie',
-        data: {
-          token: token,
-          user: {
-            id: utilisateur.id,
-            nom: utilisateur.nom,
-            role: utilisateur.role,
-            etablissementId: utilisateur.etablissementId,
-            dateCreation: utilisateur.createdAt,
-            dateMiseAJour: utilisateur.updatedAt
-          }
-        }
-      });
-
-    } catch (error) {
-      // Log de tentative de connexion échouée
-      console.warn(`🔐 Tentative de connexion échouée pour: ${nom}`, {
-        timestamp: new Date().toISOString(),
-        ip: req.ip,
-        userAgent: req.get('User-Agent')
-      });
-      
+    // Tentative de connexion avec notre service
+    const utilisateur = await utilisateurService.verifyCredentials(nom, motDePasse);
+    
+    if (!utilisateur) {
       throw new AuthenticationError('Identifiants invalides');
     }
+
+    // Générer le token JWT
+    const token = generateJWTToken(utilisateur, process.env.JWT_SECRET || 'default-secret');
+
+    // Réponse de succès
+    res.status(200).json({
+      success: true,
+      message: 'Connexion réussie',
+      data: {
+        token: token,
+        user: {
+          id: utilisateur.id,
+          nom: utilisateur.nom,
+          role: utilisateur.role,
+          etablissementId: utilisateur.etablissementId,
+          dateCreation: utilisateur.createdAt,
+          dateMiseAJour: utilisateur.updatedAt
+        }
+      }
+    });
   }));
 
   /**
@@ -125,43 +113,33 @@ export const authRoutes = (utilisateurService: UtilisateurService): Router => {
       throw new ValidationError('Le mot de passe doit contenir au moins 8 caractères');
     }
 
-    try {
-      // Création de l'utilisateur (le hashing sera fait par le service)
-      const nouvelUtilisateur = await utilisateurService.createUtilisateur({
-        nom: nom.trim(),
-        motDePasseHash: motDePasse, // Mot de passe en clair, sera hashé par le service
-        role: role || 'serveur', // Rôle par défaut pour l'inscription
-        etablissementId
-      });
+    // Création de l'utilisateur (le hashing sera fait par le service)
+    const nouvelUtilisateur = await utilisateurService.createUtilisateur({
+      nom: nom.trim(),
+      motDePasseHash: motDePasse, // Mot de passe en clair, sera hashé par le service
+      role: role || 'serveur', // Rôle par défaut pour l'inscription
+      etablissementId
+    });
 
-      // Générer un token pour la connexion automatique
-      const token = generateJWTToken(nouvelUtilisateur, process.env.JWT_SECRET || 'default-secret');
+    // Générer un token pour la connexion automatique
+    const token = generateJWTToken(nouvelUtilisateur, process.env.JWT_SECRET || 'default-secret');
 
-      // Réponse de succès
-      res.status(201).json({
-        success: true,
-        message: 'Utilisateur créé avec succès',
-        data: {
-          user: {
-            id: nouvelUtilisateur.id,
-            nom: nouvelUtilisateur.nom,
-            role: nouvelUtilisateur.role,
-            etablissementId: nouvelUtilisateur.etablissementId,
-            dateCreation: nouvelUtilisateur.createdAt,
-            dateMiseAJour: nouvelUtilisateur.updatedAt
-          },
-          token: token
-        }
-      });
-
-    } catch (error: any) {
-      // Gestion des erreurs spécifiques
-      if (error.message.includes('nom')) {
-        throw new ValidationError('Ce nom d\'utilisateur est déjà utilisé');
+    // Réponse de succès
+    res.status(201).json({
+      success: true,
+      message: 'Utilisateur créé avec succès',
+      data: {
+        user: {
+          id: nouvelUtilisateur.id,
+          nom: nouvelUtilisateur.nom,
+          role: nouvelUtilisateur.role,
+          etablissementId: nouvelUtilisateur.etablissementId,
+          dateCreation: nouvelUtilisateur.createdAt,
+          dateMiseAJour: nouvelUtilisateur.updatedAt
+        },
+        token: token
       }
-      
-      throw error;
-    }
+    });
   }));
 
   /**
@@ -198,25 +176,17 @@ export const authRoutes = (utilisateurService: UtilisateurService): Router => {
       throw new ValidationError('Le nouveau mot de passe doit contenir au moins 8 caractères');
     }
 
-    try {
-      // Utiliser le service pour changer le mot de passe
-      await utilisateurService.changePassword(
-        userId,
-        currentPassword,
-        newPassword
-      );
+    // Utiliser le service pour changer le mot de passe
+    await utilisateurService.changePassword(
+      userId,
+      currentPassword,
+      newPassword
+    );
 
-      res.status(200).json({
-        success: true,
-        message: 'Mot de passe modifié avec succès'
-      });
-
-    } catch (error: any) {
-      if (error.message.includes('ancien') || error.message.includes('actuel')) {
-        throw new AuthenticationError('Mot de passe actuel incorrect');
-      }
-      throw error;
-    }
+    res.status(200).json({
+      success: true,
+      message: 'Mot de passe modifié avec succès'
+    });
   }));
 
   /**
@@ -226,31 +196,26 @@ export const authRoutes = (utilisateurService: UtilisateurService): Router => {
   router.get('/me', authMiddleware, asyncHandler(async (req: Request, res: Response) => {
     const userId = (req as AuthenticatedRequest).user.id;
 
-    try {
-      // Récupérer l'utilisateur depuis la base
-      const utilisateur = await utilisateurService.getUtilisateur(userId);
-      
-      if (!utilisateur) {
-        throw new AuthenticationError('Utilisateur non trouvé');
-      }
-
-      res.status(200).json({
-        success: true,
-        data: {
-          user: {
-            id: utilisateur.id,
-            nom: utilisateur.nom,
-            role: utilisateur.role,
-            etablissementId: utilisateur.etablissementId,
-            dateCreation: utilisateur.createdAt,
-            dateMiseAJour: utilisateur.updatedAt
-          }
-        }
-      });
-
-    } catch (error) {
-      throw new AuthenticationError('Impossible de récupérer les informations utilisateur');
+    // Récupérer l'utilisateur depuis la base
+    const utilisateur = await utilisateurService.getUtilisateur(userId);
+    
+    if (!utilisateur) {
+      throw new AuthenticationError('Utilisateur non trouvé');
     }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        user: {
+          id: utilisateur.id,
+          nom: utilisateur.nom,
+          role: utilisateur.role,
+          etablissementId: utilisateur.etablissementId,
+          dateCreation: utilisateur.createdAt,
+          dateMiseAJour: utilisateur.updatedAt
+        }
+      }
+    });
   }));
 
   /**

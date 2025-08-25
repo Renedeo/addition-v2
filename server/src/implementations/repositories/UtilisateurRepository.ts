@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
  * Utilise Prisma comme couche de persistance
  */
 export class UtilisateurRepository implements IUtilisateurRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaClient) { }
 
   // ========== OPÉRATIONS DE LECTURE ==========
 
@@ -184,7 +184,7 @@ export class UtilisateurRepository implements IUtilisateurRepository {
 
     // Retourner l'entité via la factory pour sécuriser l'accès
     const utilisateur = this.mapToEntity(user);
-    
+
     // Vérification supplémentaire avec l'entité si possible
     if (utilisateur instanceof Utilisateur) {
       const doubleCheck = await utilisateur.verifyPassword(motDePasse);
@@ -196,10 +196,10 @@ export class UtilisateurRepository implements IUtilisateurRepository {
 
   async changePassword(id: number, nouveauMotDePasse: string): Promise<void> {
     const motDePasseHash = await bcrypt.hash(nouveauMotDePasse, 10);
-    
+
     await this.prisma.utilisateur.update({
       where: { id },
-      data: { 
+      data: {
         motDePasseHash,
         updatedAt: new Date(),
       },
@@ -223,7 +223,7 @@ export class UtilisateurRepository implements IUtilisateurRepository {
 
     // Vérifier l'unicité du nom
     const existing = await this.prisma.utilisateur.findFirst({
-      where: { 
+      where: {
         nom: data.nom,
         id: { not: data.id },
       },
@@ -366,19 +366,19 @@ export class UtilisateurRepository implements IUtilisateurRepository {
               motDePasseHash: item.motDePasseHash || item._motDePasseHash || '$2b$10$defaulthash',
               etablissementId: item.etablissementId,
             }));
-            
+
             const result = await this.createMany(validCreateData);
             affectedRows = result.count;
           }
           break;
-        
+
         case 'update':
           if (operation.where && !Array.isArray(operation.data)) {
             const result = await this.updateMany(operation.where, operation.data as UpdateUtilisateurData);
             affectedRows = result.count;
           }
           break;
-          
+
         case 'delete':
           if (operation.where) {
             const result = await this.deleteMany(operation.where);

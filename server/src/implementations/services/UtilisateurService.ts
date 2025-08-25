@@ -1,6 +1,7 @@
 import { RoleUtilisateur } from '@prisma/client';
 import { IUtilisateurService, IUtilisateurEntity, CreateUtilisateurData, UpdateUtilisateurData, IUtilisateurRepository } from '../../entities/Utilisateur';
 import { Utilisateur } from '../entities/Utilisateur';
+import { ValidationError, NotFoundError, AuthenticationError } from '../../app-express/middleware/error.middleware';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -43,7 +44,7 @@ export class UtilisateurService implements IUtilisateurService {
 
   async getUtilisateur(id: number): Promise<IUtilisateurEntity | null> {
     if (id <= 0) {
-      throw new Error('L\'ID doit être un nombre positif');
+      throw new ValidationError('L\'ID doit être un nombre positif');
     }
 
     return this.utilisateurRepository.findById(id);
@@ -53,7 +54,7 @@ export class UtilisateurService implements IUtilisateurService {
     // Vérifier que l'utilisateur existe
     const existingUser = await this.utilisateurRepository.findById(id);
     if (!existingUser) {
-      throw new Error(`Utilisateur avec l'ID ${id} non trouvé`);
+      throw new NotFoundError(`Utilisateur avec l'ID ${id}`);
     }
 
     // Validation métier
@@ -78,7 +79,7 @@ export class UtilisateurService implements IUtilisateurService {
     // Vérifier que l'utilisateur existe
     const existingUser = await this.utilisateurRepository.findById(id);
     if (!existingUser) {
-      throw new Error(`Utilisateur avec l'ID ${id} non trouvé`);
+      throw new NotFoundError(`Utilisateur avec l'ID ${id}`);
     }
 
     // Validation métier pour la suppression
@@ -99,7 +100,7 @@ export class UtilisateurService implements IUtilisateurService {
 
   async getUtilisateursByEtablissement(etablissementId: number): Promise<IUtilisateurEntity[]> {
     if (etablissementId <= 0) {
-      throw new Error('L\'ID de l\'établissement doit être un nombre positif');
+      throw new ValidationError('L\'ID de l\'établissement doit être un nombre positif');
     }
 
     return this.utilisateurRepository.findByEtablissement(etablissementId);
@@ -107,7 +108,7 @@ export class UtilisateurService implements IUtilisateurService {
 
   async verifyCredentials(nom: string, motDePasse: string): Promise<IUtilisateurEntity | null> {
     if (!nom || !motDePasse) {
-      throw new Error('Le nom et le mot de passe sont requis');
+      throw new ValidationError('Le nom et le mot de passe sont requis');
     }
 
     const utilisateur = await this.utilisateurRepository.verifyCredentials(nom, motDePasse);
@@ -124,17 +125,17 @@ export class UtilisateurService implements IUtilisateurService {
     // Vérifier que l'utilisateur existe
     const utilisateur = await this.utilisateurRepository.findById(id);
     if (!utilisateur) {
-      throw new Error(`Utilisateur avec l'ID ${id} non trouvé`);
+      throw new NotFoundError(`Utilisateur avec l'ID ${id} non trouvé`);
     }
 
     // Vérifier l'ancien mot de passe en utilisant la méthode sécurisée de l'entité
     if (utilisateur instanceof Utilisateur) {
       const isOldPasswordValid = await utilisateur.verifyPassword(ancienMotDePasse);
       if (!isOldPasswordValid) {
-        throw new Error('L\'ancien mot de passe est incorrect');
+        throw new AuthenticationError('L\'ancien mot de passe est incorrect');
       }
     } else {
-      throw new Error('Type d\'utilisateur non supporté pour cette opération');
+      throw new ValidationError('Type d\'utilisateur non supporté pour cette opération');
     }
 
     // Valider le nouveau mot de passe
@@ -158,7 +159,7 @@ export class UtilisateurService implements IUtilisateurService {
     const utilisateur = await this.verifyCredentials(nom, motDePasse);
     
     if (!utilisateur) {
-      throw new Error('Identifiants invalides');
+      throw new AuthenticationError('Identifiants invalides');
     }
 
     const token = this.generateJwtToken(utilisateur);
@@ -207,7 +208,7 @@ export class UtilisateurService implements IUtilisateurService {
     }
 
     if (errors.length > 0) {
-      throw new Error(`Validation échouée: ${errors.join(', ')}`);
+      throw new ValidationError(`Validation échouée: ${errors.join(', ')}`);
     }
   }
 
@@ -228,7 +229,7 @@ export class UtilisateurService implements IUtilisateurService {
     }
 
     if (errors.length > 0) {
-      throw new Error(`Validation échouée: ${errors.join(', ')}`);
+      throw new ValidationError(`Validation échouée: ${errors.join(', ')}`);
     }
   }
 
@@ -237,14 +238,14 @@ export class UtilisateurService implements IUtilisateurService {
     if (utilisateur.role === RoleUtilisateur.admin) {
       const admins = await this.utilisateurRepository.findByRole(RoleUtilisateur.admin);
       if (admins.length <= 1) {
-        throw new Error('Impossible de supprimer le dernier administrateur');
+        throw new ValidationError('Impossible de supprimer le dernier administrateur');
       }
     }
   }
 
   private validatePassword(motDePasse: string): void {
     if (!motDePasse || motDePasse.length < 6) {
-      throw new Error('Le mot de passe doit contenir au moins 6 caractères');
+      throw new ValidationError('Le mot de passe doit contenir au moins 6 caractères');
     }
 
     // Ajouter d'autres règles de validation selon les besoins
@@ -253,7 +254,7 @@ export class UtilisateurService implements IUtilisateurService {
     const hasNumbers = /\d/.test(motDePasse);
 
     if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
-      throw new Error('Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre');
+      throw new ValidationError('Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre');
     }
   }
 
@@ -321,7 +322,7 @@ export class UtilisateurService implements IUtilisateurService {
   async getUserPermissions(id: number): Promise<string[]> {
     const utilisateur = await this.getUtilisateur(id);
     if (!utilisateur) {
-      throw new Error(`Utilisateur avec l'ID ${id} non trouvé`);
+      throw new NotFoundError(`Utilisateur avec l'ID ${id} non trouvé`);
     }
 
     // Cast vers la classe concrète pour accéder aux méthodes métier
