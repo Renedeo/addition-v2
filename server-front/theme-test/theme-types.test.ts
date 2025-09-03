@@ -4,12 +4,7 @@
  */
 
 import type { 
-  Theme, 
   ThemeMode, 
-  ThemeColors, 
-  Typography, 
-  Spacing,
-  ColorPalette,
   ThemeContextType,
   ThemeProviderProps 
 } from '@/theme';

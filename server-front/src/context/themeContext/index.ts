@@ -1,2 +1,6 @@
-export { ThemeProvider, useTheme } from './ThemeContext';
-export type { ThemeContextType, ThemeProviderProps } from './ThemeContext.types';
+export { useTheme } from './ThemeContext';
+export { ThemeProvider } from './ThemeProviderWithDI';
+export type { ThemeContextType, ThemeProviderProps, IStorageService } from './ThemeContext.types';
+
+// Export storage services
+export * from './services';

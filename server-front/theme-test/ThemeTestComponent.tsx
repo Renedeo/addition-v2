@@ -6,7 +6,7 @@
 'use client';
 
 import React from 'react';
-import { ThemeProvider, useTheme, theme, colors, typography, spacing } from '@/theme';
+import { ThemeProvider, useTheme, colors, typography, spacing } from '@/theme';
 
 // Composant de test pour vérifier useTheme
 const ThemeTestComponent: React.FC = () => {
