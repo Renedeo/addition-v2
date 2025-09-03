@@ -1,0 +1,193 @@
+<mxfile host="65bd71144e">
+    <diagram id="1npFVw_JfF0SbQ6WR4Vz" name="Init">
+        <mxGraphModel dx="1049" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="construction_layer" value="Component Construction Layer (Des Interfaces aux Composants)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=#ff9999;strokeColor=#d6b656;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="50" width="1500" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="interfaces" value="Interfaces &amp; Contracts&#xa;(IButton, IInput, ICard)&#xa;TypeScript Definitions" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="construction_layer" vertex="1">
+                    <mxGeometry y="30" width="160" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="props_types" value="Props Types&#xa;(ButtonProps, InputProps)&#xa;Validation &amp; Defaults" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="160" y="30" width="160" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="component_factory" value="Component Factory&#xa;(createButton, createInput)&#xa;Builder Pattern" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="320" y="30" width="160" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="hoc" value="Higher Order Components&#xa;(withTheme, withLoading)&#xa;Composition Pattern" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="480" y="30" width="180" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="compound_components" value="Compound Components&#xa;(Card.Header, Card.Body)&#xa;Composition API" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="660" y="30" width="180" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="render_props" value="Render Props&#xa;(DataProvider, FormProvider)&#xa;Logic Sharing" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="840" y="30" width="160" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="component_generator" value="Component Generator&#xa;(Auto-generated from API)&#xa;Dynamic Creation" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="1000" y="30" width="160" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="component_library" value="Component Library&#xa;(Storybook, Design System)&#xa;Documentation" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="construction_layer" vertex="1">
+                    <mxGeometry x="1160" y="30" width="160" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="ui_layer" value="UI Layer (Presentation)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="280" width="2360" height="200" as="geometry">
+                        <mxRectangle x="50" y="280" width="160" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="app_router" value="Next.js 15 App Router" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="ui_layer" vertex="1">
+                    <mxGeometry y="30" width="140" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="pages" value="Pages&#xa;(page.tsx)" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="140" y="30" width="120" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="layouts" value="Layouts&#xa;(layout.tsx)" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="260" y="30" width="120" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="components" value="Components" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="380" y="30" width="120" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="ui_components" value="UI Components&#xa;(Button, Input, Card)" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="500" y="30" width="150" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="theme_system" value="Theme System&#xa;(Tailwind + CSS Variables)" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="650" y="30" width="170" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="error_boundaries" value="Error Boundaries" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="820" y="30" width="120" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="loading_components" value="Loading&#xa;Components" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="ui_layer" vertex="1">
+                    <mxGeometry x="940" y="30" width="120" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="logic_layer" value="Business Logic Layer" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="530" width="1300" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="custom_hooks" value="Custom Hooks&#xa;(useAuth, useApi, useLocalStorage)" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="logic_layer" vertex="1">
+                    <mxGeometry y="30" width="200" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="context_api" value="Context API&#xa;(Theme, Auth, App State)" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="logic_layer" vertex="1">
+                    <mxGeometry x="200" y="30" width="180" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="state_management" value="State Management&#xa;(useState, useReducer)" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="logic_layer" vertex="1">
+                    <mxGeometry x="380" y="30" width="180" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="utilities" value="Utilities&#xa;(Helpers, Formatters, Validators)" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="logic_layer" vertex="1">
+                    <mxGeometry x="560" y="30" width="200" height="140" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="progressive_architecture" name="Approche Progressive Theme-First">
+        <mxGraphModel dx="1049" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="main_title" value="🎯 APPROCHE PROGRESSIVE : THEME-FIRST → COMPONENT-MODULAR" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="20" width="1400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step1_title" value="🎨 ÉTAPE 1 : CRÉATION DU SYSTÈME DE THÈME (FONDATION OBLIGATOIRE)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#1565c0;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="80" width="1400" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="theme_foundation" value="🌈 FONDATION THÉMATIQUE" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=#e3f2fd;strokeColor=#1976d2;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="130" width="1500" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="design_tokens" value="🎯 Design Tokens&#xa;src/theme/tokens.ts&#xa;&#xa;export const tokens = {&#xa;  colors: {&#xa;    primary: {&#xa;      50: &#39;#f0f9ff&#39;,&#xa;      500: &#39;#3b82f6&#39;,&#xa;      900: &#39;#1e3a8a&#39;&#xa;    },&#xa;    neutral: { ... }&#xa;  },&#xa;  spacing: [4, 8, 16, 24, 32],&#xa;  typography: {&#xa;    fontFamily: {&#xa;      sans: [&#39;Inter&#39;, &#39;sans-serif&#39;]&#xa;    }&#xa;  },&#xa;  borderRadius: {&#xa;    sm: &#39;0.25rem&#39;,&#xa;    md: &#39;0.375rem&#39;&#xa;  }&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="theme_foundation" vertex="1">
+                    <mxGeometry x="20" y="40" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="component_variants" value="🎭 Component Variants&#xa;src/theme/variants.ts&#xa;&#xa;export const variants = {&#xa;  button: {&#xa;    base: &#39;inline-flex items-center justify-center rounded-md font-medium transition-colors&#39;,&#xa;    variants: {&#xa;      primary: &#39;bg-primary-500 text-white hover:bg-primary-600&#39;,&#xa;      secondary: &#39;bg-neutral-200 text-neutral-900 hover:bg-neutral-300&#39;,&#xa;      ghost: &#39;hover:bg-neutral-100&#39;&#xa;    },&#xa;    sizes: {&#xa;      sm: &#39;px-3 py-1.5 text-sm&#39;,&#xa;      md: &#39;px-4 py-2 text-base&#39;,&#xa;      lg: &#39;px-6 py-3 text-lg&#39;&#xa;    }&#xa;  }&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="theme_foundation" vertex="1">
+                    <mxGeometry x="260" y="40" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="theme_provider" value="🌍 Theme Provider&#xa;src/theme/provider.tsx&#xa;&#xa;const ThemeContext = createContext(null);&#xa;&#xa;export const ThemeProvider = ({&#xa;  theme = defaultTheme,&#xa;  children&#xa;}) =&gt; (&#xa;  &lt;ThemeContext.Provider value={theme}&gt;&#xa;    {children}&#xa;  &lt;/ThemeContext.Provider&gt;&#xa;);&#xa;&#xa;export const useTheme = () =&gt; {&#xa;  const context = useContext(ThemeContext);&#xa;  if (!context) {&#xa;    throw new Error(&#39;useTheme must be used within ThemeProvider&#39;);&#xa;  }&#xa;  return context;&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="theme_foundation" vertex="1">
+                    <mxGeometry x="500" y="40" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="variant_utils" value="🔧 Variant Utilities&#xa;src/theme/utils.ts&#xa;&#xa;import { clsx } from &#39;clsx&#39;;&#xa;import { twMerge } from &#39;tailwind-merge&#39;;&#xa;&#xa;export const cn = (...classes) =&gt;&#xa;  twMerge(clsx(classes));&#xa;&#xa;export const cva = (base, config) =&gt; {&#xa;  return (props) =&gt; {&#xa;    const { variant, size, ...rest } = props;&#xa;    return cn(&#xa;      base,&#xa;      config.variants?.[variant],&#xa;      config.sizes?.[size],&#xa;      rest.className&#xa;    );&#xa;  };&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="theme_foundation" vertex="1">
+                    <mxGeometry x="740" y="40" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="tailwind_config" value="⚙️ Tailwind Configuration&#xa;tailwind.config.ts&#xa;&#xa;import { tokens } from &#39;./src/theme/tokens&#39;;&#xa;&#xa;export default {&#xa;  content: [&#39;./src/**/*.{js,ts,jsx,tsx}&#39;],&#xa;  theme: {&#xa;    extend: {&#xa;      colors: tokens.colors,&#xa;      spacing: tokens.spacing,&#xa;      fontFamily: tokens.typography.fontFamily,&#xa;      borderRadius: tokens.borderRadius&#xa;    }&#xa;  },&#xa;  plugins: []&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="theme_foundation" vertex="1">
+                    <mxGeometry x="980" y="40" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="theme_index" value="📄 Theme Export&#xa;src/theme/index.ts&#xa;&#xa;export { tokens } from &#39;./tokens&#39;;&#xa;export { variants } from &#39;./variants&#39;;&#xa;export { ThemeProvider, useTheme } from &#39;./provider&#39;;&#xa;export { cn, cva } from &#39;./utils&#39;;&#xa;&#xa;// Usage simple :&#xa;// import { useTheme, cn, variants }&#xa;//   from &#39;@/theme&#39;;" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="theme_foundation" vertex="1">
+                    <mxGeometry x="1220" y="40" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="step2_title" value="🧩 ÉTAPE 2 : CRÉATION COMPOSANTS MODULAIRES (UN DOSSIER = UN COMPOSANT COMPLET)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#2e7d32;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="360" width="1400" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_module" value="📁 EXEMPLE : src/components/Button/ (MODULE AUTO-SUFFISANT)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=#e8f5e8;strokeColor=#4caf50;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="410" width="1500" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_interface" value="📋 interfaces.ts&#xa;&#xa;export interface IButton&#xa;  extends ButtonHTMLAttributes&lt;HTMLButtonElement&gt; {&#xa;  variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39;;&#xa;  size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39;;&#xa;  loading?: boolean;&#xa;  leftIcon?: ReactNode;&#xa;  rightIcon?: ReactNode;&#xa;}&#xa;&#xa;export type ButtonVariant = IButton[&#39;variant&#39;];&#xa;export type ButtonSize = IButton[&#39;size&#39;];" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="button_module" vertex="1">
+                    <mxGeometry x="20" y="40" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_hook" value="🪝 useButton.ts&#xa;&#xa;import { variants } from &#39;@/theme&#39;;&#xa;import { cva } from &#39;@/theme&#39;;&#xa;import type { IButton } from &#39;./interfaces&#39;;&#xa;&#xa;const buttonVariants = cva(&#xa;  variants.button.base,&#xa;  {&#xa;    variants: variants.button.variants,&#xa;    sizes: variants.button.sizes,&#xa;    defaultVariants: {&#xa;      variant: &#39;primary&#39;,&#xa;      size: &#39;md&#39;&#xa;    }&#xa;  }&#xa;);&#xa;&#xa;export const useButton = (props: IButton) =&gt; {&#xa;  return {&#xa;    className: buttonVariants(props),&#xa;    disabled: props.disabled || props.loading&#xa;  };&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="button_module" vertex="1">
+                    <mxGeometry x="260" y="40" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_component" value="📦 Button.tsx&#xa;&#xa;import { forwardRef } from &#39;react&#39;;&#xa;import { useButton } from &#39;./useButton&#39;;&#xa;import type { IButton } from &#39;./interfaces&#39;;&#xa;&#xa;export const Button = forwardRef&lt;&#xa;  HTMLButtonElement,&#xa;  IButton&#xa;&gt;(({ children, leftIcon, rightIcon, ...props }, ref) =&gt; {&#xa;  const { className, disabled } = useButton(props);&#xa;&#xa;  return (&#xa;    &lt;button&#xa;      ref={ref}&#xa;      className={className}&#xa;      disabled={disabled}&#xa;      {...props}&#xa;    &gt;&#xa;      {leftIcon}&#xa;      {props.loading ? &lt;Spinner /&gt; : children}&#xa;      {rightIcon}&#xa;    &lt;/button&gt;&#xa;  );&#xa;});" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="button_module" vertex="1">
+                    <mxGeometry x="500" y="40" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_test" value="🧪 Button.test.tsx&#xa;&#xa;import { render, screen } from &#39;@testing-library/react&#39;;&#xa;import { Button } from &#39;./Button&#39;;&#xa;import { ThemeProvider } from &#39;@/theme&#39;;&#xa;&#xa;const TestWrapper = ({ children }) =&gt; (&#xa;  &lt;ThemeProvider&gt;{children}&lt;/ThemeProvider&gt;&#xa;);&#xa;&#xa;describe(&#39;Button&#39;, () =&gt; {&#xa;  it(&#39;renders correctly&#39;, () =&gt; {&#xa;    render(&lt;Button&gt;Test&lt;/Button&gt;, { wrapper: TestWrapper });&#xa;    expect(screen.getByRole(&#39;button&#39;)).toBeInTheDocument();&#xa;  });&#xa;&#xa;  it(&#39;applies variant classes&#39;, () =&gt; {&#xa;    render(&lt;Button variant=&#39;primary&#39;&gt;Primary&lt;/Button&gt;, { wrapper: TestWrapper });&#xa;    expect(screen.getByRole(&#39;button&#39;)).toHaveClass(&#39;bg-primary-500&#39;);&#xa;  });&#xa;});" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="button_module" vertex="1">
+                    <mxGeometry x="740" y="40" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_stories" value="📖 Button.stories.tsx&#xa;&#xa;import type { Meta, StoryObj } from &#39;@storybook/react&#39;;&#xa;import { Button } from &#39;./Button&#39;;&#xa;&#xa;const meta: Meta&lt;typeof Button&gt; = {&#xa;  title: &#39;Components/Button&#39;,&#xa;  component: Button,&#xa;  parameters: {&#xa;    docs: {&#xa;      description: {&#xa;        component: &#39;Bouton principal avec variants et tailles&#39;&#xa;      }&#xa;    }&#xa;  }&#xa;};&#xa;&#xa;export default meta;&#xa;type Story = StoryObj&lt;typeof Button&gt;;&#xa;&#xa;export const Primary: Story = {&#xa;  args: { variant: &#39;primary&#39;, children: &#39;Primary Button&#39; }&#xa;};&#xa;&#xa;export const AllVariants: Story = {&#xa;  render: () =&gt; (&#xa;    &lt;div className=&#39;flex gap-4&#39;&gt;&#xa;      &lt;Button variant=&#39;primary&#39;&gt;Primary&lt;/Button&gt;&#xa;      &lt;Button variant=&#39;secondary&#39;&gt;Secondary&lt;/Button&gt;&#xa;      &lt;Button variant=&#39;ghost&#39;&gt;Ghost&lt;/Button&gt;&#xa;    &lt;/div&gt;&#xa;  )&#xa;};" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="button_module" vertex="1">
+                    <mxGeometry x="980" y="40" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="button_index" value="📄 index.ts&#xa;&#xa;export { Button } from &#39;./Button&#39;;&#xa;export { useButton } from &#39;./useButton&#39;;&#xa;export type {&#xa;  IButton,&#xa;  ButtonVariant,&#xa;  ButtonSize&#xa;} from &#39;./interfaces&#39;;&#xa;&#xa;// Import simple :&#xa;// import { Button, useButton, type IButton }&#xa;//   from &#39;@/components/Button&#39;;" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;verticalAlign=top;fontSize=10;fontFamily=Courier New;" parent="button_module" vertex="1">
+                    <mxGeometry x="1220" y="40" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="project_structure" value="📁 STRUCTURE PROJET FINALE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#e65100;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="660" width="1400" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="folder_structure" value="📂 src/&#xa;├── 🎨 theme/                    ← ÉTAPE 1 (Fondation)&#xa;│   ├── tokens.ts               ← Design tokens centralisés&#xa;│   ├── variants.ts             ← Variants par composant&#xa;│   ├── provider.tsx            ← Context Provider&#xa;│   ├── utils.ts                ← Utilitaires (cn, cva)&#xa;│   └── index.ts                ← Export propre&#xa;│&#xa;├── 🧩 components/              ← ÉTAPE 2 (Composants modulaires)&#xa;│   ├── 📁 Button/              ← Auto-suffisant&#xa;│   │   ├── Button.tsx          ← Composant principal&#xa;│   │   ├── useButton.ts        ← Hook logique métier&#xa;│   │   ├── interfaces.ts       ← Types TypeScript&#xa;│   │   ├── Button.test.tsx     ← Tests unitaires&#xa;│   │   ├── Button.stories.tsx  ← Documentation&#xa;│   │   └── index.ts            ← Export module&#xa;│   │&#xa;│   ├── 📁 Input/               ← Même structure&#xa;│   │   ├── Input.tsx&#xa;│   │   ├── useInput.ts&#xa;│   │   ├── interfaces.ts&#xa;│   │   ├── Input.test.tsx&#xa;│   │   ├── Input.stories.tsx&#xa;│   │   └── index.ts&#xa;│   │&#xa;│   └── 📁 Card/               ← Même structure&#xa;│       ├── Card.tsx&#xa;│       ├── useCard.ts&#xa;│       ├── interfaces.ts&#xa;│       ├── Card.test.tsx&#xa;│       ├── Card.stories.tsx&#xa;│       └── index.ts&#xa;│&#xa;└── 🏠 app/                    ← Next.js App Router&#xa;    ├── layout.tsx             ← Layout avec ThemeProvider&#xa;    └── page.tsx               ← Pages utilisant les composants" style="whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#8e24aa;align=left;verticalAlign=top;fontSize=11;fontFamily=Courier New;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="710" width="700" height="500" as="geometry"/>
+                </mxCell>
+                <mxCell id="advantages" value="✨ AVANTAGES APPROCHE PROGRESSIVE&#xa;&#xa;🎯 FONDATION SOLIDE&#xa;   → Thème créé en premier = base cohérente&#xa;   → Tous les composants utilisent le même système&#xa;   → Changements de design centralisés&#xa;&#xa;🔧 MODULARITÉ TOTALE&#xa;   → Chaque composant = dossier auto-suffisant&#xa;   → Hook, interface, tests, stories dans le même endroit&#xa;   → Facile à déplacer, copier, partager&#xa;&#xa;🚀 DÉVELOPPEMENT EFFICACE&#xa;   → Pas de refactoring massif&#xa;   → Composants ajoutés progressivement&#xa;   → Tests écrits en même temps que le composant&#xa;&#xa;🧪 QUALITÉ GARANTIE&#xa;   → Tests unitaires par composant&#xa;   → Documentation automatique (Storybook)&#xa;   → TypeScript strict pour chaque module&#xa;&#xa;⚡ PERFORMANCE OPTIMISÉE&#xa;   → Tree shaking par composant&#xa;   → Lazy loading naturel&#xa;   → Bundle size optimisé&#xa;&#xa;🔄 MAINTENABILITÉ&#xa;   → Logique encapsulée dans les hooks&#xa;   → Interfaces claires et documentées&#xa;   → Séparation des responsabilités&#xa;&#xa;📦 RÉUTILISABILITÉ&#xa;   → Composants exportables facilement&#xa;   → Hooks réutilisables dans d&#39;autres projets&#xa;   → Design system cohérent&#xa;&#xa;🛡️ ROBUSTESSE&#xa;   → Tests automatisés&#xa;   → Types stricts&#xa;   → Error boundaries par composant&#xa;&#xa;👥 COLLABORATION ÉQUIPE&#xa;   → Structure claire et prévisible&#xa;   → Chaque dev peut travailler sur un composant&#xa;   → Documentation intégrée" style="whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#4caf50;align=left;verticalAlign=top;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="850" y="710" width="600" height="500" as="geometry"/>
+                </mxCell>
+                <mxCell id="workflow_title" value="🔄 FLUX DE TRAVAIL RECOMMANDÉ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#d32f2f;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="1250" width="1400" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_step1" value="1️⃣ CRÉER THÈME&#xa;tokens → variants → provider" style="whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="1300" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_step2" value="2️⃣ SETUP TAILWIND&#xa;Configuration + CSS" style="whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#4caf50;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="1300" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_step3" value="3️⃣ CRÉER DOSSIER COMPOSANT&#xa;interfaces.ts → useHook.ts" style="whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f57c00;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="1300" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_step4" value="4️⃣ COMPOSANT + TESTS&#xa;Component.tsx → tests" style="whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#e91e63;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="1300" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_step5" value="5️⃣ STORYBOOK&#xa;Documentation visuelle" style="whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9c27b0;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="980" y="1300" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_step6" value="6️⃣ EXPORT + INTÉGRATION&#xa;index.ts → utilisation" style="whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1200" y="1300" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1976d2;strokeWidth=3;" parent="1" source="flow_step1" target="flow_step2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4caf50;strokeWidth=3;" parent="1" source="flow_step2" target="flow_step3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#f57c00;strokeWidth=3;" parent="1" source="flow_step3" target="flow_step4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#e91e63;strokeWidth=3;" parent="1" source="flow_step4" target="flow_step5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9c27b0;strokeWidth=3;" parent="1" source="flow_step5" target="flow_step6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="theme_connection" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff5722;strokeWidth=5;" parent="1" source="theme_provider" target="button_hook" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="connection_label" value="THÈME ALIMENTE TOUS LES COMPOSANTS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#ff5722;fontStyle=1;fontSize=14;" parent="theme_connection" vertex="1" connectable="0">
+                    <mxGeometry x="-0.1" y="-2" relative="1" as="geometry">
+                        <mxPoint y="-20" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
