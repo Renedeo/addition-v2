@@ -1,3 +1,41 @@
+/**
+ * Typography configuration object providing consistent font families, sizes, weights, and spacing.
+ * Uses Geist fonts with system fallbacks and a harmonious scale for all text elements.
+ * 
+ * @example
+ * ```ts
+ * import { typography } from '@/theme/implementation';
+ * 
+ * // Access font families
+ * const sansFont = typography.fontFamily.sans;     // ['var(--font-geist-sans)', 'system-ui', 'sans-serif']
+ * const monoFont = typography.fontFamily.mono;     // ['var(--font-geist-mono)', 'Menlo', 'Monaco', 'monospace']
+ * 
+ * // Use font sizes with line heights
+ * const [fontSize, { lineHeight }] = typography.fontSize.base;  // ['1rem', { lineHeight: '1.5rem' }]
+ * const [titleSize, titleLine] = typography.fontSize['2xl'];     // ['1.5rem', { lineHeight: '2rem' }]
+ * 
+ * // Apply font weights
+ * const normalWeight = typography.fontWeight.normal;     // '400'
+ * const boldWeight = typography.fontWeight.bold;         // '700'
+ * 
+ * // Use in CSS-in-JS
+ * const headingStyles = {
+ *   fontFamily: typography.fontFamily.sans.join(', '),
+ *   fontSize: typography.fontSize['2xl'][0],
+ *   lineHeight: typography.fontSize['2xl'][1].lineHeight,
+ *   fontWeight: typography.fontWeight.semibold,
+ *   letterSpacing: typography.letterSpacing.tight
+ * };
+ * 
+ * // Use in styled-components
+ * const StyledText = styled.p`
+ *   font-family: ${typography.fontFamily.sans.join(', ')};
+ *   font-size: ${typography.fontSize.base[0]};
+ *   line-height: ${typography.fontSize.base[1].lineHeight};
+ *   font-weight: ${typography.fontWeight.normal};
+ * `;
+ * ```
+ */
 export const typography = {
   // Font families
   fontFamily: {

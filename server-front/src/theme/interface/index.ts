@@ -1,3 +1,58 @@
+/**
+ * Main export file for theme interfaces and types.
+ * Provides TypeScript types for theme system type safety.
+ * 
+ * @example
+ * ```ts
+ * // Import common types
+ * import type { 
+ *   StringRecord, 
+ *   ColorScale, 
+ *   FontSizeTuple,
+ *   ThemeValue 
+ * } from '@/theme/interface';
+ * 
+ * // Import specific interface groups
+ * import type { 
+ *   Theme, 
+ *   ThemeMode, 
+ *   ThemeConfig 
+ * } from '@/theme/interface';
+ * 
+ * import type { 
+ *   ThemeColors, 
+ *   BaseColors, 
+ *   SemanticColors 
+ * } from '@/theme/interface';
+ * 
+ * import type { 
+ *   Typography, 
+ *   FontSizes, 
+ *   FontWeights 
+ * } from '@/theme/interface';
+ * 
+ * import type { 
+ *   Spacing, 
+ *   SpacingScale, 
+ *   BorderRadii 
+ * } from '@/theme/interface';
+ * 
+ * // Use in component props
+ * interface ButtonProps {
+ *   size?: keyof FontSizes;
+ *   color?: keyof BaseColors;
+ *   spacing?: keyof SpacingScale;
+ * }
+ * 
+ * // Use in theme provider
+ * interface ThemeProviderProps {
+ *   theme: Theme;
+ *   mode: ThemeMode;
+ *   children: React.ReactNode;
+ * }
+ * ```
+ */
+
 // Export common types
 export type {
   StringRecord,

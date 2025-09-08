@@ -1,4 +1,33 @@
-export const colors = {
+import { BaseColors } from "@/theme/interface";
+
+/**
+ * Base color palette implementing the BaseColors interface.
+ * Provides a comprehensive set of colors including primary, secondary, status, and neutral colors.
+ * Each color has shades from 50 (lightest) to 950 (darkest).
+ * 
+ * @example
+ * ```ts
+ * import { colors } from '@/theme/implementation';
+ * 
+ * // Access primary colors
+ * const primaryBlue = colors.primary[500]; // '#3b82f6'
+ * const lightBlue = colors.primary[100];   // '#dbeafe'
+ * const darkBlue = colors.primary[900];    // '#1e3a8a'
+ * 
+ * // Use in CSS-in-JS
+ * const buttonStyles = {
+ *   backgroundColor: colors.primary[500],
+ *   color: colors.white,
+ *   borderColor: colors.primary[600]
+ * };
+ * 
+ * // Use status colors
+ * const successColor = colors.success[500]; // '#22c55e'
+ * const errorColor = colors.error[500];     // '#ef4444'
+ * const warningColor = colors.warning[500]; // '#f59e0b'
+ * ```
+ */
+export const colors: BaseColors = {
   // Primary colors
   primary: {
     50: '#eff6ff',

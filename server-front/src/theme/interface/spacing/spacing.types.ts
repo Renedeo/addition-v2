@@ -1,6 +1,8 @@
 import { StringRecord } from '../common.types';
 
-// Spacing scale
+/**
+ * Interface for the spacing scale (e.g., px, 0, 0.5, 1, ... 96).
+ */
 export interface SpacingScale extends StringRecord {
   px: string;
   0: string;
@@ -39,7 +41,9 @@ export interface SpacingScale extends StringRecord {
   96: string;
 }
 
-// Border radii
+/**
+ * Interface for border radii values.
+ */
 export interface BorderRadii extends StringRecord {
   none: string;
   sm: string;
@@ -52,7 +56,9 @@ export interface BorderRadii extends StringRecord {
   full: string;
 }
 
-// Box shadows
+/**
+ * Interface for box shadow values.
+ */
 export interface BoxShadows extends StringRecord {
   sm: string;
   DEFAULT: string;
@@ -64,14 +70,26 @@ export interface BoxShadows extends StringRecord {
   none: string;
 }
 
-// Complete spacing interface
+/**
+ * Complete spacing interface including scale, border radius, and box shadow.
+ */
 export interface Spacing {
   spacing: SpacingScale;
   borderRadius: BorderRadii;
   boxShadow: BoxShadows;
 }
 
-// Spacing utilities
+/**
+ * Utility type for spacing scale keys.
+ */
 export type SpacingValue = keyof SpacingScale;
+
+/**
+ * Utility type for border radius keys.
+ */
 export type BorderRadiusValue = keyof BorderRadii;
+
+/**
+ * Utility type for box shadow keys.
+ */
 export type BoxShadowValue = keyof BoxShadows;

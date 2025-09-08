@@ -1,3 +1,36 @@
+/**
+ * Spacing configuration object providing consistent spacing, border radius, and box shadow values.
+ * Based on a rem-based spacing scale for responsive design.
+ * 
+ * @example
+ * ```ts
+ * import { spacing } from '@/theme/implementation';
+ * 
+ * // Access spacing values
+ * const padding = spacing.spacing[4];     // '1rem'
+ * const margin = spacing.spacing[8];      // '2rem'
+ * const smallGap = spacing.spacing[2];    // '0.5rem'
+ * 
+ * // Use border radius
+ * const borderRadius = spacing.borderRadius.md;     // '0.375rem'
+ * const fullRadius = spacing.borderRadius.full;     // '9999px'
+ * 
+ * // Apply box shadows
+ * const cardShadow = spacing.boxShadow.md;           // '0 4px 6px -1px rgb(0 0 0 / 0.1)...'
+ * const subtleShadow = spacing.boxShadow.sm;         // '0 1px 2px 0 rgb(0 0 0 / 0.05)'
+ * 
+ * // Use in CSS-in-JS
+ * const cardStyles = {
+ *   padding: spacing.spacing[6],
+ *   margin: spacing.spacing[4],
+ *   borderRadius: spacing.borderRadius.lg,
+ *   boxShadow: spacing.boxShadow.md
+ * };
+ * 
+ * // Use in Tailwind-like utilities
+ * const className = `p-${spacing.spacing[4]} rounded-${spacing.borderRadius.md}`;
+ * ```
+ */
 export const spacing = {
   // Spacing scale
   spacing: {
