@@ -12,104 +12,143 @@ Ce document décrit le plan de développement complet pour l'architecture de th�
 
 ## 🎯 Vue d'ensemble
 
-Le système de thème permet :
+Le système de thème suit les principes **SOLID** et **Domain-Driven Design (DDD)** pour assurer :
 - ✨ **Multi-thèmes** : Plusieurs thèmes personnalisables
 - 🌙 **Mode sombre/clair** : Support complet dark/light mode
 - 🎛️ **Sélection dynamique** : Changement de thème en temps réel
 - 💾 **Persistance** : Sauvegarde des préférences utilisateur
 - 📱 **Responsive** : Adaptation automatique aux devices
 - ♿ **Accessibilité** : Conformité WCAG
+- 🏗️ **Architecture SOLID** : Code maintenable et extensible
+- 🎯 **Domain-Driven Design** : Séparation claire des responsabilités
 
-## 🏗️ Architecture
+## 🏗️ Architecture DDD + SOLID
+
+### 🎯 Couches Architecture
 
 ```
 src/theme/
-├── types/           # Interfaces TypeScript
-├── tokens/          # Design tokens de base
-├── components/      # Styles des composants
-├── instances/       # Instances de thèmes
-├── context/         # React Context & Provider
-├── hooks/           # Hooks personnalisés
-├── utils/           # Utilitaires et helpers
-└── __tests__/       # Tests unitaires
+├── domain/              # Couche métier (Domain Layer)
+│   ├── entities/        # Entités métier avec identité
+│   ├── valueObjects/    # Objets valeur immutables
+│   ├── aggregates/      # Agrégats racines
+│   ├── repositories/    # Interfaces des repositories
+│   └── services/        # Services du domaine
+├── infrastructure/      # Couche infrastructure
+│   ├── repositories/    # Implémentations concrètes
+│   ├── persistence/     # Adaptateurs de stockage
+│   └── external/        # Services externes
+├── application/         # Couche application
+│   ├── useCases/        # Cas d'usage métier
+│   ├── services/        # Services applicatifs
+│   └── dto/             # Data Transfer Objects
+└── presentation/        # Couche présentation
+    ├── hooks/           # Hooks React
+    ├── components/      # Composants UI
+    └── providers/       # Context Providers
 ```
+
+### 🎭 Principes SOLID appliqués
+
+- **S**ingle Responsibility : Chaque classe/module a une seule responsabilité
+- **O**pen/Closed : Ouvert à l'extension, fermé à la modification
+- **L**iskov Substitution : Les thèmes sont interchangeables
+- **I**nterface Segregation : Interfaces spécialisées et cohésives
+- **D**ependency Inversion : Dépendance aux abstractions, pas aux concrétions
 
 ---
 
 ## 🚀 Plan de développement
 
-### 🏗️ **Phase 1 : Fondations (Architecture de base)**
+### 🏗️ **Phase 1 : Fondations DDD (Architecture de base)**
 
-#### 1.1 Types et Interfaces ⚙️
-- [ ] Créer `types/index.ts` avec les interfaces de base
-- [ ] Définir `Theme`, `ThemeTokens`, `ThemeMode`, `ThemeName`
-- [ ] Structurer les types pour les composants et variantes
-- [ ] Créer les types utilitaires et helpers
-- [ ] **🧪 Test unitaire** : Validation des types TypeScript et compilation
+#### 1.1 Domain Layer - Types et Interfaces ⚙️
 
-#### 1.2 Structure des dossiers 📁
-- [ ] Créer tous les dossiers de l'architecture
-- [ ] Ajouter les fichiers `index.ts` dans chaque dossier
-- [ ] Configurer les exports centralisés
-- [ ] **🧪 Test unitaire** : Vérification des imports/exports
+- [ ] Créer `domain/entities/Theme.ts` - Entité Theme avec identité
+- [ ] Créer `domain/entities/Brand.ts` - Entité Brand pour l'identité visuelle
+- [ ] Définir `domain/valueObjects/Color.ts` - Objet valeur pour les couleurs
+- [ ] Définir `domain/valueObjects/Spacing.ts` - Objet valeur pour l'espacement
+- [ ] Définir `domain/valueObjects/Typography.ts` - Objet valeur pour la typographie
+- [ ] Créer `domain/aggregates/DesignSystem.ts` - Agrégat racine
+- [ ] Définir `domain/repositories/ThemeRepository.ts` - Interface repository
+- [ ] **🧪 Test unitaire** : Validation des entités, value objects et agrégats
 
-#### 1.3 Design Tokens de base 🎨
-- [ ] Créer `tokens/colors.ts` avec la palette de couleurs
-- [ ] Implémenter `tokens/spacing.ts` pour l'espacement
-- [ ] Configurer `tokens/typography.ts` pour la typographie
-- [ ] Ajouter `tokens/breakpoints.ts` pour le responsive
-- [ ] Créer `tokens/shadows.ts` et `tokens/borders.ts`
-- [ ] **🧪 Test unitaire** : Validation des tokens et structure des données
+#### 1.2 Application Layer - Use Cases 🎯
 
----
+- [ ] Créer `application/useCases/SwitchThemeUseCase.ts`
+- [ ] Créer `application/useCases/CreateThemeUseCase.ts`
+- [ ] Créer `application/useCases/UpdateThemeUseCase.ts`
+- [ ] Créer `application/services/ThemeApplicationService.ts`
+- [ ] Définir `application/dto/` pour les transferts de données
+- [ ] **🧪 Test unitaire** : Tests des cas d'usage et services applicatifs
 
-### 🎨 **Phase 2 : Thèmes (Implémentation)**
+#### 1.3 Infrastructure Layer - Implémentations 🛠️
 
-#### 2.1 Premier thème (Default Light) ☀️
-- [ ] Créer `instances/default/light.ts`
-- [ ] Implémenter les tokens de couleurs pour le mode light
-- [ ] Définir les styles de composants de base
-- [ ] Configurer les variantes (primary, secondary, etc.)
-- [ ] **🧪 Test unitaire** : Rendu correct du thème default light
-
-#### 2.2 Mode Dark 🌙
-- [ ] Créer `instances/default/dark.ts`
-- [ ] Adapter les couleurs pour le mode sombre
-- [ ] Maintenir la cohérence des contrastes
-- [ ] Tester la lisibilité et accessibilité
-- [ ] **🧪 Test unitaire** : Validation du thème dark et contraste WCAG
-
-#### 2.3 Thèmes additionnels 🎭
-- [ ] Créer un deuxième thème `instances/corporate/`
-- [ ] Implémenter les modes light/dark pour corporate
-- [ ] Valider l'extensibilité de l'architecture
-- [ ] Documenter le processus de création de thème
-- [ ] **🧪 Test unitaire** : Tests de régression sur tous les thèmes
+- [ ] Créer `infrastructure/repositories/LocalThemeRepository.ts`
+- [ ] Créer `infrastructure/persistence/StorageAdapter.ts`
+- [ ] Implémenter `infrastructure/external/SystemThemeDetector.ts`
+- [ ] Configurer les adaptateurs et mappers
+- [ ] **🧪 Test unitaire** : Tests des repositories et adaptateurs
 
 ---
 
-### ⚛️ **Phase 3 : Context et Hooks (State Management)**
+### 🎨 **Phase 2 : Domain Implementation (Implémentation métier)**
 
-#### 3.1 ThemeContext 🔄
-- [ ] Créer `context/ThemeContext.tsx`
-- [ ] Implémenter le `ThemeProvider` avec state management
-- [ ] Gérer l'état global des thèmes et modes
-- [ ] Ajouter la logique de résolution de thème
-- [ ] **🧪 Test unitaire** : Tests du Context et Provider React
+#### 2.1 Value Objects et Design Tokens ☀️
 
-#### 3.2 Hook useTheme 🪝
-- [ ] Créer `hooks/useTheme.ts`
-- [ ] Implémenter les fonctions `setTheme`, `setMode`, `toggleMode`
-- [ ] Ajouter les utilitaires `isLight`, `isDark`, `isAuto`
-- [ ] Gérer la logique de résolution automatique
-- [ ] **🧪 Test unitaire** : Tests du hook avec React Testing Library
+- [ ] Implémenter `Color` value object avec validation hexadécimale
+- [ ] Créer `Spacing` value object avec unités cohérentes
+- [ ] Développer `Typography` value object avec échelle modulaire
+- [ ] Créer les collections de tokens (ColorPalette, SpacingScale)
+- [ ] Ajouter la validation et l'immutabilité des value objects
+- [ ] **🧪 Test unitaire** : Tests des value objects et invariants métier
 
-#### 3.3 Persistance 💾
-- [ ] Implémenter la sauvegarde localStorage
-- [ ] Détecter les préférences système `prefers-color-scheme`
-- [ ] Restaurer l'état au chargement de l'application
-- [ ] Gérer les cas d'erreur et fallbacks
-- [ ] **🧪 Test unitaire** : Tests de persistance et détection système
+#### 2.2 Entities et Aggregates �
+
+- [ ] Implémenter l'entité `Theme` avec identité unique
+- [ ] Créer l'agrégat `DesignSystem` avec rules métier
+- [ ] Ajouter les méthodes métier (validateContrast, generateVariants)
+- [ ] Implémenter les événements du domaine (ThemeChanged, etc.)
+- [ ] Gérer les invariants métier et validation
+- [ ] **🧪 Test unitaire** : Tests des entités, agrégats et règles métier
+
+#### 2.3 Domain Services 🔧
+
+- [ ] Créer `ThemeCompatibilityService` pour validation WCAG
+- [ ] Implémenter `ThemeGenerationService` pour création automatique
+- [ ] Ajouter `ThemeValidationService` pour cohérence métier
+- [ ] Créer `ColorContrastService` pour accessibilité
+- [ ] **🧪 Test unitaire** : Tests des services du domaine
+
+---
+
+### ⚛️ **Phase 3 : Infrastructure et Application (Couches techniques)**
+
+#### 3.1 Infrastructure Layer �️
+
+- [ ] Implémenter `LocalThemeRepository` avec localStorage
+- [ ] Créer `SystemThemeDetector` pour préférences OS
+- [ ] Développer `StorageAdapter` pour persistance
+- [ ] Ajouter `ThemeMapper` pour transformation données
+- [ ] Gérer les erreurs et fallbacks d'infrastructure
+- [ ] **🧪 Test unitaire** : Tests d'infrastructure et mocks
+
+#### 3.2 Application Services 🔄
+
+- [ ] Créer `ThemeApplicationService` orchestrant les use cases
+- [ ] Implémenter les DTOs pour les transferts de données
+- [ ] Ajouter la validation des inputs utilisateur
+- [ ] Gérer les transactions et la cohérence des données
+- [ ] Implémenter les événements applicatifs
+- [ ] **🧪 Test unitaire** : Tests des services applicatifs
+
+#### 3.3 Use Cases Implementation 🎯
+
+- [ ] Implémenter `SwitchThemeUseCase` avec validation métier
+- [ ] Créer `CreateCustomThemeUseCase` avec rules
+- [ ] Ajouter `ExportThemeUseCase` pour partage
+- [ ] Développer `ImportThemeUseCase` avec validation
+- [ ] **🧪 Test unitaire** : Tests end-to-end des cas d'usage
 
 ---
 
@@ -243,63 +282,97 @@ npm run test:perf         # Bundle analyzer
 
 ---
 
-## 📁 Structure finale
+## 📁 Structure finale DDD
 
 ```
 src/theme/
-├── types/
-│   ├── index.ts          # Interfaces principales
-│   ├── tokens.ts         # Types des design tokens
-│   ├── components.ts     # Types des composants
-│   └── utils.ts          # Types utilitaires
-├── tokens/
-│   ├── index.ts          # Export centralisé
-│   ├── colors.ts         # Palette de couleurs
-│   ├── spacing.ts        # Système d'espacement
-│   ├── typography.ts     # Configuration typographique
-│   ├── breakpoints.ts    # Points de rupture
-│   ├── shadows.ts        # Ombres et élévations
-│   └── borders.ts        # Bordures et rayons
-├── components/
-│   ├── index.ts          # Export centralisé
-│   ├── button.ts         # Styles boutons
-│   ├── input.ts          # Styles inputs
-│   ├── card.ts           # Styles cartes
-│   └── ...              # Autres composants
-├── instances/
-│   ├── index.ts          # Export de tous les thèmes
-│   ├── default/
-│   │   ├── index.ts      # Thème default complet
-│   │   ├── light.ts      # Tokens mode light
-│   │   └── dark.ts       # Tokens mode dark
-│   ├── corporate/
-│   │   ├── index.ts
-│   │   ├── light.ts
-│   │   └── dark.ts
-│   └── ...              # Autres thèmes
-├── context/
-│   ├── index.ts          # Export du context
-│   ├── ThemeContext.tsx  # Context React
-│   └── ThemeProvider.tsx # Provider component
-├── hooks/
-│   ├── index.ts          # Export des hooks
-│   ├── useTheme.ts       # Hook principal
-│   └── useMediaQuery.ts  # Hook utilitaire
-├── utils/
-│   ├── index.ts          # Export des utilitaires
-│   ├── cssVariables.ts   # Injection CSS vars
-│   ├── storage.ts        # Persistance localStorage
-│   ├── detection.ts      # Détection système
-│   └── helpers.ts        # Fonctions utilitaires
-├── __tests__/
-│   ├── types.test.ts     # Tests des types
-│   ├── tokens.test.ts    # Tests des tokens
-│   ├── hooks.test.ts     # Tests des hooks
-│   ├── context.test.ts   # Tests du context
-│   ├── utils.test.ts     # Tests des utilitaires
-│   └── integration.test.tsx # Tests d'intégration
-├── README.md             # Ce fichier
-└── index.ts              # Export principal du module
+├── domain/                    # 🎯 COUCHE MÉTIER
+│   ├── entities/
+│   │   ├── index.ts          # Exports des entités
+│   │   ├── Theme.ts          # Entité Theme avec identité
+│   │   └── Brand.ts          # Entité Brand
+│   ├── valueObjects/
+│   │   ├── index.ts          # Exports des value objects
+│   │   ├── Color.ts          # Couleur avec validation
+│   │   ├── Spacing.ts        # Espacement avec unités
+│   │   ├── Typography.ts     # Typographie avec échelle
+│   │   ├── ColorPalette.ts   # Collection de couleurs
+│   │   └── SpacingScale.ts   # Échelle d'espacement
+│   ├── aggregates/
+│   │   ├── index.ts          # Exports des agrégats
+│   │   └── DesignSystem.ts   # Agrégat racine du système
+│   ├── repositories/
+│   │   ├── index.ts          # Exports des interfaces
+│   │   ├── ThemeRepository.ts # Interface repository
+│   │   └── BrandRepository.ts # Interface brand repo
+│   ├── services/
+│   │   ├── index.ts          # Exports des services
+│   │   ├── ThemeValidationService.ts
+│   │   ├── ColorContrastService.ts
+│   │   └── ThemeGenerationService.ts
+│   └── events/
+│       ├── index.ts          # Exports des événements
+│       ├── ThemeChanged.ts   # Événement changement
+│       └── ThemeCreated.ts   # Événement création
+├── infrastructure/            # 🛠️ COUCHE INFRASTRUCTURE
+│   ├── repositories/
+│   │   ├── index.ts          # Exports repositories
+│   │   ├── LocalThemeRepository.ts
+│   │   └── RemoteThemeRepository.ts
+│   ├── persistence/
+│   │   ├── index.ts          # Exports persistence
+│   │   ├── StorageAdapter.ts # Adaptateur localStorage
+│   │   └── IndexedDBAdapter.ts # Adaptateur IndexedDB
+│   ├── external/
+│   │   ├── index.ts          # Exports services externes
+│   │   ├── SystemThemeDetector.ts
+│   │   └── BrowserAPIAdapter.ts
+│   └── mappers/
+│       ├── index.ts          # Exports mappers
+│       ├── ThemeMapper.ts    # Mapping entité ↔ DTO
+│       └── ColorMapper.ts    # Mapping couleurs
+├── application/               # 🎯 COUCHE APPLICATION
+│   ├── useCases/
+│   │   ├── index.ts          # Exports use cases
+│   │   ├── SwitchThemeUseCase.ts
+│   │   ├── CreateThemeUseCase.ts
+│   │   ├── UpdateThemeUseCase.ts
+│   │   ├── DeleteThemeUseCase.ts
+│   │   ├── ExportThemeUseCase.ts
+│   │   └── ImportThemeUseCase.ts
+│   ├── services/
+│   │   ├── index.ts          # Exports services app
+│   │   ├── ThemeApplicationService.ts
+│   │   └── ThemeOrchestrator.ts
+│   ├── dto/
+│   │   ├── index.ts          # Exports DTOs
+│   │   ├── ThemeDTO.ts       # DTO pour thème
+│   │   ├── CreateThemeDTO.ts # DTO création
+│   │   └── UpdateThemeDTO.ts # DTO mise à jour
+│   └── ports/
+│       ├── index.ts          # Exports ports
+│       ├── ThemePort.ts      # Port pour thèmes
+│       └── StoragePort.ts    # Port pour stockage
+└── presentation/              # 🎨 COUCHE PRÉSENTATION
+    ├── hooks/
+    │   ├── index.ts          # Exports hooks
+    │   ├── useTheme.ts       # Hook principal
+    │   ├── useThemeMode.ts   # Hook pour mode
+    │   └── useMediaQuery.ts  # Hook utilitaire
+    ├── components/
+    │   ├── index.ts          # Exports composants
+    │   ├── ThemeSelector.tsx # Sélecteur de thème
+    │   ├── ModeToggle.tsx    # Toggle mode
+    │   ├── ThemePreview.tsx  # Aperçu thème
+    │   └── ThemeDebugger.tsx # Debug en dev
+    ├── providers/
+    │   ├── index.ts          # Exports providers
+    │   ├── ThemeProvider.tsx # Provider principal
+    │   └── ThemeContext.tsx  # Context React
+    └── adapters/
+        ├── index.ts          # Exports adapters UI
+        ├── ReactThemeAdapter.ts
+        └── CSSVariablesAdapter.ts
 ```
 
 ---
