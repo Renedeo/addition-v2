@@ -56,6 +56,187 @@ src/theme/
 - **I**nterface Segregation : Interfaces spécialisées et cohésives
 - **D**ependency Inversion : Dépendance aux abstractions, pas aux concrétions
 
+### 🧩 Architecture Modulaire
+
+#### Principes de modularité :
+- **📦 Modules spécialisés** : Chaque module a une responsabilité unique et bien définie
+- **🔌 Interfaces granulaires** : Interfaces petites et focalisées sur un aspect précis
+- **📁 Fichiers légers** : Limitation à ~200 lignes par fichier maximum
+- **🔗 Composition** : Assemblage de petits modules plutôt que gros monolithes
+- **🎯 Cohésion forte** : Éléments d'un module fortement liés entre eux
+- **🔄 Couplage faible** : Dépendances minimales entre modules
+
+#### Stratégies de réduction de taille :
+- **Interface splitting** : Séparation des interfaces par domaine fonctionnel
+- **Module federation** : Chargement dynamique des modules selon les besoins
+- **Barrel exports** : Regroupement logique des exports par index.ts
+- **Type-only imports** : Imports de types uniquement quand possible
+- **Lazy loading** : Chargement différé des modules non-critiques
+
+---
+
+## 🧩 Interfaces Modulaires et Structure des Fichiers
+
+### 📁 Organisation modulaire des fichiers
+
+Chaque module respecte la règle des **200 lignes maximum** par fichier :
+
+```
+domain/entities/Theme/
+├── index.ts              # Barrel export (5-10 lignes)
+├── Theme.types.ts        # Types et interfaces (50-80 lignes)
+├── Theme.entity.ts       # Logique métier (100-150 lignes)
+├── Theme.validators.ts   # Validation (80-120 lignes)
+└── Theme.errors.ts       # Erreurs spécifiques (30-50 lignes)
+
+domain/valueObjects/Color/
+├── index.ts              # Barrel export
+├── Color.types.ts        # Interfaces couleur
+├── Color.value.ts        # Value object principal
+├── Color.converters.ts   # Conversions (hex, rgb, hsl)
+├── Color.validators.ts   # Validation couleurs
+└── Color.utils.ts        # Utilitaires couleur
+```
+
+### 🔌 Interfaces spécialisées granulaires
+
+#### Séparation par responsabilité fonctionnelle :
+
+```typescript
+// ❌ Éviter : Interface monolithique
+interface ThemeService {
+  createTheme(): Theme;
+  validateTheme(): boolean;
+  saveTheme(): void;
+  loadTheme(): Theme;
+  convertColors(): Color[];
+  generatePalette(): Palette;
+  checkAccessibility(): AccessibilityReport;
+}
+
+// ✅ Préférer : Interfaces spécialisées
+interface ThemeCreator {
+  createTheme(config: ThemeConfig): Theme;
+}
+
+interface ThemeValidator {
+  validateTheme(theme: Theme): ValidationResult;
+}
+
+interface ThemePersistence {
+  saveTheme(theme: Theme): Promise<void>;
+  loadTheme(id: string): Promise<Theme>;
+}
+
+interface ColorProcessor {
+  convertColors(colors: Color[]): ConvertedColors;
+  generatePalette(baseColor: Color): Palette;
+}
+
+interface AccessibilityChecker {
+  checkContrast(foreground: Color, background: Color): ContrastResult;
+  validateWCAG(theme: Theme): AccessibilityReport;
+}
+```
+
+### 📦 Pattern de composition modulaire
+
+#### Module federation avec lazy loading :
+
+```typescript
+// Infrastructure modulaire
+const ThemeModules = {
+  // Chargement à la demande
+  creator: () => import('./domain/services/ThemeCreator'),
+  validator: () => import('./domain/services/ThemeValidator'),
+  persistence: () => import('./infrastructure/ThemePersistence'),
+  
+  // Assemblage conditionnel
+  assemble: (modules: ModuleType[]) => ({
+    creator: modules.includes('creator') ? ThemeModules.creator() : null,
+    validator: modules.includes('validator') ? ThemeModules.validator() : null,
+    // ...
+  })
+};
+```
+
+### 🎯 Patterns de réduction de code
+
+#### 1. Interface splitting par domaine :
+
+```typescript
+// Interfaces par domaine métier
+interface ColorDomain {
+  primary: Color;
+  secondary: Color;
+}
+
+interface SpacingDomain {
+  scale: SpacingScale;
+  breakpoints: Breakpoints;
+}
+
+interface TypographyDomain {
+  fontFamily: FontFamily;
+  scale: TypographyScale;
+}
+
+// Composition via intersection types
+type DesignSystem = ColorDomain & SpacingDomain & TypographyDomain;
+```
+
+#### 2. Barrel exports organisés :
+
+```typescript
+// src/theme/domain/index.ts
+export * from './entities';
+export * from './valueObjects';
+export * from './services';
+
+// src/theme/domain/entities/index.ts
+export { Theme } from './Theme';
+export { Brand } from './Brand';
+export type { ThemeConfig, BrandConfig } from './types';
+
+// Import sélectif possible
+import { Theme, type ThemeConfig } from '@/theme/domain';
+```
+
+#### 3. Type-only imports pour réduire le bundle :
+
+```typescript
+// ✅ Import de types uniquement
+import type { Theme, ThemeConfig } from './Theme.types';
+import type { Color } from '../valueObjects/Color';
+
+// ✅ Import mixte optimisé
+import { createTheme, type ThemeCreator } from './ThemeService';
+```
+
+### 🔄 Architecture micro-modules
+
+Chaque micro-module est autonome et composable :
+
+```
+src/theme/modules/
+├── color-system/         # Système couleur complet
+│   ├── domain/          # Logique métier couleur
+│   ├── infrastructure/  # Persistance couleur
+│   └── presentation/    # UI couleur
+├── spacing-system/      # Système espacement
+├── typography-system/   # Système typographique
+└── accessibility/       # Module accessibilité
+```
+
+### 📊 Métriques de modularité
+
+Objectifs à respecter :
+- **📏 Taille fichier** : ≤ 200 lignes
+- **🔗 Dépendances** : ≤ 5 imports externes par module
+- **🎯 Cohésion** : Score ≥ 80% (éléments liés fonctionnellement)
+- **🔄 Couplage** : Score ≤ 20% (dépendances inter-modules)
+- **📦 Bundle size** : ≤ 50kb par module chargé
+
 ---
 
 ## 🚀 Plan de développement
@@ -64,29 +245,34 @@ src/theme/
 
 #### 1.1 Domain Layer - Types et Interfaces ⚙️
 
-- [ ] Créer `domain/entities/Theme.ts` - Entité Theme avec identité
-- [ ] Créer `domain/entities/Brand.ts` - Entité Brand pour l'identité visuelle
-- [ ] Définir `domain/valueObjects/Color.ts` - Objet valeur pour les couleurs
-- [ ] Définir `domain/valueObjects/Spacing.ts` - Objet valeur pour l'espacement
-- [ ] Définir `domain/valueObjects/Typography.ts` - Objet valeur pour la typographie
-- [ ] Créer `domain/aggregates/DesignSystem.ts` - Agrégat racine
-- [ ] Définir `domain/repositories/ThemeRepository.ts` - Interface repository
-- [ ] **🧪 Test unitaire** : Validation des entités, value objects et agrégats
+- [ ] Créer `domain/entities/Theme` - Entité Theme avec identité
+- [ ] Créer `domain/entities/Brand` - Entité Brand pour l'identité visuelle  
+- [ ] Définir `domain/valueObjects/Color` - Objet valeur pour les couleurs
+- [ ] Définir `domain/valueObjects/Spacing` - Objet valeur pour l'espacement
+- [ ] Définir `domain/valueObjects/Typography` - Objet valeur pour la typographie
+- [ ] Créer `domain/valueObjects/ColorPalette` - Collections de couleurs
+- [ ] Créer `domain/valueObjects/SpacingScale` - Échelles d'espacement
+- [ ] Créer `domain/aggregates/DesignSystem` - Agrégat racine
+- [ ] Définir `domain/repositories/ThemeRepository` - Interface repository
+- [ ] **� Modularité** : Diviser les interfaces en modules ≤ 200 lignes
+- [ ] **🔌 Interfaces granulaires** : Créer des interfaces spécialisées par domaine
+- [ ] **📦 Barrel exports** : Organiser les exports par index.ts
+- [ ] **�🧪 Test unitaire** : Validation des entités, value objects et agrégats
 
 #### 1.2 Application Layer - Use Cases 🎯
 
-- [ ] Créer `application/useCases/SwitchThemeUseCase.ts`
-- [ ] Créer `application/useCases/CreateThemeUseCase.ts`
-- [ ] Créer `application/useCases/UpdateThemeUseCase.ts`
-- [ ] Créer `application/services/ThemeApplicationService.ts`
+- [ ] Créer `application/useCases/SwitchTheme`
+- [ ] Créer `application/useCases/CreateTheme`
+- [ ] Créer `application/useCases/UpdateTheme`
+- [ ] Créer `application/services/ThemeService`
 - [ ] Définir `application/dto/` pour les transferts de données
 - [ ] **🧪 Test unitaire** : Tests des cas d'usage et services applicatifs
 
 #### 1.3 Infrastructure Layer - Implémentations 🛠️
 
-- [ ] Créer `infrastructure/repositories/LocalThemeRepository.ts`
-- [ ] Créer `infrastructure/persistence/StorageAdapter.ts`
-- [ ] Implémenter `infrastructure/external/SystemThemeDetector.ts`
+- [ ] Créer `infrastructure/repositories/LocalTheme`
+- [ ] Créer `infrastructure/persistence/StorageAdapter`
+- [ ] Implémenter `infrastructure/external/SystemDetector`
 - [ ] Configurer les adaptateurs et mappers
 - [ ] **🧪 Test unitaire** : Tests des repositories et adaptateurs
 
@@ -103,9 +289,10 @@ src/theme/
 - [ ] Ajouter la validation et l'immutabilité des value objects
 - [ ] **🧪 Test unitaire** : Tests des value objects et invariants métier
 
-#### 2.2 Entities et Aggregates �
+#### 2.2 Entities et Aggregates 🏗️
 
 - [ ] Implémenter l'entité `Theme` avec identité unique
+- [ ] Implémenter l'entité `Brand` avec identité de marque
 - [ ] Créer l'agrégat `DesignSystem` avec rules métier
 - [ ] Ajouter les méthodes métier (validateContrast, generateVariants)
 - [ ] Implémenter les événements du domaine (ThemeChanged, etc.)
@@ -368,13 +555,15 @@ src/theme/
 ## 🎯 Ordre de développement recommandé
 
 1. **Phase 1.1** → Types et interfaces (base solide)
-2. **Phase 1.3** → Design tokens de base (couleurs, espaces)
-3. **Phase 2.1** → Premier thème default light
-4. **Phase 3.1-3.2** → Context et hook useTheme
-5. **Phase 2.2** → Mode dark
-6. **Phase 4.1** → Composants de base
-7. **Phase 5.1** → Page de test et validation
-8. **Phases suivantes** → selon les besoins du projet
+2. **Phase 2.1** → Value Objects et Design tokens
+3. **Entités** → Theme et Brand entities
+4. **Agrégat** → DesignSystem (orchestration)
+5. **Phase 1.2** → Interface ThemeRepository  
+6. **Phase 1.3** → Infrastructure Layer (persistence)
+7. **Phase 3.1-3.2** → Context et hook useTheme
+8. **Phase 4.1** → Composants de base
+9. **Phase 5.1** → Page de test et validation
+10. **Phases suivantes** → selon les besoins du projet
 
 ---
 
