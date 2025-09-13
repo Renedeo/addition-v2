@@ -287,93 +287,81 @@ npm run test:perf         # Bundle analyzer
 ```
 src/theme/
 ├── domain/                    # 🎯 COUCHE MÉTIER
-│   ├── entities/
-│   │   ├── index.ts          # Exports des entités
-│   │   ├── Theme.ts          # Entité Theme avec identité
-│   │   └── Brand.ts          # Entité Brand
-│   ├── valueObjects/
-│   │   ├── index.ts          # Exports des value objects
-│   │   ├── Color.ts          # Couleur avec validation
-│   │   ├── Spacing.ts        # Espacement avec unités
-│   │   ├── Typography.ts     # Typographie avec échelle
-│   │   ├── ColorPalette.ts   # Collection de couleurs
-│   │   └── SpacingScale.ts   # Échelle d'espacement
-│   ├── aggregates/
-│   │   ├── index.ts          # Exports des agrégats
-│   │   └── DesignSystem.ts   # Agrégat racine du système
-│   ├── repositories/
-│   │   ├── index.ts          # Exports des interfaces
-│   │   ├── ThemeRepository.ts # Interface repository
-│   │   └── BrandRepository.ts # Interface brand repo
-│   ├── services/
-│   │   ├── index.ts          # Exports des services
-│   │   ├── ThemeValidationService.ts
-│   │   ├── ColorContrastService.ts
-│   │   └── ThemeGenerationService.ts
-│   └── events/
-│       ├── index.ts          # Exports des événements
-│       ├── ThemeChanged.ts   # Événement changement
-│       └── ThemeCreated.ts   # Événement création
+│   ├── entities/             # Entités métier avec identité
+│   │   ├── Theme            # Entité principale du thème
+│   │   └── Brand            # Identité visuelle/marque
+│   ├── valueObjects/         # Objets valeur immutables
+│   │   ├── Color            # Gestion des couleurs
+│   │   ├── Spacing          # Système d'espacement
+│   │   ├── Typography       # Système typographique
+│   │   ├── ColorPalette     # Collections de couleurs
+│   │   └── SpacingScale     # Échelles d'espacement
+│   ├── aggregates/           # Agrégats racines
+│   │   └── DesignSystem     # Orchestration du système
+│   ├── repositories/         # Interfaces de persistence
+│   │   ├── ThemeRepository  # Gestion des thèmes
+│   │   └── BrandRepository  # Gestion des marques
+│   ├── services/             # Services du domaine
+│   │   ├── ThemeValidation  # Validation métier
+│   │   ├── ColorContrast    # Calculs d'accessibilité
+│   │   └── ThemeGeneration  # Génération automatique
+│   └── events/               # Événements du domaine
+│       ├── ThemeChanged     # Changement de thème
+│       └── ThemeCreated     # Création de thème
 ├── infrastructure/            # 🛠️ COUCHE INFRASTRUCTURE
-│   ├── repositories/
-│   │   ├── index.ts          # Exports repositories
-│   │   ├── LocalThemeRepository.ts
-│   │   └── RemoteThemeRepository.ts
-│   ├── persistence/
-│   │   ├── index.ts          # Exports persistence
-│   │   ├── StorageAdapter.ts # Adaptateur localStorage
-│   │   └── IndexedDBAdapter.ts # Adaptateur IndexedDB
-│   ├── external/
-│   │   ├── index.ts          # Exports services externes
-│   │   ├── SystemThemeDetector.ts
-│   │   └── BrowserAPIAdapter.ts
-│   └── mappers/
-│       ├── index.ts          # Exports mappers
-│       ├── ThemeMapper.ts    # Mapping entité ↔ DTO
-│       └── ColorMapper.ts    # Mapping couleurs
+│   ├── repositories/         # Implémentations concrètes
+│   │   ├── LocalTheme       # Stockage local
+│   │   └── RemoteTheme      # API distante
+│   ├── persistence/          # Adaptateurs de stockage
+│   │   ├── StorageAdapter   # localStorage/sessionStorage
+│   │   └── IndexedDB        # Base locale avancée
+│   ├── external/             # Services externes
+│   │   ├── SystemDetector   # Détection thème OS
+│   │   └── BrowserAPI       # APIs navigateur
+│   └── mappers/              # Transformation données
+│       ├── ThemeMapper      # Entité ↔ DTO
+│       └── ColorMapper      # Conversions couleurs
 ├── application/               # 🎯 COUCHE APPLICATION
-│   ├── useCases/
-│   │   ├── index.ts          # Exports use cases
-│   │   ├── SwitchThemeUseCase.ts
-│   │   ├── CreateThemeUseCase.ts
-│   │   ├── UpdateThemeUseCase.ts
-│   │   ├── DeleteThemeUseCase.ts
-│   │   ├── ExportThemeUseCase.ts
-│   │   └── ImportThemeUseCase.ts
-│   ├── services/
-│   │   ├── index.ts          # Exports services app
-│   │   ├── ThemeApplicationService.ts
-│   │   └── ThemeOrchestrator.ts
-│   ├── dto/
-│   │   ├── index.ts          # Exports DTOs
-│   │   ├── ThemeDTO.ts       # DTO pour thème
-│   │   ├── CreateThemeDTO.ts # DTO création
-│   │   └── UpdateThemeDTO.ts # DTO mise à jour
-│   └── ports/
-│       ├── index.ts          # Exports ports
-│       ├── ThemePort.ts      # Port pour thèmes
-│       └── StoragePort.ts    # Port pour stockage
+│   ├── useCases/             # Cas d'usage métier
+│   │   ├── SwitchTheme      # Changement de thème
+│   │   ├── CreateTheme      # Création personnalisée
+│   │   ├── UpdateTheme      # Modification
+│   │   ├── ExportTheme      # Export/partage
+│   │   └── ImportTheme      # Import/validation
+│   ├── services/             # Services applicatifs
+│   │   ├── ThemeService     # Orchestration principale
+│   │   └── ThemeOrchestrator# Coordination complexe
+│   ├── dto/                  # Objets de transfert
+│   │   ├── ThemeDTO         # DTO principal
+│   │   ├── CreateThemeDTO   # Données création
+│   │   └── UpdateThemeDTO   # Données modification
+│   └── ports/                # Interfaces externes
+│       ├── ThemePort        # Port thèmes
+│       └── StoragePort      # Port stockage
 └── presentation/              # 🎨 COUCHE PRÉSENTATION
-    ├── hooks/
-    │   ├── index.ts          # Exports hooks
-    │   ├── useTheme.ts       # Hook principal
-    │   ├── useThemeMode.ts   # Hook pour mode
-    │   └── useMediaQuery.ts  # Hook utilitaire
-    ├── components/
-    │   ├── index.ts          # Exports composants
-    │   ├── ThemeSelector.tsx # Sélecteur de thème
-    │   ├── ModeToggle.tsx    # Toggle mode
-    │   ├── ThemePreview.tsx  # Aperçu thème
-    │   └── ThemeDebugger.tsx # Debug en dev
-    ├── providers/
-    │   ├── index.ts          # Exports providers
-    │   ├── ThemeProvider.tsx # Provider principal
-    │   └── ThemeContext.tsx  # Context React
-    └── adapters/
-        ├── index.ts          # Exports adapters UI
-        ├── ReactThemeAdapter.ts
-        └── CSSVariablesAdapter.ts
+    ├── hooks/                # Hooks React
+    │   ├── useTheme         # Hook principal
+    │   ├── useThemeMode     # Gestion mode dark/light
+    │   └── useMediaQuery    # Responsive design
+    ├── components/           # Composants UI
+    │   ├── ThemeSelector    # Sélecteur de thème
+    │   ├── ModeToggle       # Basculer mode
+    │   ├── ThemePreview     # Aperçu visuel
+    │   └── ThemeDebugger    # Outils développement
+    ├── providers/            # Contexts React
+    │   ├── ThemeProvider    # Provider principal
+    │   └── ThemeContext     # Context state
+    └── adapters/             # Adaptateurs UI
+        ├── ReactAdapter     # Intégration React
+        └── CSSVariables     # Variables CSS dynamiques
 ```
+
+### 📖 Légende de la structure
+
+- **Modules** : Représentent des fonctionnalités cohérentes
+- **Noms sans extension** : Peuvent contenir plusieurs fichiers reliés
+- **🎯 🛠️ 🎨** : Icônes pour identifier rapidement les couches DDD
+- **Commentaires** : Rôle et responsabilité de chaque module
 
 ---
 
