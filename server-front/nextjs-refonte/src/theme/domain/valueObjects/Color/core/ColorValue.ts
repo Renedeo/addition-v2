@@ -26,11 +26,6 @@ export class ColorValue implements Color {
   private readonly _format: ColorFormat;
   private readonly _hasAlpha: boolean;
 
-  // Cache pour optimiser les performances
-  private _rgbCache?: RGBValues;
-  private _hslCache?: HSLValues;
-  private _luminanceCache?: number;
-
   constructor(value: string, options: ColorOptions = {}) {
     this.validateInput(value, options);
 
@@ -59,8 +54,6 @@ export class ColorValue implements Color {
   }
 
   toRgb(): RGBValues {
-    if (this._rgbCache) return this._rgbCache;
-
     let rgb: RGBValues;
     switch (this._format) {
       case 'hex':
@@ -79,7 +72,6 @@ export class ColorValue implements Color {
         throw new ColorDomainError(`Format non supporté: ${this._format}`, 'UNSUPPORTED_FORMAT');
     }
 
-    this._rgbCache = rgb;
     return rgb;
   }
 
@@ -89,8 +81,6 @@ export class ColorValue implements Color {
   }
 
   toHsl(): HSLValues {
-    if (this._hslCache) return this._hslCache;
-
     let hsl: HSLValues;
     switch (this._format) {
       case 'hsl':
@@ -103,7 +93,6 @@ export class ColorValue implements Color {
         break;
     }
 
-    this._hslCache = hsl;
     return hsl;
   }
 
@@ -133,9 +122,7 @@ export class ColorValue implements Color {
   }
 
   getLuminance(): number {
-    if (this._luminanceCache !== undefined) return this._luminanceCache;
-    this._luminanceCache = colorUtilities.getLuminance(this);
-    return this._luminanceCache;
+    return colorUtilities.getLuminance(this);
   }
 
   getContrast(other: Color): number {
