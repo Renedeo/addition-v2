@@ -1,9 +1,10 @@
-import { ColorRepresentationConst, FormatConst } from "../../core/constants/colorRepresentation.const";
-import { IConverter } from "../../core/interfaces/service/converter.interface";
+import { FormatConst } from "../../core/constants/colorRepresentation.const";
+import {  RGBColor } from "../../core/interfaces/color/color.interface";
+import { IConverter, IConverterRegistry } from "../../core/interfaces/service/converter.interface";
 import { ColorFormat } from "../../core/types/colorRepresention.types";
 import { RegistryKey } from "../../core/types/registry/registry.types";
 
-export class ConverterRegistry {
+export class ConverterRegistry implements IConverterRegistry{
     /** 
      * **Type générique :**
      * - `From` : Le type source à convertir  
@@ -13,7 +14,7 @@ export class ConverterRegistry {
     */
     private converters: Map<RegistryKey, IConverter<unknown, unknown>> = new Map();
 
-    registerConverter<From, To>(
+    register<From, To>(
         fromType: ColorFormat,
         toType: ColorFormat,
         converter: IConverter<From, To>): void {
@@ -22,7 +23,7 @@ export class ConverterRegistry {
         this.converters.set(key, converter);
     }
 
-    getConverter<From, To>(
+    get<From, To>(
         fromType: ColorFormat,
         toType: ColorFormat
     ): IConverter<From, To> | undefined {
@@ -48,7 +49,7 @@ export class ConverterRegistry {
 
         // Maintenant les format sont différents
         // Récupère le convertisseur enregistré pour la clé donnée
-        const converter = this.getConverter<From, To>(fromType, toType);
+        const converter = this.get<From, To>(fromType, toType);
 
         if (converter) {
             return converter.convert(from);
@@ -60,8 +61,8 @@ export class ConverterRegistry {
 
         // const intermediateType: ColorFormat = FormatConst.RGB;
         if (fromType !== intermediateType && toType !== intermediateType) {
-            const toIntermediateConverter = this.getConverter<From, ColorRepresentationConst[typeof intermediateType]>(fromType, intermediateType);
-            const fromIntermediateConverter = this.getConverter<ColorRepresentationConst[typeof intermediateType], To>(intermediateType, toType);
+            const toIntermediateConverter = this.get<From, RGBColor>(fromType, intermediateType);
+            const fromIntermediateConverter = this.get<RGBColor, To>(intermediateType, toType);
 
             if (toIntermediateConverter && fromIntermediateConverter) {
                 const intermediateValue = toIntermediateConverter.convert(from);

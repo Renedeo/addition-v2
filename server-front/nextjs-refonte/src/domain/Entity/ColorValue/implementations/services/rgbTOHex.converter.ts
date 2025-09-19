@@ -1,5 +1,5 @@
+import { HEXColor, RGBColor } from "../../core/interfaces/color/color.interface";
 import { IConverter } from "../../core/interfaces/service/converter.interface";
-import { HEXColor, RGBColor } from "../../core/types/colorRepresention.types";
 
 /**
  * Class responsible for converting RGB color values to HEX color values.
@@ -21,11 +21,11 @@ export class RGBTOHEXConverter implements IConverter<RGBColor, HEXColor> {
      * @returns The equivalent HEX color value, including the alpha channel.
      */
     convert(from: RGBColor): HEXColor {
-        const rHex = toHEX(from.r);
-        const gHex = toHEX(from.g);
-        const bHex = toHEX(from.b);
+        const rHex = toHEX(from.value.r);
+        const gHex = toHEX(from.value.g);
+        const bHex = toHEX(from.value.b);
         const hex = `#${rHex}${gHex}${bHex}`;
-        return { hex, a: from.a } as HEXColor;
+        return { format: 'HEX', value: { hex }, a: from.a } as HEXColor;
     }
 }
 /**

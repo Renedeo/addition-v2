@@ -1,9 +1,9 @@
-import { ColorRepresentationConst, FormatConst } from "../constants/colorRepresentation.const";
+import { FormatConst } from "../constants/colorRepresentation.const";
 
 export type ColorFormat = typeof FormatConst[keyof typeof FormatConst];
 
-export type RGBColor = ColorRepresentationConst["RGB"];
+export type RGBColorValue = {r: number; g: number; b: number} 
+export type HSLColorValue = {h: number; s: number; l: number} 
+export type HEXColorValue = {hex: string}
 
-export type HSLColor = ColorRepresentationConst["HSL"];
-
-export type HEXColor = ColorRepresentationConst["HEX"];
+// type ColorValue = RGBColorValue | HSLColorValue | HEXColorValue;

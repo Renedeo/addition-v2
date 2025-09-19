@@ -2,6 +2,9 @@
 // pour permettre la conversion entre différents formats de couleurs
 // sans créer de dépendances directes entre les classes de couleur.
 
+import { ColorFormat } from "../../types/colorRepresention.types";
+import { IColor } from "../color/color.interface";
+
 /**
  * Interface pour un service de conversion entre deux types.
  * 
@@ -26,4 +29,25 @@ export interface IConverter<From, To> {
      * @returns {To} La couleur convertie au format cible
      */
     convert(from: From): To;
+}
+
+export interface IConverterRegistry {
+    register<From, To>(
+        fromType: string,
+        toType: string,
+        converter: IConverter<From, To>
+    ): void;
+
+    get<From, To>(
+        fromType: string,
+        toType: string
+    ): IConverter<From, To> | undefined;
+}
+
+export interface IConverterConfig {
+    converters: Array<{
+        fromType: ColorFormat;
+        toType: ColorFormat;
+        converter: IConverter<IColor, IColor>;
+    }>;
 }

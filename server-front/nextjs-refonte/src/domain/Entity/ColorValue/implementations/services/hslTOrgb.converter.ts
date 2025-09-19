@@ -1,5 +1,5 @@
+import { HSLColor, RGBColor } from "../../core/interfaces/color/color.interface";
 import { IConverter } from "../../core/interfaces/service/converter.interface";
-import { HSLColor, RGBColor } from "../../core/types/colorRepresention.types";
 
 /**
  * class
@@ -17,9 +17,9 @@ export class HSLTORGBConverter implements IConverter<HSLColor, RGBColor> {
      * @returns The equivalent RGB color, including the alpha channel.
      */
     convert(from: HSLColor): RGBColor {
-        const h = from.h / 360; // Normalizing the hue
-        const s = from.s / 100; // Normalizing the saturation
-        const l = from.l / 100; // Normalizing the lightness
+        const h = from.value.h / 360; // Normalizing the hue
+        const s = from.value.s / 100; // Normalizing the saturation
+        const l = from.value.l / 100; // Normalizing the lightness
         let r: number, g: number, b: number;
 
         // If the saturation is not zero, calculate the RGB components
@@ -32,12 +32,12 @@ export class HSLTORGBConverter implements IConverter<HSLColor, RGBColor> {
             r = hueToRGB(p, q, h + 1 / 3);
             g = hueToRGB(p, q, h);
             b = hueToRGB(p, q, h - 1 / 3);
-            return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255), a: from.a };
+            return { format: 'RGB', value: { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) }, a: from.a };
         }
 
         // If the saturation is zero, the color is gray
         r = g = b = Math.round(l * 255); // Achromatic (gray)
-        return { r, g, b, a: from.a } as RGBColor;
+        return { format: 'RGB', value: { r, g, b }, a: from.a };
     }
 }
 /**

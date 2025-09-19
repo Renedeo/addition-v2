@@ -1,5 +1,5 @@
+import { HEXColor, RGBColor } from "../../core/interfaces/color/color.interface";
 import { IConverter } from "../../core/interfaces/service/converter.interface";
-import { HEXColor, RGBColor } from "../../core/types/colorRepresention.types";
 
 /**
  * Class responsible for converting HEX color values to RGB color values.
@@ -18,25 +18,31 @@ export class HexToRGBConverter implements IConverter<HEXColor, RGBColor> {
      * - Parsing the hexadecimal values to obtain the red, green, and blue components.
      * - If an 8-character HEX format is provided, the alpha channel is also extracted and converted to a decimal value between 0 and 1.
      * - The resulting RGB values are returned in an object, with the alpha channel included if it was specified in the HEX input.
-     * @param from - The HEX color to convert, including its alpha channel if specified.
+     * @param from - The HEX color to convert, including its alpha channel if specified. Must be of type {@link HEXColor}.
      * @return The equivalent RGB color, including the alpha channel if specified.
-     * */
-    convert(from: HEXColor): RGBColor {
+     */
+        convert(from: HEXColor): RGBColor {
+
+        if (from.format !== 'HEX') {
+            throw new Error("Input color format must be HEX.");
+        }
+
         // Suppression du '#' si présent
-        if (from.hex.startsWith('#')) {
-            from.hex = from.hex.slice(1);
+        if (from.value.hex.startsWith('#')) { 
+            from.value.hex = from.value.hex.slice(1);
         }
         // Gestion des formats courts (3 ou 4 caractères)
-        if (from.hex.length === 3 || from.hex.length === 4) {
-            from.hex = from.hex.split('').map(char => char + char).join('');
+        if (from.value.hex.length === 3 || from.value.hex.length === 4) {
+            from.value.hex = from.value.hex.split('').map((char: string) => char + char).join('');
         }
-        if (from.hex.length !== 6 && from.hex.length !== 8) {
+        if (from.value.hex.length !== 6 && from.value.hex.length !== 8) {
             throw new Error("Invalid HEX color format. Expected formats: #RRGGBB or #RRGGBBAA.");
         }
-        const r = parseInt(from.hex.slice(0, 2), 16);
-        const g = parseInt(from.hex.slice(2, 4), 16);
-        const b = parseInt(from.hex.slice(4, 6), 16);
-        const a = from.hex.length === 8 ? parseInt(from.hex.slice(6, 8), 16) / 255 : undefined;
-        return { r, g, b, a } as RGBColor;
+        const r = parseInt(from.value.hex.slice(0, 2), 16);
+        const g = parseInt(from.value.hex.slice(2, 4), 16);
+        const b = parseInt(from.value.hex.slice(4, 6), 16);
+        const a = from.value.hex.length === 8 ? parseInt(from.value.hex.slice(6, 8), 16) / 255 : undefined;
+
+        return { format: 'RGB', value: { r, g, b }, a } as RGBColor;
     }
 }

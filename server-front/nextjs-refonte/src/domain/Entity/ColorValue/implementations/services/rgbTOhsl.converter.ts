@@ -1,5 +1,5 @@
+import { HSLColor, RGBColor } from "../../core/interfaces/color/color.interface";
 import { IConverter } from "../../core/interfaces/service/converter.interface";
-import { HSLColor, RGBColor } from "../../core/types/colorRepresention.types";
 
 /**
  * Class responsible for converting RGB color values to HSL color values.
@@ -32,9 +32,9 @@ export class RGBToHSLConverter implements IConverter<RGBColor, HSLColor> {
      * @returns The equivalent HSL color value, including the alpha channel.
      */
     convert(from: RGBColor): HSLColor {
-        const r = from.r / 255;
-        const g = from.g / 255;
-        const b = from.b / 255;
+        const r = from.value.r / 255;
+        const g = from.value.g / 255;
+        const b = from.value.b / 255;
 
         const max = Math.max(r, g, b);
         const min = Math.min(r, g, b);
@@ -53,6 +53,6 @@ export class RGBToHSLConverter implements IConverter<RGBColor, HSLColor> {
             h /= 6;
         }
 
-        return { h: h * 360, s: s * 100, l: l * 100, a: from.a } as HSLColor;
+        return { format: 'HSL', value: { h: h * 360, s: s * 100, l: l * 100 }, a: from.a } as HSLColor;
     }
 }
