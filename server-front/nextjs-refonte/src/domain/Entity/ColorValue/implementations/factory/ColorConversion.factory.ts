@@ -1,11 +1,13 @@
 import { converterConfig } from "../../core/constants/converter.const";
-import { IConverter, IConverterConfig, IConverterRegistry } from "../../core/interfaces/service/converter.interface";
+import { IColorConversionFactory } from "../../core/interfaces/factory/factory.interface";
+import { IConverterConfig, IConverterRegistry } from "../../core/interfaces/registry/registry.interface";
+import { IConverter } from "../../core/interfaces/service/converter.interface";
 import { ColorFormat } from "../../core/types/colorRepresention.types";
 import { ConverterRegistry } from "../registry/converter.registry";
 
 
-export class ColorConversionFactory {
-    static createRegistry(config?: IConverterConfig): IConverterRegistry {
+export class ColorConversionFactory implements IColorConversionFactory{
+    createRegistry(config?: IConverterConfig): IConverterRegistry {
         const registry = new ConverterRegistry();
 
         if (config) {
@@ -17,7 +19,7 @@ export class ColorConversionFactory {
         return registry;
     }
 
-    static createDefaultRegistry(): IConverterRegistry {
+    createDefaultRegistry(): IConverterRegistry {
         return this.createRegistry(
             converterConfig
         );

@@ -1,6 +1,7 @@
 import { FormatConst } from "../../core/constants/colorRepresentation.const";
 import {  RGBColor } from "../../core/interfaces/color/color.interface";
-import { IConverter, IConverterRegistry } from "../../core/interfaces/service/converter.interface";
+import { IConverterRegistry } from "../../core/interfaces/registry/registry.interface";
+import { IConverter } from "../../core/interfaces/service/converter.interface";
 import { ColorFormat } from "../../core/types/colorRepresention.types";
 import { RegistryKey } from "../../core/types/registry/registry.types";
 

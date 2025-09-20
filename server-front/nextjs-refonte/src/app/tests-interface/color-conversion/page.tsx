@@ -5,16 +5,18 @@ import {
   HSLColor,
   RGBColor,
 } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+import { IConverterRegistry } from "@/domain/Entity/ColorValue/core/interfaces/registry/registry.interface";
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
-
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
-import { ConverterRegistry } from "@/domain/Entity/ColorValue/implementations/registry/converter.registry";
+
+import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion.service";
 import React from "react";
 
 export default function Page() {
   const [selectedColor, setSelectedColor] = React.useState("#ffffff");
-  const registry: ConverterRegistry =
-    ColorConversionFactory.createDefaultRegistry();
+  const factory = new ColorConversionFactory();
+  const registry: IConverterRegistry = factory.createDefaultRegistry();
+  const conversionService = new ColorConversionService(registry); 
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
@@ -30,17 +32,17 @@ export default function Page() {
       <div className="mt-2 flex flex-col md:flex-row items-start gap-6">
         <ColorSelection onColorChange={handleColorChange} />
         <ColorInformation
-          RGBValue={registry.convert<HEXColor, RGBColor>(
+          RGBValue={conversionService.convert<HEXColor, RGBColor>(
             toHEX(selectedColor),
             FormatConst.HEX,
             FormatConst.RGB
           )}
-          HexValue={registry.convert<HEXColor, HEXColor>(
+          HexValue={conversionService.convert<HEXColor, HEXColor>(
             toHEX(selectedColor),
             FormatConst.HEX,
             FormatConst.HEX
           )}
-          HSLValue={registry.convert<HEXColor, HSLColor>(
+          HSLValue={conversionService.convert<HEXColor, HSLColor>(
             toHEX(selectedColor),
             FormatConst.HEX,
             FormatConst.HSL
