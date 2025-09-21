@@ -10,7 +10,7 @@ export default function Page() {
             <li >
               <a
                 target="_self"
-                href="/tests-interface/color-conversion"
+                href="/tests-interface/color"
                 className="text-blue-500 underline"
               >
                 Color Conversion Test

@@ -1,4 +1,6 @@
 "use client";
+
+import React, { useMemo, useCallback } from "react";
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import {
   HEXColor,
@@ -6,156 +8,141 @@ import {
   RGBColor,
 } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IConverterRegistry } from "@/domain/Entity/ColorValue/core/interfaces/registry/registry.interface";
-import { IColorSaturationResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
-import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
+import { LightnessService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/lightness.service";
 import { SaturationService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/saturation.service";
-
 import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
-import React from "react";
+import { ContrastRatio } from "@/components/Tests/testComponents/ContrastRatio";
+import { ColorSelection } from "@/components/Tests/testComponents/ColorSelection";
+import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
+import { toHEX } from "@/components/Tests/core/utils/testComponent.utils";
+import { ColorInformation } from "@/components/Tests/testComponents/ColorInformation";
 
 export default function Page() {
-  const [selectedColor, setSelectedColor] = React.useState("#ffffff");
-  const factory = new ColorConversionFactory();
-  const registry: IConverterRegistry = factory.createDefaultRegistry();
-  const conversionService = new ColorConversionService(registry); 
-  const saturationService =  new SaturationService()
-  const saturationInfo: IColorSaturationResult = saturationService.analyzeColor(toHEX(selectedColor));
+  const [highlightedColor, setHighlightedColor] = React.useState("#3b82f6");
+  const [backgroundColor, setBackgroundColor] = React.useState("#ffffff");
 
-  const handleColorChange = (color: string) => {
-    setSelectedColor(color);
-  };
+  // Memoize services to avoid recreating on each render
+  const services = useMemo(() => {
+    const factory = new ColorConversionFactory();
+    const registry: IConverterRegistry = factory.createDefaultRegistry();
+
+    return {
+      conversionService: new ColorConversionService(registry),
+      saturationService: new SaturationService(),
+      lightnessService: new LightnessService(),
+    };
+  }, []);
+
+  // Memoize color analysis to avoid recalculation
+  const colorAnalysis = useMemo(() => {
+    try {
+      const hexColor = toHEX(highlightedColor);
+      return {
+        saturationInfo: services.saturationService.analyzeColor(hexColor),
+        luminanceInfo: services.lightnessService.analyzeColor(hexColor),
+        rgbValue: services.conversionService.convert<HEXColor, RGBColor>(
+          hexColor,
+          FormatConst.HEX,
+          FormatConst.RGB
+        ),
+        hexValue: services.conversionService.convert<HEXColor, HEXColor>(
+          hexColor,
+          FormatConst.HEX,
+          FormatConst.HEX
+        ),
+        hslValue: services.conversionService.convert<HEXColor, HSLColor>(
+          hexColor,
+          FormatConst.HEX,
+          FormatConst.HSL
+        ),
+      };
+    } catch {
+      return null;
+    }
+  }, [highlightedColor, services]);
+
+  const handleColorChange = useCallback(
+    (color: string, setter: React.Dispatch<React.SetStateAction<string>>) => {
+      setter(color);
+    },
+    []
+  );
+
+  const Header: React.FC = () => (
+    <div className="text-center mb-8 sm:mb-12">
+      <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-4">
+        <div className="w-8 h-8 bg-white rounded-lg opacity-90"></div>
+      </div>
+
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-3">
+        Color Analysis Studio
+      </h1>
+
+      <p className="text-gray-600">
+        Professional color analysis with accessibility insights, format
+        conversions, and contrast ratios
+      </p>
+    </div>
+  );
+
   return (
-    <div className="p-5 font-sans bg-gray-50 min-h-screen">
-      <p className="text-2xl font-bold text-gray-800 mb-4">
-        Color Conversion Test
-      </p>
-      <p className="text-gray-600 mb-6">
-        Test the color conversion functionality here.
-      </p>
-      <div className="mt-2 flex flex-col md:flex-row items-start gap-6">
-        <ColorSelection onColorChange={handleColorChange} />
-        <ColorInformation
-          RGBValue={conversionService.convert<HEXColor, RGBColor>(
-            toHEX(selectedColor),
-            FormatConst.HEX,
-            FormatConst.RGB
-          )}
-          HexValue={conversionService.convert<HEXColor, HEXColor>(
-            toHEX(selectedColor),
-            FormatConst.HEX,
-            FormatConst.HEX
-          )}
-          HSLValue={conversionService.convert<HEXColor, HSLColor>(
-            toHEX(selectedColor),
-            FormatConst.HEX,
-            FormatConst.HSL
-          )}
-          saturationInfo={saturationInfo}
-        />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 sm:p-6 flex justify-center">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <Header />
+        {/* Main Content */}
+        <div className="flex *:grow justify-center items-center gap-6 ">
+          {/* Color Selection Panel */}
+          <div className="xl:col-span-1">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20 sticky top-6">
+              <LabelledColorDot
+                color={highlightedColor}
+                label="Color Selection"
+              />
+              <div className="space-y-6">
+                <ColorSelection
+                  label="Primary Color"
+                  value={highlightedColor}
+                  onColorChange={(color) =>
+                    handleColorChange(color, setHighlightedColor)
+                  }
+                />
+                <ColorSelection
+                  label="Background Color"
+                  value={backgroundColor}
+                  onColorChange={(color) =>
+                    handleColorChange(color, setBackgroundColor)
+                  }
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Color Information Panel */}
+          <div className="flex flex-col gap-3.5">
+            {colorAnalysis && (
+              <ColorInformation
+                RGBValue={colorAnalysis.rgbValue}
+                HexValue={colorAnalysis.hexValue}
+                HSLValue={colorAnalysis.hslValue}
+                saturationInfo={colorAnalysis.saturationInfo}
+                luminanceInfo={colorAnalysis.luminanceInfo}
+                primaryColor={highlightedColor}
+              />
+            )}
+
+            <ContrastRatio
+              Foreground={toHEX(highlightedColor)}
+              Background={toHEX(backgroundColor)}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-interface ColorSelectionProps {
-  onColorChange: (color: string) => void;
-}
 
-const ColorSelection: React.FC<ColorSelectionProps> = ({ onColorChange }) => {
-  return (
-    <div className="flex flex-col items-center">
-      <label className="text-gray-700 font-medium mb-2">Select a Color:</label>
-      <input
-        type="color"
-        onChange={(e) => onColorChange(e.target.value)}
-        className="w-16 h-16 p-0 border-2 border-gray-300 rounded cursor-pointer shadow-sm"
-      />
-    </div>
-  );
-};
 
-interface ConvertorProps {
-  fromType: ColorFormat;
-  toType: ColorFormat;
-  onConvert: (convertedValue: string) => void;
-}
 
-const Convertor: React.FC<ConvertorProps> = ({
-  fromType,
-  toType,
-  onConvert,
-}) => {
-  return <div>Convertor Component Placeholder</div>;
-};
-
-interface ColorInformationProps {
-  RGBValue: RGBColor | undefined;
-  HexValue: HEXColor | undefined;
-  HSLValue: HSLColor | undefined;
-  saturationInfo: IColorSaturationResult;
-}
-const ColorInformation: React.FC<ColorInformationProps> = ({
-  RGBValue,
-  HexValue,
-  HSLValue,
-  saturationInfo,
-}) => {
-  return (
-    <div className="mt-4 p-4 border rounded w-fit bg-white shadow-md backdrop-blur-md bg-opacity-50 border-gray-300 border-opacity-30">
-      <p className="text-lg font-semibold text-gray-800 mb-2">
-        Color Information:
-      </p>
-      <div className="text-gray-700">
-        <span className="block mb-1">
-          <strong>{FormatConst.RGB}:</strong> {formatRGB(RGBValue)}
-        </span>
-        <span className="block mb-1">
-          <strong>{FormatConst.HEX}:</strong> {formatHEX(HexValue)}
-        </span>
-        <span className="block">
-          <strong>{FormatConst.HSL}:</strong> {formatHSL(HSLValue)}
-        </span>
-      </div>
-      <div className="mt-4 text-gray-700">
-        <p className="font-semibold mb-1">Saturation Analysis:</p>
-        <p className="mb-1">
-          <strong>Level:</strong> {saturationInfo.saturationLevel}
-        </p>
-        <p>
-          <strong>Description:</strong> {saturationInfo.description}
-        </p>
-      </div>
-    </div>
-  );
-};
-
-function formatRGB(color: RGBColor | undefined): string {
-  return color
-    ? `rgb(${color.value.r}, ${color.value.g}, ${color.value.b}${
-        color.a !== undefined ? `, ${Math.round(color.a * 100) / 100}` : ""
-      })`
-    : "Invalid RGB color";
-}
-function formatHSL(color: HSLColor | undefined): string {
-  return color
-    ? `hsl(${Math.round(color.value.h)}, ${Math.round(
-        color.value.s
-      )}%, ${Math.round(color.value.l)}%${
-        color.a !== undefined ? `, ${Math.round(color.a * 100) / 100}` : ""
-      })`
-    : "Invalid HSL color";
-}
-function formatHEX(color: HEXColor | undefined): string {
-  return color
-    ? `${color.value.hex}${color.a !== undefined ? `, ${color.a}` : ""}`
-    : "Invalid HEX color";
-}
-
-function toHEX(color: string): HEXColor {
-  // Simple validation for hex color format
-  if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) {
-    return { format: "HEX", value: { hex: color }, a: 1 } as HEXColor;
-  }
-  throw new Error("Invalid HEX color format");
-}

@@ -5,7 +5,7 @@ import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresen
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
 import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 
-export class lightnessService implements IColorAnalysisService<IColor, IColorLightnessResult> {
+export class LightnessService implements IColorAnalysisService<IColor, IColorLightnessResult> {
     analyzeColor(color: IColor): IColorLightnessResult {
         // Here preferred format is RGB, so we convert the input color to RGB first
         const rgbColor = this.preferredFormat(color) as RGBColor;
@@ -16,7 +16,16 @@ export class lightnessService implements IColorAnalysisService<IColor, IColorLig
         const rNorm = rgbColor.value.r / 255;
         const gNorm = rgbColor.value.g / 255;
         const bNorm = rgbColor.value.b / 255;
-        const lightness = 0.2126 * rNorm + 0.7152 * gNorm + 0.0722 * bNorm;
+
+        // Apply gamma correction
+        const coeff = (value: number) => {
+            return value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+        }
+        const r = coeff(rNorm);
+        const g = coeff(gNorm);
+        const b = coeff(bNorm);
+
+        const lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
         return {
             lightnessLevel: lightness < 0.5 ? "Dark" : "Light",

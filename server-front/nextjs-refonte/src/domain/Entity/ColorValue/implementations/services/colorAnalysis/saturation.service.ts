@@ -57,7 +57,7 @@ export class SaturationService implements IColorAnalysisService<IColor, IColorSa
             throw new Error("Saturation level could not be determined for saturation: " + saturation);
         }
 
-        const saturationLevel = determineSaturationLevel.level;
+        const saturationLevel = determineSaturationLevel.level as "desaturated" | "low" | "balanced" | "high" | "pure";
         const description = determineSaturationLevel.description;
 
         return { saturationLevel, description, saturation };
