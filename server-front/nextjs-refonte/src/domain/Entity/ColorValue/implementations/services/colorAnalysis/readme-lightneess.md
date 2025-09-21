@@ -69,9 +69,11 @@ L* = {
   116 × Y^(1/3) - 16           sinon
 }
 ```
+→ Y représente la luminance relative calculée précédemment.
 
 → L* va de 0 (noir perçu) à 100 (blanc perçu).
 C'est une bonne estimation de la luminosité perçue dans des conditions standard.
+→ Notez que L* ne tient pas compte des effets de contraste, de saturation ou de teinte.
 
 ## 3. Influence des facteurs perceptuels (ajustements qualitatifs)
 
