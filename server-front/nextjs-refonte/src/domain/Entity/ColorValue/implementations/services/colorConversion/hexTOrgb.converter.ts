@@ -1,5 +1,5 @@
-import { HEXColor, RGBColor } from "../../core/interfaces/color/color.interface";
-import { IConverter } from "../../core/interfaces/service/converter.interface";
+import { HEXColor, RGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
+import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 /**
  * Class responsible for converting HEX color values to RGB color values.

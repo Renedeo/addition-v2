@@ -19,7 +19,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"], 
+      "@domain/*": ["./src/domain/*"],
+      "@domain/ColorValue/*": ["./src/domain/Entity/ColorValue/*"],
+      "@domain/ColorValue/core/*": ["./src/domain/Entity/ColorValue/core/*"],
+      "@domain/ColorValue/implementations/*": ["./src/domain/Entity/ColorValue/implementations/*"],
+      
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/domain/Entity/ColorValue/implementations/services/rgbTOhsl.converter.ts"],

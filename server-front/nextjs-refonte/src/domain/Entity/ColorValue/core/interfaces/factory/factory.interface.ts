@@ -1,6 +1,6 @@
-import { ColorFormat } from "../../types/colorRepresention.types";
-import { IConverterConfig, IConverterRegistry } from "../registry/registry.interface";
-import { IConverter } from "../service/converter.interface";
+import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
+import { IConverterConfig, IConverterRegistry } from "@domain/ColorValue/core/interfaces/registry/registry.interface";
+import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 export interface IColorConversionFactory {
     createRegistry(config?: IConverterConfig): IConverterRegistry;

@@ -1,5 +1,5 @@
-import { HSLColor, RGBColor } from "../../core/interfaces/color/color.interface";
-import { IConverter } from "../../core/interfaces/service/converter.interface";
+import { HSLColor, RGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
+import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 /**
  * class

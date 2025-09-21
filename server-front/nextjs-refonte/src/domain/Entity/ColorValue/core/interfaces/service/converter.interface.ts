@@ -2,7 +2,8 @@
 // pour permettre la conversion entre différents formats de couleurs
 // sans créer de dépendances directes entre les classes de couleur.
 
-import { ColorFormat } from "../../types/colorRepresention.types";
+import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
+
 
 /**
  * Interface pour un service de conversion entre deux types.
@@ -30,8 +31,15 @@ export interface IConverter<From, To> {
     convert(from: From): To;
 }
 
-export interface IColorConversionService {
+// export interface IColorConversionService {
+//     convert<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat): To;
+//     canConvert(fromType: ColorFormat, toType: ColorFormat): boolean;
+// }
+export interface IDirectConversionService {
     convert<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat): To;
+}
+
+export interface IConversionCapabilityService {
     canConvert(fromType: ColorFormat, toType: ColorFormat): boolean;
 }
 

@@ -1,18 +1,18 @@
-import { ColorFormat } from "../../types/colorRepresention.types";
-import { IColor } from "../color/color.interface";
-import { IConverter } from "../service/converter.interface";
+import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
+import { IColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
+import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 
 export interface IConverterRegistry {
     register<From, To>(
-        fromType: string,
-        toType: string,
+        fromType: ColorFormat,
+        toType: ColorFormat,
         converter: IConverter<From, To>
     ): void;
 
     get<From, To>(
-        fromType: string,
-        toType: string
+        fromType: ColorFormat,
+        toType: ColorFormat
     ): IConverter<From, To> | undefined;
 }
 

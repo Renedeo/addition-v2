@@ -1,5 +1,5 @@
-import { FormatConst } from "../../constants/colorRepresentation.const";
-import { ColorFormat, HEXColorValue, HSLColorValue, RGBColorValue } from "../../types/colorRepresention.types";
+import { FormatConst } from "@domain/ColorValue/core/constants/colorRepresentation.const";
+import { ColorFormat, HEXColorValue, HSLColorValue, RGBColorValue } from "@domain/ColorValue/core/types/colorRepresention.types";
 
 interface ColorOpacity {
     a: number; // Opacité commune

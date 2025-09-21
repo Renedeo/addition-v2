@@ -1,9 +1,7 @@
-import { FormatConst } from "../../core/constants/colorRepresentation.const";
-import {  RGBColor } from "../../core/interfaces/color/color.interface";
-import { IConverterRegistry } from "../../core/interfaces/registry/registry.interface";
-import { IConverter } from "../../core/interfaces/service/converter.interface";
-import { ColorFormat } from "../../core/types/colorRepresention.types";
-import { RegistryKey } from "../../core/types/registry/registry.types";
+import { IConverterRegistry } from "@domain/ColorValue/core/interfaces/registry/registry.interface";
+import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
+import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
+import { RegistryKey } from "@domain/ColorValue/core/types/registry/registry.types";
 
 export class ConverterRegistry implements IConverterRegistry{
     /** 
@@ -32,47 +30,4 @@ export class ConverterRegistry implements IConverterRegistry{
         return this.converters.get(key) as IConverter<From, To> | undefined;
     }
 
-    convert<From, To>(
-        from: From,
-        fromType: ColorFormat,
-        toType: ColorFormat,
-        intermediateType: ColorFormat = FormatConst.RGB
-    ): To | undefined {
-        // Si les types source et cible sont identiques, retourner l'objet tel quel
-        if (fromType === toType) {
-            try {
-                return from as unknown as To;
-            } catch {
-                console.warn("Verifier que l'objet à convertir est du type du format source spécifié.");
-                throw (new Error("L'objet à convertir n'est pas du type du format source spécifié."));
-            }
-        }
-
-        // Maintenant les format sont différents
-        // Récupère le convertisseur enregistré pour la clé donnée
-        const converter = this.get<From, To>(fromType, toType);
-
-        if (converter) {
-            return converter.convert(from);
-        }
-
-        // Aucun convertisseur trouvé pour cette paire de types
-        // Tenter une conversion indirecte via un format intermédiaire (ex: RGB)
-        console.warn(`Aucun convertisseur direct trouvé pour la conversion de ${fromType} à ${toType}. Tentative de conversion via un format intermédiaire.`);
-
-        // const intermediateType: ColorFormat = FormatConst.RGB;
-        if (fromType !== intermediateType && toType !== intermediateType) {
-            const toIntermediateConverter = this.get<From, RGBColor>(fromType, intermediateType);
-            const fromIntermediateConverter = this.get<RGBColor, To>(intermediateType, toType);
-
-            if (toIntermediateConverter && fromIntermediateConverter) {
-                const intermediateValue = toIntermediateConverter.convert(from);
-                return fromIntermediateConverter.convert(intermediateValue);
-            }
-        }
-
-        console.warn(`Aucun convertisseur trouvé pour la conversion de ${fromType} à ${toType}, même via un format intermédiaire.`);
-        throw (new Error(`Aucun convertisseur trouvé pour la conversion de ${fromType} à ${toType}, même via un format intermédiaire.`));
-
-    }
 }

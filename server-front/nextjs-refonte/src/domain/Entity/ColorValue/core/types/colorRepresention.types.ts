@@ -1,4 +1,4 @@
-import { FormatConst } from "../constants/colorRepresentation.const";
+import { FormatConst } from "@domain/ColorValue/core/constants/colorRepresentation.const";
 
 export type ColorFormat = typeof FormatConst[keyof typeof FormatConst];
 

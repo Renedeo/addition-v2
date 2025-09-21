@@ -1,9 +1,9 @@
-import { FormatConst } from "../../core/constants/colorRepresentation.const";
-import { IConverterRegistry } from "../../core/interfaces/registry/registry.interface";
-import { IColorConversionService, IIntermediateColorConversionService } from "../../core/interfaces/service/converter.interface";
-import { ColorFormat } from "../../core/types/colorRepresention.types";
+import { FormatConst } from "@domain/ColorValue/core/constants/colorRepresentation.const";
+import { IConverterRegistry } from "@domain/ColorValue/core/interfaces/registry/registry.interface";
+import { IConversionCapabilityService, IDirectConversionService, IIntermediateColorConversionService } from "@domain/ColorValue/core/interfaces/service/converter.interface";
+import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
 
-export class ColorConversionService implements IColorConversionService, IIntermediateColorConversionService {
+export class ColorConversionService implements IDirectConversionService, IConversionCapabilityService, IIntermediateColorConversionService {
     constructor(private registry: IConverterRegistry) { }
 
     convert<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat): To {

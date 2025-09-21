@@ -1,8 +1,8 @@
-import { HexToRGBConverter } from "../../implementations/services/hexTOrgb.converter";
-import { HSLTORGBConverter } from "../../implementations/services/hslTOrgb.converter";
-import { RGBTOHEXConverter } from "../../implementations/services/rgbTOHex.converter";
-import { RGBToHSLConverter } from "../../implementations/services/rgbTOhsl.converter";
-import { FormatConst } from "./colorRepresentation.const";
+import { HSLTORGBConverter } from "@domain/ColorValue/implementations/services/colorConversion/hslTOrgb.converter";
+import { RGBTOHEXConverter } from "@domain/ColorValue/implementations/services/colorConversion/rgbTOHex.converter";
+import { RGBToHSLConverter } from "@domain/ColorValue/implementations/services/colorConversion/rgbTOhsl.converter";
+import { FormatConst } from "@domain/ColorValue/core/constants/colorRepresentation.const";
+import { HexToRGBConverter } from "@domain/ColorValue/implementations/services/colorConversion/hexTOrgb.converter";
 
 export const converterConfig = {
     converters: [

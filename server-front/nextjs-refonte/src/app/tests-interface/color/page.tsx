@@ -6,10 +6,12 @@ import {
   RGBColor,
 } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IConverterRegistry } from "@/domain/Entity/ColorValue/core/interfaces/registry/registry.interface";
+import { IColorSaturationResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
+import { SaturationService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/saturation.service";
 
-import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion.service";
+import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 import React from "react";
 
 export default function Page() {
@@ -17,6 +19,8 @@ export default function Page() {
   const factory = new ColorConversionFactory();
   const registry: IConverterRegistry = factory.createDefaultRegistry();
   const conversionService = new ColorConversionService(registry); 
+  const saturationService =  new SaturationService()
+  const saturationInfo: IColorSaturationResult = saturationService.analyzeColor(toHEX(selectedColor));
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
@@ -47,6 +51,7 @@ export default function Page() {
             FormatConst.HEX,
             FormatConst.HSL
           )}
+          saturationInfo={saturationInfo}
         />
       </div>
     </div>
@@ -88,11 +93,13 @@ interface ColorInformationProps {
   RGBValue: RGBColor | undefined;
   HexValue: HEXColor | undefined;
   HSLValue: HSLColor | undefined;
+  saturationInfo: IColorSaturationResult;
 }
 const ColorInformation: React.FC<ColorInformationProps> = ({
   RGBValue,
   HexValue,
   HSLValue,
+  saturationInfo,
 }) => {
   return (
     <div className="mt-4 p-4 border rounded w-fit bg-white shadow-md backdrop-blur-md bg-opacity-50 border-gray-300 border-opacity-30">
@@ -109,6 +116,15 @@ const ColorInformation: React.FC<ColorInformationProps> = ({
         <span className="block">
           <strong>{FormatConst.HSL}:</strong> {formatHSL(HSLValue)}
         </span>
+      </div>
+      <div className="mt-4 text-gray-700">
+        <p className="font-semibold mb-1">Saturation Analysis:</p>
+        <p className="mb-1">
+          <strong>Level:</strong> {saturationInfo.saturationLevel}
+        </p>
+        <p>
+          <strong>Description:</strong> {saturationInfo.description}
+        </p>
       </div>
     </div>
   );
