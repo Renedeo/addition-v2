@@ -84,12 +84,12 @@ export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div>
           {/* Color Ratio */}
           <Ratio />
           {/* Text Previews */}
-          <div className="flex gap-6">
-            <div className="p-4 flex flex-col rounded-lg w-1/2 ">
+          <div className="flex flex-col *:w-full sm:*:w-1/2 sm:flex-row gap-6">
+            <div className="p-4 flex flex-col rounded-lg ">
               <h3 className="text-sm font-medium text-gray-700 mb-3">
                 Normal Text (16px)
               </h3>

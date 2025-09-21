@@ -92,15 +92,15 @@ export default function Page() {
         {/* Header */}
         <Header />
         {/* Main Content */}
-        <div className="flex *:grow justify-center items-center gap-6 ">
+        <div className="flex *:grow flex-col sm:flex-row justify-center items-center gap-6 relative">
           {/* Color Selection Panel */}
-          <div className="xl:col-span-1">
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20 sticky top-6">
+          <div className="flex flex-col gap-6 w-full sm:w-auto">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20 sticky top-6 w-full sm:*:w-auto">
               <LabelledColorDot
                 color={highlightedColor}
                 label="Color Selection"
               />
-              <div className="space-y-6">
+              <div className="flex justify-evenly w-full sm:w-fit sm:flex-col gap-6 sm:gap-4 mt-4">
                 <ColorSelection
                   label="Primary Color"
                   value={highlightedColor}
