@@ -32,7 +32,11 @@ export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
           <input
             type="color"
             value={value}
-            onChange={(e) => onColorChange(e.target.value)}
+            onChange={(e) => {
+              onColorChange(e.target.value);
+              setInputValue(e.target.value);
+              setIsValidHex(true);
+            }}
             className="w-16 h-16 rounded-2xl border-4 border-white shadow-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl group-hover:border-gray-100"
           />
         </div>

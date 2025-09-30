@@ -1,9 +1,10 @@
+import { IColorFormatter } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { FormatConst } from "@domain/ColorValue/core/constants/colorRepresentation.const";
 import {  HSLColor, IColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IColorSaturationResult, IColorAnalysisService } from "@domain/ColorValue/core/interfaces/service/analysis.interface";
 import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
 import { ColorConversionFactory } from "@domain/ColorValue/implementations/factory/ColorConversion.factory";
-import { ColorConversionService } from "@domain/ColorValue/implementations/services/colorConversion/colorConversion.service";
+import { IColorConversionService } from "@domain/ColorValue/implementations/services/colorConversion/colorConversion.service";
 
 /**
  * 0 %	Couleur complètement désaturée → gris neutre
@@ -46,7 +47,7 @@ const SaturationInfo = [
     }
 ]
 
-export class SaturationService implements IColorAnalysisService<IColor, IColorSaturationResult> {
+export class SaturationService implements IColorAnalysisService<IColor, IColorSaturationResult>, IColorFormatter {
     analyzeColor(color: IColor): IColorSaturationResult {
         // Here preferred format is HSL, so we convert the input color to HSL first
         const hslColor = this.preferredFormat(color) as HSLColor;
@@ -66,7 +67,7 @@ export class SaturationService implements IColorAnalysisService<IColor, IColorSa
     preferredFormat(color: IColor): HSLColor {
         const factory = new ColorConversionFactory();
         const registry = factory.createDefaultRegistry();
-        const conversionService = new ColorConversionService(registry);
+        const conversionService = new IColorConversionService(registry);
         return conversionService.convert<IColor, HSLColor>(color, color.format, FormatConst.HSL);
     }
 

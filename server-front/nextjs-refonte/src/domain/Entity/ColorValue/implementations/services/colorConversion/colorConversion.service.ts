@@ -3,7 +3,9 @@ import { IConverterRegistry } from "@domain/ColorValue/core/interfaces/registry/
 import { IConversionCapabilityService, IDirectConversionService, IIntermediateColorConversionService } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
 
-export class ColorConversionService implements IDirectConversionService, IConversionCapabilityService, IIntermediateColorConversionService {
+export interface IColorConversionService extends IDirectConversionService, IConversionCapabilityService, IIntermediateColorConversionService { }
+
+export class ColorConversionService implements IColorConversionService {
     constructor(private registry: IConverterRegistry) { }
 
     convert<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat): To {

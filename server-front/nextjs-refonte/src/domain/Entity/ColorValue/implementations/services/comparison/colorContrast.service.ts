@@ -1,12 +1,13 @@
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import { IColor, RGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IColorComparisonService, IColorContrastResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
+import { IColorFormatter } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
 import { LightnessService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/lightness.service";
-import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
+import { IColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 
-export class ColorContrastService implements IColorComparisonService<IColor, IColor, IColorContrastResult> {
+export class ColorContrastService implements IColorComparisonService<IColor, IColor, IColorContrastResult>, IColorFormatter {
     compareColors(color1: IColor, color2: IColor): IColorContrastResult {
         
         const rgbColor1 = this.preferredFormat(color1);
@@ -39,7 +40,7 @@ export class ColorContrastService implements IColorComparisonService<IColor, ICo
     preferredFormat(color: IColor): RGBColor {
         const factory = new ColorConversionFactory()
         const registry = factory.createDefaultRegistry();
-        const conversionService = new ColorConversionService(registry);
+        const conversionService = new IColorConversionService(registry);
         const rgbColor = conversionService.convert<IColor, RGBColor>(color, color.format as ColorFormat, FormatConst.RGB);
         return rgbColor;
     }

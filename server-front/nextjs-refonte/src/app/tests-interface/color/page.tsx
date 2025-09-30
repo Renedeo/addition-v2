@@ -5,18 +5,21 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import {
   HEXColor,
   HSLColor,
+  IColor,
   RGBColor,
 } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IConverterRegistry } from "@/domain/Entity/ColorValue/core/interfaces/registry/registry.interface";
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
 import { LightnessService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/lightness.service";
 import { SaturationService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/saturation.service";
-import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
+import { IColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 import { ContrastRatio } from "@/components/Tests/testComponents/ContrastRatio";
 import { ColorSelection } from "@/components/Tests/testComponents/ColorSelection";
 import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
 import { toHEX } from "@/components/Tests/core/utils/testComponent.utils";
 import { ColorInformation } from "@/components/Tests/testComponents/ColorInformation";
+import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/Saturation.service";
+import { IEnhancedLighnessService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/Lightness.service";
 
 export default function Page() {
   const [highlightedColor, setHighlightedColor] = React.useState("#3b82f6");
@@ -28,7 +31,7 @@ export default function Page() {
     const registry: IConverterRegistry = factory.createDefaultRegistry();
 
     return {
-      conversionService: new ColorConversionService(registry),
+      conversionService: new IColorConversionService(registry),
       saturationService: new SaturationService(),
       lightnessService: new LightnessService(),
     };
@@ -117,6 +120,20 @@ export default function Page() {
                 />
               </div>
             </div>
+            <div>
+              <EnhanceColor
+                color={toHEX(highlightedColor)}
+                amount={0.1}
+                type="lightness"
+                onChange={(color) => setHighlightedColor(toHEX(color))}
+              />
+
+              <EnhanceColor
+                color={toHEX(highlightedColor)}
+                amount={0.1}
+                type="saturation"
+              />
+            </div>
           </div>
 
           {/* Color Information Panel */}
@@ -143,6 +160,32 @@ export default function Page() {
   );
 }
 
+const EnhanceColor: React.FC<{
+  color: IColor;
+  amount: number;
+  type: "saturation" | "lightness";
+  onChange?: (color: IColor) => void;
+}> = ({ color, amount, type, onChange }) => {
+  let enhancedColor: IColor | null = null;
 
+  if (type === "saturation") {
+    const service = new EnhanceSaturationService();
+    enhancedColor = service.enhanceColor(color, amount);
+  }
 
+  if (type === "lightness") {
+    const service = new IEnhancedLighnessService();
+    enhancedColor = service.enhanceColor(color, amount);
+  }
 
+  return (
+    <>
+      <div>Enhanced Color Component</div>
+      <input 
+        type="range"
+        min={0}
+        max={1}
+      />
+    </>
+  );
+};

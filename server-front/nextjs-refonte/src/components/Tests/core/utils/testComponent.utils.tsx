@@ -10,7 +10,7 @@ export function formatHSL(color: HSLColor | undefined): string {
 }
 export function formatHEX(color: HEXColor | undefined): string {
   return color
-    ? `${color.value.hex}${color.a !== undefined ? `, ${color.a}` : ""}`
+    ? `#${color.value.hex}${color.a !== undefined ? `, ${color.a}` : ""}`
     : "Invalid HEX color";
 }
 export function toHEX(color: string): HEXColor {

@@ -1,16 +1,9 @@
-import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
-import { IColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
-
 export interface IColorAnalysisService<IInput, TOutput> {
     analyzeColor(color: IInput): TOutput;
-    preferredFormat(color:IColor): IColor;
-    supportedFormats(): ColorFormat[];
 }
 
 export interface IColorComparisonService<FGColor, BGColor, TOutput> {
     compareColors(color1: FGColor, color2: BGColor): TOutput;
-    preferredFormat(color:IColor): IColor;
-    supportedFormats(): ColorFormat[];
 }
 
 export interface IColorSaturationResult {
@@ -38,3 +31,8 @@ export interface IColorContrastResult {
     description: string;
 }
 
+export interface IColorShadeRelationResult {
+    relation: "analogous" | "complementary" | "triadic" | "tetradic" | "none";
+    description: string;
+    angleDifference?: number; // Angle difference in degrees
+}
