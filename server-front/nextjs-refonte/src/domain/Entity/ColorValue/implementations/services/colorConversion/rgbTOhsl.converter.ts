@@ -1,4 +1,4 @@
-import { HSLColor, RGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
+import { IHSLColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 /**
@@ -10,7 +10,7 @@ import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter
  * of colors. This class facilitates the conversion between these two models.
  * @see https://en.wikipedia.org/wiki/HSL_and_HSV
  */
-export class RGBToHSLConverter implements IConverter<RGBColor, HSLColor> {
+export class RGBToHSLConverter implements IConverter<IRGBColor, IHSLColor> {
     /**
      * Converts an RGB color value to its equivalent HSL representation.
      * 
@@ -31,7 +31,7 @@ export class RGBToHSLConverter implements IConverter<RGBColor, HSLColor> {
      * @param from - The RGB color value to be converted, including its alpha channel.
      * @returns The equivalent HSL color value, including the alpha channel.
      */
-    convert(from: RGBColor): HSLColor {
+    convert(from: IRGBColor): IHSLColor {
         const r = from.value.r / 255;
         const g = from.value.g / 255;
         const b = from.value.b / 255;
@@ -53,6 +53,6 @@ export class RGBToHSLConverter implements IConverter<RGBColor, HSLColor> {
             h /= 6;
         }
 
-        return { format: 'HSL', value: { h: h * 360, s: s * 100, l: l * 100 }, a: from.a } as HSLColor;
+        return { format: 'HSL', value: { h: h * 360, s: s * 100, l: l * 100 }, a: from.a } as IHSLColor;
     }
 }

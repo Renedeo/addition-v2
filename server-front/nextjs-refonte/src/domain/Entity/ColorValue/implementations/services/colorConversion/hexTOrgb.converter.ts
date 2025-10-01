@@ -1,4 +1,4 @@
-import { HEXColor, RGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
+import { IHEXColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 /**
@@ -9,7 +9,7 @@ import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter
  * the conversion between these two models.
  * @see https://en.wikipedia.org/wiki/Web_colors#Hex_triplet
  */
-export class HexToRGBConverter implements IConverter<HEXColor, RGBColor> {
+export class HexToRGBConverter implements IConverter<IHEXColor, IRGBColor> {
     /**
      * Converts a HEX color value to its equivalent RGB representation.
      * The conversion process involves:
@@ -18,10 +18,10 @@ export class HexToRGBConverter implements IConverter<HEXColor, RGBColor> {
      * - Parsing the hexadecimal values to obtain the red, green, and blue components.
      * - If an 8-character HEX format is provided, the alpha channel is also extracted and converted to a decimal value between 0 and 1.
      * - The resulting RGB values are returned in an object, with the alpha channel included if it was specified in the HEX input.
-     * @param from - The HEX color to convert, including its alpha channel if specified. Must be of type {@link HEXColor}.
+     * @param from - The HEX color to convert, including its alpha channel if specified. Must be of type {@link IHEXColor}.
      * @return The equivalent RGB color, including the alpha channel if specified.
      */
-        convert(from: HEXColor): RGBColor {
+        convert(from: IHEXColor): IRGBColor {
 
         if (from.format !== 'HEX') {
             throw new Error("Input color format must be HEX.");
@@ -43,6 +43,6 @@ export class HexToRGBConverter implements IConverter<HEXColor, RGBColor> {
         const b = parseInt(from.value.hex.slice(4, 6), 16);
         const a = from.value.hex.length === 8 ? parseInt(from.value.hex.slice(6, 8), 16) / 255 : undefined;
 
-        return { format: 'RGB', value: { r, g, b }, a } as RGBColor;
+        return { format: 'RGB', value: { r, g, b }, a } as IRGBColor;
     }
 }

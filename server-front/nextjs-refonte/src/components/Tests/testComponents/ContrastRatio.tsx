@@ -1,13 +1,19 @@
 "use client";
-import { ContrastRatioProps } from "@/components/Tests/core/interfaces/component.test.interface";
 import { ColorIndicator } from "@/components/Tests/testComponents/ColorIndicator";
 import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
-import { ColorContrastService } from "@/domain/Entity/ColorValue/implementations/services/comparison/colorContrast.service";
+import { IHEXColor, IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+import { IColorComparisonService, IColorContrastResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import React, { useMemo } from "react";
 
+export interface ContrastRatioProps {
+  Foreground: IHEXColor;
+  Background: IHEXColor;
+  contrastService: IColorComparisonService<IColor, IColor, IColorContrastResult>;
+}
+
+
 export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
-  ({ Foreground, Background }) => {
-    const contrastService = useMemo(() => new ColorContrastService(), []);
+  ({ Foreground, Background, contrastService }) => {
 
     const result = useMemo(() => {
       try {

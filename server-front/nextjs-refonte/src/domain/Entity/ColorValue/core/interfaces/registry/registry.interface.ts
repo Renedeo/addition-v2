@@ -14,6 +14,8 @@ export interface IConverterRegistry {
         fromType: ColorFormat,
         toType: ColorFormat
     ): IConverter<From, To> | undefined;
+
+    getSupportedFormats(): ColorFormat[];
 }
 
 export interface IConverterConfig {

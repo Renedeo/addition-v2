@@ -1,15 +1,14 @@
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
-import { IColor, RGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+import { IColor, IRGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IColorAnalysisService, IColorLightnessResult, } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import { IColorFormatter } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
-import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
-import { IColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 
-export class LightnessService implements IColorAnalysisService<IColor, IColorLightnessResult>, IColorFormatter {
+export class LightnessService implements IColorAnalysisService<IColorLightnessResult> {
+    constructor(private colorFormatter: IColorFormatter) {}
+
     analyzeColor(color: IColor): IColorLightnessResult {
         // Here preferred format is RGB, so we convert the input color to RGB first
-        const rgbColor = this.preferredFormat(color) as RGBColor;
+        const rgbColor = this.colorFormatter.colorFormatter(color, FormatConst.RGB) as IRGBColor;
         // Calculate relative luminance (Y) using the Rec. 709 formula
         // Y = 0.2126*R + 0.7152*G + 0.0722*B
         // where R, G, B are in the range [0, 1]
@@ -33,15 +32,5 @@ export class LightnessService implements IColorAnalysisService<IColor, IColorLig
             description: lightness < 0.5 ? "The color is perceived as dark." : "The color is perceived as light.",
             lightness: lightness,
         };
-    }
-
-    preferredFormat(color: IColor): RGBColor {
-        const factory = new ColorConversionFactory();
-        const registry = factory.createDefaultRegistry();
-        const conversionService = new IColorConversionService(registry);
-        return conversionService.convert<IColor, RGBColor>(color, color.format, FormatConst.RGB);
-    }
-    supportedFormats(): ColorFormat[] {
-        return Object.values(FormatConst);
     }
 }

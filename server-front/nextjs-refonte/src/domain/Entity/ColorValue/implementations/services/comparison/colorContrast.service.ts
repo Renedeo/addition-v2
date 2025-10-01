@@ -1,23 +1,23 @@
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
-import { IColor, RGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
-import { IColorComparisonService, IColorContrastResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
+import { IColor, IRGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+import { IColorAnalysisService, IColorComparisonService, IColorContrastResult, IColorLightnessResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import { IColorFormatter } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
-import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
-import { LightnessService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/lightness.service";
-import { IColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 
-export class ColorContrastService implements IColorComparisonService<IColor, IColor, IColorContrastResult>, IColorFormatter {
+export class ColorContrastService implements IColorComparisonService<IColor, IColor, IColorContrastResult> {
+    constructor(private colorFormatter: IColorFormatter, private lightnessService: IColorAnalysisService<IColorLightnessResult>) {}
+
     compareColors(color1: IColor, color2: IColor): IColorContrastResult {
-        
-        const rgbColor1 = this.preferredFormat(color1);
-        const rgbColor2 = this.preferredFormat(color2);
+
+        const rgbColor1 = this.colorFormatter.colorFormatter(color1, FormatConst.RGB) as IRGBColor;
+        const rgbColor2 = this.colorFormatter.colorFormatter(color2, FormatConst.RGB) as IRGBColor;
 
         // Placeholder implementation
         const contrastRatio = this.calculateContrastRatio(rgbColor1, rgbColor2);
+
         // For Normal text, WCAG AA requires a contrast ratio of at least 4.5:1, and AAA requires 7:1
         const isAccessible = contrastRatio >= 4.5;
-        const level = contrastRatio >= 7 ? "AAA" : contrastRatio >= 4.5 ? "AA" : "Fail";
+        const normalTextLevel = contrastRatio >= 7 ? "AAA" : contrastRatio >= 4.5 ? "AA" : "Fail";
 
         // For Large text (18pt and larger, or 14pt bold and larger), WCAG AA requires a contrast ratio of at least 3:1, and AAA requires 4.5:1
         const isLargeTextAccessible = contrastRatio >= 3;
@@ -30,25 +30,16 @@ export class ColorContrastService implements IColorComparisonService<IColor, ICo
                 largeText: isLargeTextAccessible
             },
             level: {
-                normalText: level,
+                normalText: normalTextLevel,
                 largeText: largeTextLevel
             },
             description: "Not implemented"
         };
     }
 
-    preferredFormat(color: IColor): RGBColor {
-        const factory = new ColorConversionFactory()
-        const registry = factory.createDefaultRegistry();
-        const conversionService = new IColorConversionService(registry);
-        const rgbColor = conversionService.convert<IColor, RGBColor>(color, color.format as ColorFormat, FormatConst.RGB);
-        return rgbColor;
-    }
-
-    private calculateContrastRatio(foregroundColor: RGBColor, backgroundColor: RGBColor): number {
-        const luminanceService = new LightnessService();
-        const luminance1 = luminanceService.analyzeColor(foregroundColor).lightness + 0.05;
-        const luminance2 = luminanceService.analyzeColor(backgroundColor).lightness + 0.05;
+    private calculateContrastRatio(foregroundColor: IRGBColor, backgroundColor: IRGBColor): number {
+        const luminance1 = this.lightnessService.analyzeColor(foregroundColor).lightness + 0.05;
+        const luminance2 = this.lightnessService.analyzeColor(backgroundColor).lightness + 0.05;
 
         return luminance1 > luminance2
             ? luminance1 / luminance2

@@ -8,21 +8,19 @@ interface ColorOpacity {
 export interface IColor {
     format: ColorFormat;
     value: unknown; // Valeur spécifique au format
+    toString(): string; // Méthode pour obtenir la représentation en chaîne
 }
 
 export interface IColorWithAlpha extends IColor, ColorOpacity {}
 
-export interface HEXColor extends IColorWithAlpha {
-    format: typeof FormatConst.HEX;
+export interface IHEXColor extends IColorWithAlpha {
     value: HEXColorValue; // Valeur HEX
 }
 
-export interface RGBColor extends IColorWithAlpha {
-    format: typeof FormatConst.RGB;
+export interface IRGBColor extends IColorWithAlpha {
     value: RGBColorValue; // Valeur RGB
 }
 
-export interface HSLColor extends IColorWithAlpha {
-    format: typeof FormatConst.HSL;
+export interface IHSLColor extends IColorWithAlpha {
     value: HSLColorValue; // Valeur HSL
 }

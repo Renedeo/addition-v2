@@ -1,5 +1,7 @@
-export interface IColorAnalysisService<IInput, TOutput> {
-    analyzeColor(color: IInput): TOutput;
+import { IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+
+export interface IColorAnalysisService<TOutput> {
+    analyzeColor(color: IColor): TOutput;
 }
 
 export interface IColorComparisonService<FGColor, BGColor, TOutput> {

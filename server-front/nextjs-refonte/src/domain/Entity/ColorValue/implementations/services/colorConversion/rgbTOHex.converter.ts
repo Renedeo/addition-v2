@@ -1,4 +1,4 @@
-import { HEXColor, RGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
+import { IHEXColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
 /**
@@ -9,7 +9,7 @@ import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter
  * these two models.
  * @see https://en.wikipedia.org/wiki/Web_colors#Hex_triplet
  */
-export class RGBTOHEXConverter implements IConverter<RGBColor, HEXColor> {
+export class RGBTOHEXConverter implements IConverter<IRGBColor, IHEXColor> {
     /**
      * Converts an RGB color value to its HEX representation.
      * The conversion process involves:
@@ -20,27 +20,19 @@ export class RGBTOHEXConverter implements IConverter<RGBColor, HEXColor> {
      * @param from - The RGB color value to be converted, including its alpha channel.
      * @returns The equivalent HEX color value, including the alpha channel.
      */
-    convert(from: RGBColor): HEXColor {
-        const rHex = toHEX(from.value.r);
-        const gHex = toHEX(from.value.g);
-        const bHex = toHEX(from.value.b);
+    convert(from: IRGBColor): IHEXColor {
+        const rHex = this.toHEX(from.value.r);
+        const gHex = this.toHEX(from.value.g);
+        const bHex = this.toHEX(from.value.b);
         const hex = `#${rHex}${gHex}${bHex}`;
-        return { format: 'HEX', value: { hex }, a: from.a } as HEXColor;
+        return { format: 'HEX', value: { hex }, a: from.a } as IHEXColor;
     }
-}
-/**
- * Converts a RGB color value to its HEX representation.
- * @param value The RGB color value (0-255).
- * @returns The HEX representation of the color.
- */
-const toHEX = (value: number) => {
-    if (!isInRange(value, 0, 255)) {
-        throw new Error("RGB values must be in the range 0-255.");
-    }
-    const hex = Math.round(value).toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
-};
 
-function isInRange(value: number, min: number, max: number): boolean {
-    return value >= min && value <= max;
+    private toHEX(value: number): string {
+        if (value < 0 || value > 255 || isNaN(value)) {
+            throw new Error("RGB component must be between 0 and 255");
+        }
+        const hex = value.toString(16).toUpperCase();
+        return hex.length === 1 ? `0${hex}` : hex;
+    }
 }

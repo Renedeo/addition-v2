@@ -30,4 +30,14 @@ export class ConverterRegistry implements IConverterRegistry{
         return this.converters.get(key) as IConverter<From, To> | undefined;
     }
 
+    getSupportedFormats(): ColorFormat[] {
+        const formats = new Set<ColorFormat>();
+        this.converters.forEach((_, key) => {
+            const [fromType, toType] = key.split("->") as [ColorFormat, ColorFormat];
+            formats.add(fromType);
+            formats.add(toType);
+        });
+        return Array.from(formats);
+    }
+
 }

@@ -3,7 +3,9 @@ import { IConverterRegistry } from "@domain/ColorValue/core/interfaces/registry/
 import { IConversionCapabilityService, IDirectConversionService, IIntermediateColorConversionService } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
 
-export interface IColorConversionService extends IDirectConversionService, IConversionCapabilityService, IIntermediateColorConversionService { }
+export interface IColorConversionService extends IDirectConversionService, IConversionCapabilityService, IIntermediateColorConversionService {
+    getSupportedFormats(): ColorFormat[];
+ }
 
 export class ColorConversionService implements IColorConversionService {
     constructor(private registry: IConverterRegistry) { }
@@ -55,5 +57,9 @@ export class ColorConversionService implements IColorConversionService {
 
     canConvert(fromType: ColorFormat, toType: ColorFormat): boolean {
         return !!this.registry.get(fromType, toType);
+    }
+
+    getSupportedFormats(): ColorFormat[] {
+        return this.registry.getSupportedFormats();
     }
 }
