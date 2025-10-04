@@ -1,3 +1,4 @@
+
 "use client";
 import { ColorIndicator } from "@/components/Tests/testComponents/ColorIndicator";
 import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
@@ -5,16 +6,25 @@ import { IHEXColor, IColor } from "@/domain/Entity/ColorValue/core/interfaces/co
 import { IColorComparisonService, IColorContrastResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import React, { useMemo } from "react";
 
+/**
+ * Composant d'affichage du ratio de contraste entre deux couleurs selon WCAG.
+ * Affiche le ratio, le niveau d'accessibilité (AA/AAA), et des aperçus de texte.
+ *
+ * Props :
+ * - Foreground : Couleur de texte (IHEXColor)
+ * - Background : Couleur de fond (IHEXColor)
+ * - contrastService : Service de comparaison pour calculer le ratio et l'accessibilité
+ */
 export interface ContrastRatioProps {
   Foreground: IHEXColor;
   Background: IHEXColor;
   contrastService: IColorComparisonService<IColor, IColor, IColorContrastResult>;
 }
 
-
 export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
   ({ Foreground, Background, contrastService }) => {
 
+    // Calcule le résultat de contraste via le service
     const result = useMemo(() => {
       try {
         return contrastService.compareColors(Foreground, Background);
@@ -25,8 +35,10 @@ export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
 
     if (!result) return null;
 
+    // Couleur selon accessibilité
     const getAccessibilityColor = (isAccessible: boolean) => isAccessible ? "text-emerald-600" : "text-red-500";
 
+    // Couleur selon niveau WCAG
     const getLevelColor = (level: string) => {
       switch (level.toLowerCase()) {
         case "aaa":
@@ -38,8 +50,10 @@ export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
       }
     };
 
+    // Format du ratio (X.XX:1)
     const formatRatio = (ratio: number) => ratio.toFixed(2) + ":1";
 
+    // Aperçu de texte avec les couleurs sélectionnées
     const PreviewText: React.FC<{ size: "normal" | "large"; }> = ({ size }) => {
       const fontSize = size === "normal" ? "text-base" : "text-2xl font-bold";
       return (
@@ -59,6 +73,7 @@ export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
       );
     };
     
+    // Affiche si le texte est accessible
     const IsAccessible: React.FC<{ isAccessible: boolean; }> = ({
       isAccessible,
     }) => (
@@ -69,6 +84,7 @@ export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
       </span>
     );
     
+    // Card du ratio de contraste
     const Ratio: React.FC = () => (
       <div className="text-center bg-gray-50 rounded-xl p-4">
         <p className="text-sm font-medium text-gray-500 mb-1">Contrast Ratio</p>
@@ -80,20 +96,21 @@ export const ContrastRatio: React.FC<ContrastRatioProps> = React.memo(
     
     return (
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20">
+        {/* En-tête avec dot et indicateurs de couleur */}
         <div className="flex justify-between items-center mb-6">
           <LabelledColorDot
-            color={"#" + Background.value.hex}
+            color={Background}
             label="Contrast Ratio" />
           <div className="flex items-center gap-3">
-            <ColorIndicator color={"#" + Foreground.value.hex} />
-            <ColorIndicator color={"#" + Background.value.hex} />
+            <ColorIndicator color={Foreground} />
+            <ColorIndicator color={Background} />
           </div>
         </div>
 
         <div>
-          {/* Color Ratio */}
+          {/* Ratio de contraste */}
           <Ratio />
-          {/* Text Previews */}
+          {/* Aperçus de texte */}
           <div className="flex flex-col *:w-full sm:*:w-1/2 sm:flex-row gap-6">
             <div className="p-4 flex flex-col rounded-lg ">
               <h3 className="text-sm font-medium text-gray-700 mb-3">

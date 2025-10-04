@@ -1,0 +1,1 @@
+export type { IConverterRegistry, IConverterConfig } from "./registry.interface";

@@ -1,32 +1,64 @@
+
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import { IHEXColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { ColorFormat, HEXColorValue } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
 
+/**
+ * Classe représentant une couleur au format HEX.
+ * Permet de manipuler et valider les couleurs HEX avec alpha optionnel.
+ *
+ * Exemple d'utilisation :
+ * ```typescript
+ * const hexColor = new HEXColor("#ff5733", 0.8);
+ * console.log(hexColor.stringValue()); // "#ff5733cc"
+ * ```
+ */
 export class HEXColor implements IHEXColor {
     format: ColorFormat = FormatConst.HEX;
     value: HEXColorValue;
-    a: number;
-    
-    constructor(hex: string, a: number = 1) {
-        if (this.isValid(hex, a) === false) {
+    a?: number;
+
+    /**
+     * Crée une instance de HEXColor.
+     * @param hex La valeur HEX de la couleur (ex: "#ff5733" ou "ff5733")
+     * @param a La valeur alpha (opacité) entre 0 et 1 (optionnelle)
+     * @throws {Error} Si la valeur HEX ou alpha est invalide
+     */
+    constructor(hex: string, a?: number) {
+        // Normalise le format HEX (ajoute # si absent)
+        const normalizedHex = hex.startsWith("#") ? hex : `#${hex}`;
+
+        if (this.isValid(normalizedHex, a) === false) {
             throw new Error("Invalid HEX or Alpha values");
         }
-        this.value = { hex };
-        this.a = a;
+
+        this.value = { hex: normalizedHex };
+        if (a) this.a = a;
     }
 
-    toString(): string {
-    const hex = this.value.hex;
-    const begin = hex.startsWith("#") ? "" : "#";
-    // const alpha = Math.round(this.a * 255).toString(16).padStart(2, "0");
-    // return `${begin}${hex}${alpha}`;
-    return `${begin}${hex}`;
-}
+    /**
+     * Retourne la valeur HEX sous forme de string, avec alpha si présent.
+     */
+    stringValue(): string {
+        const hex = this.value.hex.toLowerCase(); // Déjà avec #
 
-    private isValid(hex: string, a: number): boolean {
+        if (this.a) {
+            const alpha = Math.round(this.a * 255).toString(16).padStart(2, "0");
+            return `${hex}${alpha}`;
+        }
+        return hex;
+    }
+
+    /**
+     * Vérifie si les valeurs HEX et alpha sont valides.
+     * @param hex La valeur HEX à valider
+     * @param a La valeur alpha à valider (optionnelle)
+     * @returns {boolean} True si les valeurs sont valides, sinon false
+     */
+    private isValid(hex: string, a?: number): boolean {
         const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
         const isValidHex = hexRegex.test(hex);
         const isInRange = (n: number, min: number, max: number) => n >= min && n <= max;
-        return isValidHex && isInRange(a, 0, 1);
+        return isValidHex && (a ? isInRange(a, 0, 1) : true);
     }
 }

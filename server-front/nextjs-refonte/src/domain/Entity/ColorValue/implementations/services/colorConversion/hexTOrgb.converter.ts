@@ -1,48 +1,54 @@
+import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
+import { RGBColor } from "@/domain/Entity/ColorValue/implementations/core/rgb";
 import { IHEXColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
+
 /**
- * Class responsible for converting HEX color values to RGB color values.
- * The HEX (Hexadecimal) color model is often used in web design and development
- * for specifying colors in HTML and CSS, while the RGB (Red, Green, Blue) color
- * model is commonly used for digital displays. This class facilitates
- * the conversion between these two models.
- * @see https://en.wikipedia.org/wiki/Web_colors#Hex_triplet
+ * Convertisseur HEX -> RGB.
+ * Permet de convertir une couleur HEX (web) en couleur RGB (affichage digital).
+ * Gère les formats courts, longs et alpha.
+ *
+ * Exemple d'utilisation :
+ * ```typescript
+ * const converter = new HexToRGBConverter();
+ * const rgb = converter.convert(hexColor);
+ * ```
  */
 export class HexToRGBConverter implements IConverter<IHEXColor, IRGBColor> {
     /**
-     * Converts a HEX color value to its equivalent RGB representation.
-     * The conversion process involves:
-     * - Removing the '#' prefix if present.
-     * - Handling both 3-character (shorthand) and 6-character HEX formats.
-     * - Parsing the hexadecimal values to obtain the red, green, and blue components.
-     * - If an 8-character HEX format is provided, the alpha channel is also extracted and converted to a decimal value between 0 and 1.
-     * - The resulting RGB values are returned in an object, with the alpha channel included if it was specified in the HEX input.
-     * @param from - The HEX color to convert, including its alpha channel if specified. Must be of type {@link IHEXColor}.
-     * @return The equivalent RGB color, including the alpha channel if specified.
+     * Convertit une couleur HEX en RGB.
+     * - Retire le '#' si présent
+     * - Gère les formats courts (3/4 caractères) et longs (6/8)
+     * - Extrait les composantes R, G, B et alpha si présent
+     * @param from Couleur HEX à convertir
+     * @returns Couleur RGB équivalente
      */
-        convert(from: IHEXColor): IRGBColor {
-
-        if (from.format !== 'HEX') {
+    convert(from: IHEXColor): IRGBColor {
+        if (from.format !== FormatConst.HEX) {
             throw new Error("Input color format must be HEX.");
         }
 
-        // Suppression du '#' si présent
-        if (from.value.hex.startsWith('#')) { 
-            from.value.hex = from.value.hex.slice(1);
+        let hexValue = from.value.hex;
+        // Retire le '#' si présent
+        if (hexValue.startsWith('#')) {
+            hexValue = hexValue.slice(1);
         }
-        // Gestion des formats courts (3 ou 4 caractères)
-        if (from.value.hex.length === 3 || from.value.hex.length === 4) {
-            from.value.hex = from.value.hex.split('').map((char: string) => char + char).join('');
+        // Format court (3 ou 4 caractères)
+        if (hexValue.length === 3 || hexValue.length === 4) {
+            hexValue = hexValue.split('').map((char: string) => char + char).join('');
         }
-        if (from.value.hex.length !== 6 && from.value.hex.length !== 8) {
+        if (hexValue.length !== 6 && hexValue.length !== 8) {
             throw new Error("Invalid HEX color format. Expected formats: #RRGGBB or #RRGGBBAA.");
         }
-        const r = parseInt(from.value.hex.slice(0, 2), 16);
-        const g = parseInt(from.value.hex.slice(2, 4), 16);
-        const b = parseInt(from.value.hex.slice(4, 6), 16);
-        const a = from.value.hex.length === 8 ? parseInt(from.value.hex.slice(6, 8), 16) / 255 : undefined;
-
-        return { format: 'RGB', value: { r, g, b }, a } as IRGBColor;
+        const r = parseInt(hexValue.slice(0, 2), 16);
+        const g = parseInt(hexValue.slice(2, 4), 16);
+        const b = parseInt(hexValue.slice(4, 6), 16);
+        let a;
+        if (hexValue.length === 8) {
+            a = parseInt(hexValue.slice(6, 8), 16) / 255;
+            return new RGBColor(r, g, b, a);
+        }
+        return new RGBColor(r, g, b);
     }
 }

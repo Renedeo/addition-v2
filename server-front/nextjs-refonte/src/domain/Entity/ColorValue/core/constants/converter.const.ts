@@ -4,6 +4,11 @@ import { RGBToHSLConverter } from "@domain/ColorValue/implementations/services/c
 import { FormatConst } from "@domain/ColorValue/core/constants/colorRepresentation.const";
 import { HexToRGBConverter } from "@domain/ColorValue/implementations/services/colorConversion/hexTOrgb.converter";
 
+/**
+ * Configuration des convertisseurs de couleurs
+ * Définit les convertisseurs disponibles pour chaque paire de formats de couleur
+ * Utilisé pour initialiser et gérer les convertisseurs dans l'application
+ */
 export const converterConfig = {
     converters: [
         // On pourrait ajouter des convertisseurs par défaut ici

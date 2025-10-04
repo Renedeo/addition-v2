@@ -1,0 +1,1 @@
+export type { IColorConversionFactory } from "./factory.interface";

@@ -1,9 +1,19 @@
+
 /**
- * 0 %	Couleur complètement désaturée → gris neutre
-1 % – 30 %	Faible saturation : teintes pastel, douces, proches du gris
-31 % – 60 %	Saturation moyenne : couleurs équilibrées, naturelles
-61 % – 85 %	Haute saturation : couleurs vives, intenses, dynamiques
-86 % – 100 %	Saturation maximale : couleurs pures, très intenses, parfois artificielles
+ * Table de correspondance pour l'analyse de la saturation d'une couleur HSL.
+ * Permet de déterminer le niveau et la description en fonction du pourcentage de saturation.
+ *
+ * Niveaux :
+ * - 0% : désaturé (gris)
+ * - 1-30% : faible (pastel, doux)
+ * - 31-60% : équilibré (naturel)
+ * - 61-85% : élevé (vif, intense)
+ * - 86-100% : pur (très intense, parfois artificiel)
+ *
+ * Utilisation :
+ * ```typescript
+ * const info = SaturationInfo.find(i => s >= i.min && s <= i.max);
+ * ```
  */
 export const SaturationInfo = [
     {

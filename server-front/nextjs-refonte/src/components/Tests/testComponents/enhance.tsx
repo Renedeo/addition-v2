@@ -1,7 +1,6 @@
-import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
 import { IHEXColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
-import { HEXColor } from "@/domain/Entity/ColorValue/implementations/core/hex";
+import { useState } from "react";
 
 interface EnhanceColorProps {
   color: IHEXColor;
@@ -20,33 +19,37 @@ export const EnhanceColor: React.FC<EnhanceColorProps> = ({
   lightnessService,
   saturationService,
 }) => {
-    
-  const handleEnhance = () => {
-    let enhancedColor = color;
-    
-    if (enhancementType === "lightness") {
-      const result = lightnessService.enhanceColor(color, amount);
-      enhancedColor = {...result, a: color.a} as HEXColor; // Preserve original alpha
-    } else if (enhancementType === "saturation") {
-      const result = saturationService.enhanceColor(color, amount);
-      enhancedColor = {...result, a: color.a} as HEXColor; // Preserve original alpha
-    }
+  const service = {
+    lightness: lightnessService,
+    saturation: saturationService,
+  };
+  const [sliderValue, setSliderValue] = useState<number>(amount);
+
+  const handleEnhance = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = parseFloat(e.target.value);
+    if (isNaN(newAmount)) return;
+
+    const difference = newAmount - sliderValue;
+    if (difference === 0) return;
+
+    const result = service[enhancementType].enhanceColor(color, difference);
+
+    setSliderValue(newAmount); // Met à jour la valeur précédente
+
     if (onChange) {
-      onChange(enhancedColor);
+      onChange(result as IHEXColor);
     }
   };
 
   return (
     <div>
-      <LabelledColorDot color={"#" + color.value} label="Original Color" />
-      <label htmlFor="enhance">{enhancementType === "lightness" ? "Enhance Lightness" : "Enhance Saturation"}</label>
+      <label htmlFor="enhance">{enhancementType}</label>
       <input
         type="range"
         name="enhance"
         min="0"
         max="100"
-        value={amount}
-        step={.1}
+        value={sliderValue}
         onChange={handleEnhance}
       />
     </div>

@@ -1,23 +1,31 @@
-// Nous allons utiliser le registry/Strategy pattern
-// pour permettre la conversion entre différents formats de couleurs
-// sans créer de dépendances directes entre les classes de couleur.
 
+// Utilisation du registry/Strategy pattern pour la conversion entre formats de couleurs sans dépendances directes.
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
 
+/**
+ * Interface pour vérifier la capacité de conversion entre deux formats de couleur.
+ * @export
+ */
+export interface IConversionCapabilityService {
+    /**
+     * Indique si la conversion directe entre deux formats est possible.
+     * @param fromType Format source
+     * @param toType Format cible
+     * @returns True si la conversion est possible
+     */
+    canConvert(fromType: ColorFormat, toType: ColorFormat): boolean;
+}
 
 /**
- * Interface pour un service de conversion entre deux types.
- * 
- * **Types génériques :**
- * - `From` : Le type source à convertir  
- * - `To` : Le type cible après conversion
+ * Interface générique pour un convertisseur entre deux types de couleur.
+ * @template From Type source
+ * @template To Type cible
  *
- * **Exemple d'implémentation :**
+ * Exemple d'implémentation :
  * ```typescript
  * class RGBToHSLConverter implements IConverter<RGBColor, HSLColor> {
  *     convert(from: RGBColor): HSLColor {
- *         // Logique de conversion ici
- *         return new HSLColor(h, s, l);
+ *         // ...
  *     }
  * }
  * ```
@@ -25,24 +33,39 @@ import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresen
 export interface IConverter<From, To> {
     /**
      * Convertit une couleur du format source vers le format cible.
-     * @param {From} from  La couleur source à convertir
-     * @returns {To} La couleur convertie au format cible
+     * @param from Couleur source
+     * @returns Couleur convertie
      */
     convert(from: From): To;
 }
 
-// export interface IColorConversionService {
-//     convert<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat): To;
-//     canConvert(fromType: ColorFormat, toType: ColorFormat): boolean;
-// }
-export interface IDirectConversionService {
+/**
+ * Interface pour un service de conversion directe entre deux formats.
+ * Hérite de la capacité de conversion.
+ */
+export interface IDirectConversionService extends IConversionCapabilityService {
+    /**
+     * Convertit une couleur d'un format à un autre.
+     * @param from Couleur source
+     * @param fromType Format source
+     * @param toType Format cible
+     * @returns Couleur convertie
+     */
     convert<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat): To;
 }
 
-export interface IConversionCapabilityService {
-    canConvert(fromType: ColorFormat, toType: ColorFormat): boolean;
-}
-
-export interface IIntermediateColorConversionService {
+/**
+ * Interface pour un service de conversion via un format intermédiaire.
+ * Hérite de la capacité de conversion.
+ */
+export interface IIntermediateColorConversionService extends IConversionCapabilityService {
+    /**
+     * Convertit une couleur via un format intermédiaire (ex: HEX -> RGB -> HSL).
+     * @param from Couleur source
+     * @param fromType Format source
+     * @param toType Format cible
+     * @param intermediateType Format intermédiaire
+     * @returns Couleur convertie
+     */
     convertViaIntermediate<From, To>(from: From, fromType: ColorFormat, toType: ColorFormat, intermediateType: ColorFormat): To;
 }

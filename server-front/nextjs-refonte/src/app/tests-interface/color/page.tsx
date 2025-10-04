@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import {
   IHEXColor,
@@ -16,7 +16,7 @@ import { ContrastRatio } from "@/components/Tests/testComponents/ContrastRatio";
 import { ColorSelection } from "@/components/Tests/testComponents/ColorSelection";
 import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
 import { ColorInformation } from "@/components/Tests/testComponents/ColorInformation";
-import { IColorFormatter } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
+import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { IFormatter } from "@/domain/Entity/ColorValue/implementations/services/shared.service";
 import { EnhanceColor } from "@/components/Tests/testComponents/enhance";
 import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceSaturation.service";
@@ -33,7 +33,7 @@ export default function Page() {
     const factory = new ColorConversionFactory();
     const registry: IConverterRegistry = factory.createDefaultRegistry();
     const conversionService = new ColorConversionService(registry);
-    const colorFormatter:IColorFormatter = new IFormatter(conversionService);
+    const colorFormatter:IColorFormatHandler = new IFormatter(conversionService);
     const lightnessService = new LightnessService(colorFormatter);
     const saturationService = new SaturationService(colorFormatter);
     const enhanceSaturationService = new EnhanceSaturationService(colorFormatter);
@@ -96,7 +96,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 sm:p-6 flex justify-center">
-        <>{backgroundColor.toString()}</>
+        {/* <>{primaryColor.toString()}</> */}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <Header />
@@ -106,23 +106,25 @@ export default function Page() {
           <div className="flex flex-col gap-6 w-full sm:w-auto">
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20 sticky top-6 w-full sm:*:w-auto">
               <LabelledColorDot
-                color={primaryColor.toString()}
+                color={primaryColor}
                 label="Color Selection"
               />
               <div className="flex justify-evenly w-full sm:w-fit sm:flex-col gap-6 sm:gap-4 mt-4">
                 <ColorSelection
-                  label="Primary Color"
-                  value={primaryColor.toString().toLowerCase()}
                   onColorChange={setPrimaryColor}
+                  label="Primary Color"
+                  value={primaryColor}
                 />
                 <ColorSelection
-                  label="Background Color"
-                  value={backgroundColor.toString().toLowerCase()}
                   onColorChange={setBackgroundColor}
+                  label="Background Color"
+                  value={backgroundColor}
                 />
               </div>
             </div>
             <div>
+              <LabelledColorDot color={primaryColor} label="Enhance" />
+
               <EnhanceColor
                 color={primaryColor}
                 enhancementType="saturation"
@@ -151,7 +153,7 @@ export default function Page() {
                 HSLValue={colorAnalysis.hslValue}
                 saturationInfo={colorAnalysis.saturationInfo}
                 luminanceInfo={colorAnalysis.luminanceInfo}
-                primaryColor={primaryColor.toString()}
+                primaryColor={primaryColor}
               />
             )}
 

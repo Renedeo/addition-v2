@@ -1,5 +1,5 @@
 "use client";
-import { IHEXColor, IHSLColor, IRGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+import { IColor, IHEXColor, IHSLColor, IRGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IColorLightnessResult, IColorSaturationResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 
 
@@ -9,5 +9,5 @@ export interface ColorInformationProps {
   HSLValue: IHSLColor | undefined;
   saturationInfo: IColorSaturationResult;
   luminanceInfo: IColorLightnessResult;
-  primaryColor: string;
+  primaryColor: IColor;
 }

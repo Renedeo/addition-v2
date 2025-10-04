@@ -1,33 +1,43 @@
+import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
+import { HEXColor } from "@/domain/Entity/ColorValue/implementations/core/hex";
 import { IHEXColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
+
+
 /**
- * Class responsible for converting RGB color values to HEX color values.
- * The RGB (Red, Green, Blue) color model is commonly used for digital displays,
- * while the HEX (Hexadecimal) color model is often used in web design and development
- * for specifying colors in HTML and CSS. This class facilitates the conversion between
- * these two models.
- * @see https://en.wikipedia.org/wiki/Web_colors#Hex_triplet
+ * Convertisseur RGB -> HEX.
+ * Permet de convertir une couleur RGB (affichage digital) en couleur HEX (web).
+ *
+ * Exemple d'utilisation :
+ * ```typescript
+ * const converter = new RGBTOHEXConverter();
+ * const hex = converter.convert(rgbColor);
+ * ```
  */
 export class RGBTOHEXConverter implements IConverter<IRGBColor, IHEXColor> {
     /**
-     * Converts an RGB color value to its HEX representation.
-     * The conversion process involves:
-     * - Converting each of the RGB components (red, green, blue) from their decimal
-     *   values (0-255) to their hexadecimal equivalents (00-FF).
-     * - Concatenating the hexadecimal values of the red, green, and blue components
-     *   into a single string prefixed with a '#' character to form the HEX color code.
-     * @param from - The RGB color value to be converted, including its alpha channel.
-     * @returns The equivalent HEX color value, including the alpha channel.
+     * Convertit une couleur RGB en HEX.
+     * - Convertit chaque composante RGB en hexadécimal
+     * - Concatène les valeurs en une string HEX
+     * @param from Couleur RGB à convertir
+     * @returns Couleur HEX équivalente
      */
     convert(from: IRGBColor): IHEXColor {
+        if (from.format !== FormatConst.RGB) {
+            throw new Error("Input color must be in RGB format");
+        }
+
         const rHex = this.toHEX(from.value.r);
         const gHex = this.toHEX(from.value.g);
         const bHex = this.toHEX(from.value.b);
         const hex = `#${rHex}${gHex}${bHex}`;
-        return { format: 'HEX', value: { hex }, a: from.a } as IHEXColor;
+        return new HEXColor(hex);
     }
 
+    /**
+     * Convertit une valeur décimale (0-255) en hexadécimal (00-FF).
+     */
     private toHEX(value: number): string {
         if (value < 0 || value > 255 || isNaN(value)) {
             throw new Error("RGB component must be between 0 and 255");

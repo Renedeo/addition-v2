@@ -1,37 +1,33 @@
+import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
+import { HSLColor } from "@/domain/Entity/ColorValue/implementations/core/hsl";
 import { IHSLColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
+
 /**
- * Class responsible for converting RGB color values to HSL color values.
- * 
- * The RGB (Red, Green, Blue) color model is commonly used for digital displays,
- * while the HSL (Hue, Saturation, Lightness) color model is often preferred for
- * tasks involving color manipulation and design due to its more intuitive representation
- * of colors. This class facilitates the conversion between these two models.
- * @see https://en.wikipedia.org/wiki/HSL_and_HSV
+ * Convertisseur RGB -> HSL.
+ * Permet de convertir une couleur RGB (affichage digital) en couleur HSL (manipulation/design).
+ *
+ * Exemple d'utilisation :
+ * ```typescript
+ * const converter = new RGBToHSLConverter();
+ * const hsl = converter.convert(rgbColor);
+ * ```
  */
 export class RGBToHSLConverter implements IConverter<IRGBColor, IHSLColor> {
     /**
-     * Converts an RGB color value to its equivalent HSL representation.
-     * 
-     * The conversion process involves:
-     * - Normalizing the RGB values to a range of 0 to 1.
-     * - Calculating the maximum and minimum values among the normalized RGB components
-     *   to determine the lightness (`l`) and the difference (`d`) for hue (`h`) and
-     *   saturation (`s`) calculations.
-     * - Computing the hue based on which RGB component is the maximum, ensuring the
-     *   result is within the range of 0 to 360 degrees.
-     * - Calculating the saturation as a percentage, depending on the lightness value.
-     * 
-     * This computation is essential for converting RGB to HSL because the two color
-     * models represent colors differently. RGB defines colors in terms of additive
-     * light, while HSL represents colors in terms of their hue, saturation, and lightness,
-     * making it more suitable for tasks like color adjustments and user interface design.
-     * 
-     * @param from - The RGB color value to be converted, including its alpha channel.
-     * @returns The equivalent HSL color value, including the alpha channel.
+     * Convertit une couleur RGB en HSL.
+     * - Normalise les valeurs RGB
+     * - Calcule le max, min, la différence
+     * - Déduit la teinte, la saturation et la luminosité
+     * @param from Couleur RGB à convertir
+     * @returns Couleur HSL équivalente
      */
     convert(from: IRGBColor): IHSLColor {
+        if (from.format !== FormatConst.RGB) {
+            throw new Error("Input color must be in RGB format");
+        }
+
         const r = from.value.r / 255;
         const g = from.value.g / 255;
         const b = from.value.b / 255;
@@ -53,6 +49,9 @@ export class RGBToHSLConverter implements IConverter<IRGBColor, IHSLColor> {
             h /= 6;
         }
 
-        return { format: 'HSL', value: { h: h * 360, s: s * 100, l: l * 100 }, a: from.a } as IHSLColor;
+        h = Math.round(h * 360);
+        s = Math.round(s * 100);
+        const lPercent = Math.round(l * 100);
+        return new HSLColor(h, s, lPercent);
     }
 }

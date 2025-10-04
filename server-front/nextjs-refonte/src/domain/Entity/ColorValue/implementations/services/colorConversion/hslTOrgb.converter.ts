@@ -1,45 +1,62 @@
+import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
+import { RGBColor } from "@/domain/Entity/ColorValue/implementations/core/rgb";
 import { IHSLColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
 
+
+
 /**
- * class
+ * Convertisseur HSL -> RGB.
+ * Permet de convertir une couleur HSL (manipulation/design) en couleur RGB (affichage digital).
+ *
+ * Exemple d'utilisation :
+ * ```typescript
+ * const converter = new HSLTORGBConverter();
+ * const rgb = converter.convert(hslColor);
+ * ```
  */
 export class HSLTORGBConverter implements IConverter<IHSLColor, IRGBColor> {
     /**
-     * Convert an HSL color value to its equivalent RGB representation.
-     * The conversion process involves:
-     * - Normalizing the HSL values to a range of 0 to 1.
-     * - Calculating the RGB components based on the hue, saturation, and lightness values.
-     * - If the saturation is zero, the color is a shade of gray, and all RGB components are equal to the lightness value.
-     * - If the saturation is not zero, the RGB components are calculated using an intermediate function `hueToRGB` which adjusts the hue to derive the red, green, and blue values.
-     * 
-     * @param from - The HSL color to convert, including its alpha channel.
-     * @returns The equivalent RGB color, including the alpha channel.
+     * Convertit une couleur HSL en RGB.
+     * - Normalise les valeurs HSL
+     * - Calcule les composantes RGB
+     * - Gère le cas achromatique (gris)
+     * @param from Couleur HSL à convertir
+     * @returns Couleur RGB équivalente
      */
     convert(from: IHSLColor): IRGBColor {
-        const h = from.value.h / 360; // Normalizing the hue
-        const s = from.value.s / 100; // Normalizing the saturation
-        const l = from.value.l / 100; // Normalizing the lightness
+        if (from.format !== FormatConst.HSL) {
+            throw new Error("Input color must be in HSL format");
+        }
+
+        const h = from.value.h / 360; // Normalisation de la teinte
+        const s = from.value.s / 100; // Normalisation de la saturation
+        const l = from.value.l / 100; // Normalisation de la luminosité
         let r: number, g: number, b: number;
 
-        // If the saturation is not zero, calculate the RGB components
         if (s !== 0) {
-            // q represents the adjusted lightness
+            // Calcul des composantes RGB
             const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            // p represents the inverse adjusted lightness
             const p = 2 * l - q;
 
             r = this.hueToRGB(p, q, h + 1 / 3);
             g = this.hueToRGB(p, q, h);
             b = this.hueToRGB(p, q, h - 1 / 3);
-            return { format: 'RGB', value: { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) }, a: from.a };
+
+            r = Math.round(r * 255);
+            g = Math.round(g * 255);
+            b = Math.round(b * 255);
+            return new RGBColor(r, g, b);
         }
 
-        // If the saturation is zero, the color is gray
-        r = g = b = Math.round(l * 255); // Achromatic (gray)
-        return { format: 'RGB', value: { r, g, b }, a: from.a };
+        // Cas achromatique (gris)
+        r = g = b = Math.round(l * 255);
+        return new RGBColor(r, g, b);
     }
 
+    /**
+     * Fonction utilitaire pour ajuster la teinte lors de la conversion HSL -> RGB.
+     */
     private hueToRGB(p: number, q: number, t: number): number {
         if (t < 0) t += 1;
         if (t > 1) t -= 1;
