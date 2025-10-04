@@ -1,3 +1,11 @@
+/**
+ * Service de formatage de couleurs partagé.
+ * 
+ * Service centralisé pour la conversion et le formatage des couleurs entre différents formats.
+ * Implémente IColorFormatHandler et utilise les services de conversion du domaine ColorValue.
+ * Fait partie de l'architecture shared/ pour une réutilisation maximale.
+ */
+
 import { IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
@@ -10,13 +18,18 @@ import { IColorConversionService } from "@/domain/Entity/ColorValue/implementati
  *
  * Exemple d'utilisation :
  * ```typescript
- * const formatter = new IFormatter(conversionService);
+ * import { ColorFormatService } from '@/shared/services/colorFormat.service';
+ * import { ColorConversionService } from '@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service';
+ * import { FormatConst } from '@/domain/Entity/ColorValue/core/constants/colorRepresentation.const';
+ * 
+ * const conversionService = new ColorConversionService(registry);
+ * const formatter = new ColorFormatService(conversionService);
  * const rgbColor = formatter.formatColor(hexColor, FormatConst.RGB);
  * const originalColor = formatter.toOriginalFormat(hexColor, modifiedRgbColor);
  * ```
  */
-export class IFormatter implements IColorFormatHandler {
-    constructor(private conversionService:IColorConversionService) {}
+export class ColorFormatService implements IColorFormatHandler {
+    constructor(private conversionService: IColorConversionService) {}
     
     /**
      * Formate une couleur vers le format spécifié.
@@ -24,17 +37,15 @@ export class IFormatter implements IColorFormatHandler {
      * @param to Format cible
      * @returns Couleur formatée
      */
-    formatColor(color:IColor, to:ColorFormat): IColor {
-        const conversionService = this.conversionService;
-        const colorResult = conversionService.convert<IColor, IColor>(color, color.format, to);
-        return colorResult;
+    formatColor(color: IColor, to: ColorFormat): IColor {
+        return this.conversionService.convert<IColor, IColor>(color, color.format, to);
     }
 
     /**
      * Retourne la liste des formats supportés.
      */
     supportedFormats(): string[] {
-       return this.conversionService.getSupportedFormats();
+        return this.conversionService.getSupportedFormats();
     }
 
     /**
@@ -45,9 +56,6 @@ export class IFormatter implements IColorFormatHandler {
      */
     toOriginalFormat(color: IColor, modifiedColor: IColor): IColor {
         if (color.format === modifiedColor.format) return modifiedColor;
-        const originalColor = this.conversionService.convert<IColor, IColor>(modifiedColor, modifiedColor.format, color.format);
-        return originalColor;
+        return this.conversionService.convert<IColor, IColor>(modifiedColor, modifiedColor.format, color.format);
     }
 }
-
-

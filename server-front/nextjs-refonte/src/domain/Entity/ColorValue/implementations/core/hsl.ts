@@ -2,6 +2,8 @@
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import { IHSLColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { ColorFormat, HSLColorValue } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
+import { isValidNumber, isValidHue, isValidPercentage, isValidAlpha } from "@/shared/utils/validation.utils";
+import { roundToPrecision } from "@/shared/utils/format.utils";
 
 /**
  * Classe représentant une couleur au format HSL.
@@ -42,7 +44,7 @@ export class HSLColor implements IHSLColor {
         const h = this.value.h;
         const s = this.value.s;
         const l = this.value.l;
-        if (this.a) return `hsl(${h}°, ${s}%, ${l}%${this.a !== undefined ? `, ${Math.round(this.a * 100) / 100}` : ""})`;
+        if (this.a) return `hsl(${h}°, ${s}%, ${l}%${this.a !== undefined ? `, ${roundToPrecision(this.a, 2)}` : ""})`;
         return `hsl(${h}°, ${s}%, ${l}%)`;
     }
 
@@ -55,11 +57,9 @@ export class HSLColor implements IHSLColor {
      * @returns {boolean} True si les valeurs sont valides, sinon false
      */
     private isValid(h: number, s: number, l: number, a: number): boolean {
-        const isValidNumber = (n: number) => typeof n === 'number' && !isNaN(n);
-        const isInRange = (n: number, min: number, max: number) => n >= min && n <= max;
-        const isValidHSL = isValidNumber(h) && isInRange(h, 0, 360) &&
-                          isValidNumber(s) && isInRange(s, 0, 100) &&
-                          isValidNumber(l) && isInRange(l, 0, 100);
-        return isValidHSL && isInRange(a, 0, 1);
+        const isValidHSL = isValidNumber(h) && isValidHue(h) &&
+                          isValidNumber(s) && isValidPercentage(s) &&
+                          isValidNumber(l) && isValidPercentage(l);
+        return isValidHSL && isValidAlpha(a);
     }
 }

@@ -1,3 +1,7 @@
+/**
+ * Données de saturation partagées.
+ * Constantes pour l'analyse des niveaux de saturation HSL.
+ */
 
 /**
  * Table de correspondance pour l'analyse de la saturation d'une couleur HSL.
@@ -12,10 +16,10 @@
  *
  * Utilisation :
  * ```typescript
- * const info = SaturationInfo.find(i => s >= i.min && s <= i.max);
+ * const info = SATURATION_LEVELS.find(i => s >= i.min && s <= i.max);
  * ```
  */
-export const SaturationInfo = [
+export const SATURATION_LEVELS = [
     {
         level: "desaturated",
         min: 0,
@@ -46,5 +50,19 @@ export const SaturationInfo = [
         max: 100,
         description: "Maximum Saturation, pure, very intense colors, sometimes artificial."
     }
-];
+] as const;
 
+/**
+ * Type pour les niveaux de saturation.
+ */
+export type SaturationLevel = typeof SATURATION_LEVELS[number]['level'];
+
+/**
+ * Interface pour les informations de saturation.
+ */
+export interface SaturationInfo {
+    level: SaturationLevel;
+    min: number;
+    max: number;
+    description: string;
+}

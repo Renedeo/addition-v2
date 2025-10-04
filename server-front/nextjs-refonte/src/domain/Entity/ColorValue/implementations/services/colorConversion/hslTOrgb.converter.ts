@@ -2,6 +2,7 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import { RGBColor } from "@/domain/Entity/ColorValue/implementations/core/rgb";
 import { IHSLColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
+import { roundToPrecision } from "@/shared/utils/format.utils";
 
 
 
@@ -43,14 +44,14 @@ export class HSLTORGBConverter implements IConverter<IHSLColor, IRGBColor> {
             g = this.hueToRGB(p, q, h);
             b = this.hueToRGB(p, q, h - 1 / 3);
 
-            r = Math.round(r * 255);
-            g = Math.round(g * 255);
-            b = Math.round(b * 255);
+            r = roundToPrecision(r * 255, 0);
+            g = roundToPrecision(g * 255, 0);
+            b = roundToPrecision(b * 255, 0);
             return new RGBColor(r, g, b);
         }
 
         // Cas achromatique (gris)
-        r = g = b = Math.round(l * 255);
+        r = g = b = roundToPrecision(l * 255, 0);
         return new RGBColor(r, g, b);
     }
 

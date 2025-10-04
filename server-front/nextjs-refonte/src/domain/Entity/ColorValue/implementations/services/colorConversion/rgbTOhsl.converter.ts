@@ -2,6 +2,7 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import { HSLColor } from "@/domain/Entity/ColorValue/implementations/core/hsl";
 import { IHSLColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
+import { roundToPrecision } from "@/shared/utils/format.utils";
 
 
 /**
@@ -49,9 +50,9 @@ export class RGBToHSLConverter implements IConverter<IRGBColor, IHSLColor> {
             h /= 6;
         }
 
-        h = Math.round(h * 360);
-        s = Math.round(s * 100);
-        const lPercent = Math.round(l * 100);
+        h = roundToPrecision(h * 360, 0);
+        s = roundToPrecision(s * 100, 0);
+        const lPercent = roundToPrecision(l * 100, 0);
         return new HSLColor(h, s, lPercent);
     }
 }

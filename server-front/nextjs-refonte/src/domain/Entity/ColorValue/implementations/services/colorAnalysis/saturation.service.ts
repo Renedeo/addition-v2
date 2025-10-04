@@ -2,7 +2,7 @@
 
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { SaturationInfo } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/shared.utils";
+import { SATURATION_LEVELS } from "@/shared/constants/saturation.constants";
 import {  IHSLColor, IColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IColorSaturationResult, IColorAnalysisService } from "@domain/ColorValue/core/interfaces/service/analysis.interface";
 
@@ -12,7 +12,12 @@ import { IColorSaturationResult, IColorAnalysisService } from "@domain/ColorValu
  *
  * Exemple d'utilisation :
  * ```typescript
- * const service = new SaturationService(formatHandler);
+ * import { ColorFormatService } from '@/shared/services/colorFormat.service';
+ * import { ColorConversionService } from './colorConversion/colorConversion.service';
+ * 
+ * const conversionService = new ColorConversionService(registry);
+ * const formatService = new ColorFormatService(conversionService);
+ * const service = new SaturationService(formatService);
  * const result = service.analyzeColor(color);
  * console.log(result.saturationLevel); // "balanced", "high", etc.
  * ```
@@ -30,8 +35,8 @@ export class SaturationService implements IColorAnalysisService<IColorSaturation
         const hslColor = this.colorFormatter.formatColor(color, FormatConst.HSL) as IHSLColor;
         const saturation = hslColor.value.s; // Valeur de saturation
 
-        // Détermination du niveau de saturation via la table SaturationInfo
-        const determineSaturationLevel = SaturationInfo.find(info => saturation >= info.min && saturation <= info.max);
+        // Détermination du niveau de saturation via la table SATURATION_LEVELS
+        const determineSaturationLevel = SATURATION_LEVELS.find(info => saturation >= info.min && saturation <= info.max);
         if (!determineSaturationLevel) {
             throw new Error("Saturation level could not be determined for saturation: " + saturation);
         }

@@ -2,6 +2,8 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import { HEXColor } from "@/domain/Entity/ColorValue/implementations/core/hex";
 import { IHEXColor, IRGBColor } from "@domain/ColorValue/core/interfaces/color/color.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";
+import { isValidRGBValue } from "@/shared/utils/validation.utils";
+import { toHexString } from "@/shared/utils/format.utils";
 
 
 
@@ -37,12 +39,12 @@ export class RGBTOHEXConverter implements IConverter<IRGBColor, IHEXColor> {
 
     /**
      * Convertit une valeur décimale (0-255) en hexadécimal (00-FF).
+     * Utilise les utilitaires partagés pour la validation et la conversion.
      */
     private toHEX(value: number): string {
-        if (value < 0 || value > 255 || isNaN(value)) {
+        if (!isValidRGBValue(value)) {
             throw new Error("RGB component must be between 0 and 255");
         }
-        const hex = value.toString(16).toUpperCase();
-        return hex.length === 1 ? `0${hex}` : hex;
+        return toHexString(value);
     }
 }

@@ -4,6 +4,7 @@ import { IColor, IRGBColor } from "@/domain/Entity/ColorValue/core/interfaces/co
 import { IColorAnalysisService, IColorComparisonService, IColorContrastResult, IColorLightnessResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
+import { ACCESSIBILITY_THRESHOLDS } from "@/shared/constants/accessibility.constants";
 
 /**
  * Service de comparaison de contraste entre deux couleurs selon WCAG.
@@ -11,7 +12,12 @@ import { ColorFormat } from "@/domain/Entity/ColorValue/core/types/colorRepresen
  *
  * Exemple d'utilisation :
  * ```typescript
- * const service = new ColorContrastService(formatHandler, lightnessService);
+ * import { ColorFormatService } from '@/shared/services/colorFormat.service';
+ * import { LightnessService } from '../colorAnalysis/lightness.service';
+ * 
+ * const formatService = new ColorFormatService(conversionService);
+ * const lightnessService = new LightnessService(formatService);
+ * const service = new ColorContrastService(formatService, lightnessService);
  * const result = service.compareColors(color1, color2);
  * console.log(result.contrastRatio); // Ratio numérique
  * ```
@@ -33,13 +39,21 @@ export class ColorContrastService implements IColorComparisonService<IColor, ICo
         // Calcul du ratio de contraste
         const contrastRatio = this.calculateContrastRatio(rgbColor1, rgbColor2);
 
-        // Texte normal : AA >= 4.5, AAA >= 7
-        const isAccessible = contrastRatio >= 4.5;
-        const normalTextLevel = contrastRatio >= 7 ? "AAA" : contrastRatio >= 4.5 ? "AA" : "Fail";
+        // Texte normal : évaluation selon WCAG
+        const isAccessible = contrastRatio >= ACCESSIBILITY_THRESHOLDS.NORMAL_TEXT.AA_THRESHOLD;
+        const normalTextLevel = contrastRatio >= ACCESSIBILITY_THRESHOLDS.NORMAL_TEXT.AAA_THRESHOLD 
+            ? ACCESSIBILITY_THRESHOLDS.LEVELS.AAA 
+            : contrastRatio >= ACCESSIBILITY_THRESHOLDS.NORMAL_TEXT.AA_THRESHOLD 
+                ? ACCESSIBILITY_THRESHOLDS.LEVELS.AA 
+                : ACCESSIBILITY_THRESHOLDS.LEVELS.FAIL;
 
-        // Texte large : AA >= 3, AAA >= 4.5
-        const isLargeTextAccessible = contrastRatio >= 3;
-        const largeTextLevel = contrastRatio >= 4.5 ? "AAA" : contrastRatio >= 3 ? "AA" : "Fail";
+        // Texte large : évaluation selon WCAG
+        const isLargeTextAccessible = contrastRatio >= ACCESSIBILITY_THRESHOLDS.LARGE_TEXT.AA_THRESHOLD;
+        const largeTextLevel = contrastRatio >= ACCESSIBILITY_THRESHOLDS.LARGE_TEXT.AAA_THRESHOLD 
+            ? ACCESSIBILITY_THRESHOLDS.LEVELS.AAA 
+            : contrastRatio >= ACCESSIBILITY_THRESHOLDS.LARGE_TEXT.AA_THRESHOLD 
+                ? ACCESSIBILITY_THRESHOLDS.LEVELS.AA 
+                : ACCESSIBILITY_THRESHOLDS.LEVELS.FAIL;
 
         return {
             contrastRatio,
@@ -57,17 +71,24 @@ export class ColorContrastService implements IColorComparisonService<IColor, ICo
 
     /**
      * Calcule le ratio de contraste entre deux couleurs RGB.
+     * Formule WCAG 2.1 : (L1 + 0.05) / (L2 + 0.05)
+     * où L1 est la luminance relative de la couleur la plus claire
+     * et L2 est la luminance relative de la couleur la plus sombre
      * @param foregroundColor Couleur de texte
      * @param backgroundColor Couleur de fond
-     * @returns Ratio de contraste
+     * @returns Ratio de contraste selon WCAG
      */
     private calculateContrastRatio(foregroundColor: IRGBColor, backgroundColor: IRGBColor): number {
-        const luminance1 = this.lightnessService.analyzeColor(foregroundColor).lightness + 0.05;
-        const luminance2 = this.lightnessService.analyzeColor(backgroundColor).lightness + 0.05;
-
-        return luminance1 > luminance2
-            ? luminance1 / luminance2
-            : luminance2 / luminance1;
+        // Récupération des luminances relatives (0-100) et normalisation (0-1)
+        const luminance1 = this.lightnessService.analyzeColor(foregroundColor).lightness / 100;
+        const luminance2 = this.lightnessService.analyzeColor(backgroundColor).lightness / 100;
+        
+        // Application de la formule WCAG : (L1 + 0.05) / (L2 + 0.05)
+        // où L1 >= L2
+        const l1 = luminance1 + 0.05;
+        const l2 = luminance2 + 0.05;
+        
+        return l1 > l2 ? l1 / l2 : l2 / l1;
     }
 
     /**

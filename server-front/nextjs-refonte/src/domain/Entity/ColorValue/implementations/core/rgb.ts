@@ -2,6 +2,8 @@
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import { IRGBColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { ColorFormat, RGBColorValue } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
+import { isValidNumber, isValidRGBValue, isValidAlpha } from "@/shared/utils/validation.utils";
+import { roundToPrecision } from "@/shared/utils/format.utils";
 
 /**
  * Classe représentant une couleur au format RGB.
@@ -41,7 +43,7 @@ export class RGBColor implements IRGBColor {
         const r = this.value.r;
         const g = this.value.g;
         const b = this.value.b;
-        if (this.a) return `rgba(${r}, ${g}, ${b}, ${Math.round(this.a * 100) / 100})`;
+        if (this.a) return `rgba(${r}, ${g}, ${b}, ${roundToPrecision(this.a, 2)})`;
         return `rgb(${r}, ${g}, ${b})`;
     }
 
@@ -54,9 +56,7 @@ export class RGBColor implements IRGBColor {
      * @returns {boolean} True si les valeurs sont valides, sinon false
      */
     private isValid(r: number, g: number, b: number, a: number): boolean {
-        const isValidNumber = (n: number) => typeof n === 'number' && !isNaN(n);
-        const isInRange = (n: number, min: number, max: number) => n >= min && n <= max;
-        const isValidRGB = [r, g, b].every(v => isValidNumber(v) && isInRange(v, 0, 255));
-        return isValidRGB && isInRange(a, 0, 1);
+        const isValidRGB = [r, g, b].every(v => isValidNumber(v) && isValidRGBValue(v));
+        return isValidRGB && isValidAlpha(a);
     }
 }

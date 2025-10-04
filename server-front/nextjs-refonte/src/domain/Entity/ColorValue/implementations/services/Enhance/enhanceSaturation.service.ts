@@ -3,6 +3,7 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import { IHSLColor, IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
+import { clamp } from "@/shared/utils/format.utils";
 
 /**
  * Service d'amélioration de la saturation d'une couleur.
@@ -10,7 +11,10 @@ import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/
  *
  * Exemple d'utilisation :
  * ```typescript
- * const service = new EnhanceSaturationService(formatHandler);
+ * import { ColorFormatService } from '@/shared/services/colorFormat.service';
+ * 
+ * const formatService = new ColorFormatService(conversionService);
+ * const service = new EnhanceSaturationService(formatService);
  * const saturatedColor = service.enhanceColor(color, 15); // +15% saturation
  * ```
  */
@@ -28,7 +32,7 @@ export class EnhanceSaturationService implements IEnhancedColorService{
         const preferredFormat: IHSLColor = this.colorFormatter.formatColor(color, FormatConst.HSL) as IHSLColor;
         const saturation = preferredFormat.value.s;
         // Modification de la saturation (bornée entre 0 et 100)
-        preferredFormat.value.s = Math.min(100, Math.max(0, saturation + amount));
+        preferredFormat.value.s = clamp(saturation + amount, 0, 100);
         // Retour au format original
         return this.colorFormatter.toOriginalFormat(color, preferredFormat);
     }

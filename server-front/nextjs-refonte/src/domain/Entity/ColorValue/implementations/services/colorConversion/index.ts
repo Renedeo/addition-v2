@@ -8,5 +8,5 @@ export { HSLTORGBConverter } from './hslTOrgb.converter';
 export { RGBTOHEXConverter } from './rgbTOHex.converter';
 export { RGBToHSLConverter } from './rgbTOhsl.converter';
 
-// Utilitaires partagés
-export { SaturationInfo } from './shared.utils';
+// Constantes de saturation partagées
+export { SATURATION_LEVELS, type SaturationInfo as SaturationInfoType } from '@/shared/constants/saturation.constants';

@@ -2,6 +2,8 @@
 import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepresentation.const";
 import { IHEXColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { ColorFormat, HEXColorValue } from "@/domain/Entity/ColorValue/core/types/colorRepresention.types";
+import { isValidHexFormat, normalizeHex, isValidAlpha } from "@/shared/utils/validation.utils";
+import { roundToPrecision } from "@/shared/utils/format.utils";
 
 /**
  * Classe représentant une couleur au format HEX.
@@ -26,7 +28,7 @@ export class HEXColor implements IHEXColor {
      */
     constructor(hex: string, a?: number) {
         // Normalise le format HEX (ajoute # si absent)
-        const normalizedHex = hex.startsWith("#") ? hex : `#${hex}`;
+        const normalizedHex = normalizeHex(hex);
 
         if (this.isValid(normalizedHex, a) === false) {
             throw new Error("Invalid HEX or Alpha values");
@@ -43,7 +45,7 @@ export class HEXColor implements IHEXColor {
         const hex = this.value.hex.toLowerCase(); // Déjà avec #
 
         if (this.a) {
-            const alpha = Math.round(this.a * 255).toString(16).padStart(2, "0");
+            const alpha = roundToPrecision(this.a * 255, 0).toString(16).padStart(2, "0");
             return `${hex}${alpha}`;
         }
         return hex;
@@ -56,9 +58,6 @@ export class HEXColor implements IHEXColor {
      * @returns {boolean} True si les valeurs sont valides, sinon false
      */
     private isValid(hex: string, a?: number): boolean {
-        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-        const isValidHex = hexRegex.test(hex);
-        const isInRange = (n: number, min: number, max: number) => n >= min && n <= max;
-        return isValidHex && (a ? isInRange(a, 0, 1) : true);
+        return isValidHexFormat(hex) && (a ? isValidAlpha(a) : true);
     }
 }

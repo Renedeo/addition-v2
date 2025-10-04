@@ -17,7 +17,7 @@ import { ColorSelection } from "@/components/Tests/testComponents/ColorSelection
 import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColorDot";
 import { ColorInformation } from "@/components/Tests/testComponents/ColorInformation";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { IFormatter } from "@/domain/Entity/ColorValue/implementations/services/shared.service";
+import { ColorFormatService } from "@/shared/services/colorFormat.service";
 import { EnhanceColor } from "@/components/Tests/testComponents/enhance";
 import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceSaturation.service";
 import { EnhancedLightnessService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceLightness.service";
@@ -33,7 +33,7 @@ export default function Page() {
     const factory = new ColorConversionFactory();
     const registry: IConverterRegistry = factory.createDefaultRegistry();
     const conversionService = new ColorConversionService(registry);
-    const colorFormatter:IColorFormatHandler = new IFormatter(conversionService);
+    const colorFormatter:IColorFormatHandler = new ColorFormatService(conversionService);
     const lightnessService = new LightnessService(colorFormatter);
     const saturationService = new SaturationService(colorFormatter);
     const enhanceSaturationService = new EnhanceSaturationService(colorFormatter);

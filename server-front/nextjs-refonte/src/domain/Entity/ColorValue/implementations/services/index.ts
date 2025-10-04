@@ -19,7 +19,8 @@ export { HexToRGBConverter } from './colorConversion/hexTOrgb.converter';
 export { HSLTORGBConverter } from './colorConversion/hslTOrgb.converter';
 export { RGBTOHEXConverter } from './colorConversion/rgbTOHex.converter';
 export { RGBToHSLConverter } from './colorConversion/rgbTOhsl.converter';
-export { SaturationInfo } from './colorConversion/shared.utils';
+// Export des nouvelles constantes partagées
+export { SATURATION_LEVELS, type SaturationInfo } from '@/shared/constants/saturation.constants';
 
 // Service de formatage partagé
-export { IFormatter } from './shared.service';
+export { ColorFormatService } from '@/shared/services/colorFormat.service';
