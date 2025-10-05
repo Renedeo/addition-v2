@@ -13,3 +13,8 @@ export { EnhanceColor } from './enhance';
 
 // Composants de comparaison
 export { ContrastRatio } from './ContrastRatio';
+
+// Composants de layout et structure
+export { Header } from './Header';
+export { ColorSelectionPanel } from './ColorSelectionPanel';
+export { ColorInformationPanel } from './ColorInformationPanel';

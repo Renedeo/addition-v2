@@ -28,22 +28,22 @@ export const ColorInformation: React.FC<ColorInformationProps> = React.memo(
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20">
         {/* En-tête avec dot et indicateur de couleur */}
         <div className="flex justify-between items-center mb-6">
-          <LabelledColorDot color={primaryColor} label="Color Information" />
+          <LabelledColorDot color={primaryColor.stringValue()} label="Color Information" />
           <ColorIndicator color={primaryColor} />
         </div>
         {/* Valeurs de couleur (RGB, HEX, HSL) */}
         <div className="flex gap-4 mb-6 *:grow *:flex *:flex-col *:items-center *:justify-center">
           <ColorValueCard
             label="RGB"
-            value={(RGBValue as IRGBColor)}
+            value={(RGBValue as IRGBColor).stringValue()}
             color="blue" />
           <ColorValueCard
             label="HEX"
-            value={(HexValue as IHEXColor)}
+            value={(HexValue as IHEXColor).stringValue()}
             color="green" />
           <ColorValueCard
             label="HSL"
-            value={(HSLValue as IHSLColor)}
+            value={(HSLValue as IHSLColor).stringValue()}
             color="purple" />
         </div>
 

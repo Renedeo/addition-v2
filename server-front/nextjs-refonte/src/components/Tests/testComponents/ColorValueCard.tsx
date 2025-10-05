@@ -1,19 +1,22 @@
 "use client";
-import { IColor } from "@/domain/Entity/ColorValue/core/interfaces/color";
 import React from "react";
 
+
 /**
- * Card affichant une valeur de couleur (ex : HEX, RGB, HSL) avec un label et une couleur d'accent.
- * Utilisé pour présenter les différentes représentations d'une couleur.
+ * A React functional component that displays a card with a label, a color value, and a background color
+ * based on the specified color theme.
  *
- * Props :
- * - label : Type de valeur (ex : "HEX", "RGB", "HSL")
- * - value : Valeur à afficher (string)
- * - color : Couleur d'accent pour le label
+ * @component
+ * @param {Object} props - The props object.
+ * @param {string} props.label - The label to display on the card.
+ * @param {string} props.value - The color value as a string representation.
+ * @param {"blue" | "green" | "purple"} props.color - The color theme for the card, which determines the border and background color.
+ *
+ * @returns {JSX.Element} A styled card component with the specified label, color value, and theme.
  */
 export const ColorValueCard: React.FC<{
   label: string;
-  value: IColor;
+  value: string;
   color: "blue" | "green" | "purple";
 }> = ({ label, value, color }) => {
   const colorClasses = {
@@ -28,7 +31,7 @@ export const ColorValueCard: React.FC<{
     >
       <p className="text-sm font-medium text-gray-600 mb-2">{label}</p>
       <p className="font-mono text-sm text-gray-900 break-all leading-relaxed">
-        {value.stringValue()}
+        {value}
       </p>
     </div>
   );

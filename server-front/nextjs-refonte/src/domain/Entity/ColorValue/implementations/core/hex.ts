@@ -31,7 +31,7 @@ export class HEXColor implements IHEXColor {
         const normalizedHex = normalizeHex(hex);
 
         if (this.isValid(normalizedHex, a) === false) {
-            throw new Error("Invalid HEX or Alpha values");
+            throw new Error('Invalid HEX or alpha value');
         }
 
         this.value = { hex: normalizedHex };
