@@ -24,26 +24,31 @@ export const ColorInformation: React.FC<ColorInformationProps> = React.memo(
   ({
     RGBValue, HexValue, HSLValue, saturationInfo, luminanceInfo, primaryColor,
   }) => {
+    // Mémoriser les conversions string pour éviter les recalculs
+    const primaryColorString = React.useMemo(() => primaryColor.stringValue(), [primaryColor]);
+    const rgbString = React.useMemo(() => (RGBValue as IRGBColor).stringValue(), [RGBValue]);
+    const hexString = React.useMemo(() => (HexValue as IHEXColor).stringValue(), [HexValue]);
+    const hslString = React.useMemo(() => (HSLValue as IHSLColor).stringValue(), [HSLValue]);
     return (
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20">
         {/* En-tête avec dot et indicateur de couleur */}
         <div className="flex justify-between items-center mb-6">
-          <LabelledColorDot color={primaryColor.stringValue()} label="Color Information" />
+          <LabelledColorDot color={primaryColorString} label="Color Information" />
           <ColorIndicator color={primaryColor} />
         </div>
         {/* Valeurs de couleur (RGB, HEX, HSL) */}
         <div className="flex gap-4 mb-6 *:grow *:flex *:flex-col *:items-center *:justify-center">
           <ColorValueCard
             label="RGB"
-            value={(RGBValue as IRGBColor).stringValue()}
+            value={rgbString}
             color="blue" />
           <ColorValueCard
             label="HEX"
-            value={(HexValue as IHEXColor).stringValue()}
+            value={hexString}
             color="green" />
           <ColorValueCard
             label="HSL"
-            value={(HSLValue as IHSLColor).stringValue()}
+            value={hslString}
             color="purple" />
         </div>
 

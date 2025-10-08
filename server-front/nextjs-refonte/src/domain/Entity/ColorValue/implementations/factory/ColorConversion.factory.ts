@@ -1,4 +1,4 @@
-import { converterConfig } from "@/domain/Entity/ColorValue/core/constants";
+import { converterConfig } from "@/domain/Entity/ColorValue/implementations/core/constants/converter.const";
 import { IColorConversionFactory } from "@domain/ColorValue/core/interfaces/factory/factory.interface";
 import { IConverterConfig, IConverterRegistry } from "@domain/ColorValue/core/interfaces/registry/registry.interface";
 import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter.interface";

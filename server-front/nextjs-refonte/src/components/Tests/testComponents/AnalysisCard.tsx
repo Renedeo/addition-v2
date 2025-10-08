@@ -3,6 +3,16 @@
 import React from "react";
 
 /**
+ * Props pour le composant AnalysisCard
+ */
+interface AnalysisCardProps {
+  title: string;
+  level: string;
+  description: string;
+  icon: string;
+}
+
+/**
  * Card d'analyse affichant un titre, un niveau, une description et une icône.
  * Utilisé pour présenter les résultats d'analyse de couleur (saturation, luminosité, etc).
  *
@@ -12,12 +22,7 @@ import React from "react";
  * - description : Explication ou détail du résultat
  * - icon : Emoji ou icône illustrant le type d'analyse
  */
-export const AnalysisCard: React.FC<{
-  title: string;
-  level: string;
-  description: string;
-  icon: string;
-}> = ({ title, level, description, icon }) => (
+export const AnalysisCard: React.FC<AnalysisCardProps> = React.memo(({ title, level, description, icon }) => (
   <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-5 border border-gray-200 transition-all duration-200 hover:shadow-md">
     {/* Ligne d'en-tête avec icône et titre */}
     <div className="flex items-center mb-3">
@@ -41,4 +46,6 @@ export const AnalysisCard: React.FC<{
       </div>
     </div>
   </div>
-);
+));
+
+AnalysisCard.displayName = "AnalysisCard";

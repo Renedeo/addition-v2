@@ -38,27 +38,40 @@ export interface ColorInformationPanelProps {
  */
 export const ColorInformationPanel: React.FC<ColorInformationPanelProps> = React.memo(
   ({ primaryColor, backgroundColor, colorAnalysis, services }) => {
+    // Mémoriser les données d'analyse pour éviter les re-renders inutiles
+    const colorInformationProps = React.useMemo(() => {
+      if (!colorAnalysis) return null;
+      
+      return {
+        RGBValue: colorAnalysis.rgbValue,
+        HexValue: colorAnalysis.hexValue,
+        HSLValue: colorAnalysis.hslValue,
+        saturationInfo: colorAnalysis.saturationInfo,
+        luminanceInfo: colorAnalysis.luminanceInfo,
+        primaryColor: primaryColor
+      };
+    }, [colorAnalysis, primaryColor]);
+    // Mémoriser les props du contraste
+    const contrastProps = React.useMemo(() => {
+      if (!services) return null;
+      
+      return {
+        Foreground: primaryColor,
+        Background: backgroundColor,
+        contrastService: services.contrastService
+      };
+    }, [primaryColor, backgroundColor, services]);
+    
     return (
       <div className="flex flex-col gap-3.5">
         {/* Color Information Section */}
-        {colorAnalysis && (
-          <ColorInformation
-            RGBValue={colorAnalysis.rgbValue}
-            HexValue={colorAnalysis.hexValue}
-            HSLValue={colorAnalysis.hslValue}
-            saturationInfo={colorAnalysis.saturationInfo}
-            luminanceInfo={colorAnalysis.luminanceInfo}
-            primaryColor={primaryColor}
-          />
+        {colorInformationProps && (
+          <ColorInformation {...colorInformationProps} />
         )}
 
         {/* Contrast Ratio Section */}
-        {services && (
-          <ContrastRatio
-            Foreground={primaryColor}
-            Background={backgroundColor}
-            contrastService={services.contrastService}
-          />
+        {contrastProps && (
+          <ContrastRatio {...contrastProps} />
         )}
       </div>
     );

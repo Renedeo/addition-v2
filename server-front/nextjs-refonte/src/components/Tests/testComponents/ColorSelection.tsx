@@ -1,7 +1,4 @@
 "use client";
-import {
-  IColor,
-} from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import React from "react";
 
 export interface ColorSelectionProps {
@@ -10,25 +7,23 @@ export interface ColorSelectionProps {
   value: string;
 }
 
+// Regex mémorisée pour éviter de la recréer à chaque render
+const HEX_COLOR_REGEX = /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/;
+
 export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
   ({ onColorChange, label, value }) => {
     const [isValidHex, setIsValidHex] = React.useState(true);
-    console.log(value)
-
-    const handleColorChange = (color: string) => {
+    
+    const handleColorChange = React.useCallback((color: string) => {
       onColorChange(color);
-      if (/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(color)) {
-        setIsValidHex(true);
-      } else {
-        setIsValidHex(false);
-      }
-    };
+      setIsValidHex(HEX_COLOR_REGEX.test(color));
+    }, [onColorChange]);
 
-    const ValidationMessage: React.FC = () => (
+    const validationMessage = React.useMemo(() => (
       <p className="text-xs text-red-500 mt-1">
         Please enter a valid hex color code (e.g., #FFFFFF).
       </p>
-    );
+    ), []);
 
     return (
       <div className="sticky top-0 z-10 backdrop-blur-md bg-white/10 max-w-[200px]">
@@ -48,13 +43,14 @@ export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
             type="text"
             initialValue={value}
             onColorChange={handleColorChange}
-            className={
+            className={React.useMemo(() => 
               "w-full px-3 py-2 font-mono text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" +
-              (isValidHex ? " border-blue-500" : " border-red-500")
-            }
+              (isValidHex ? " border-blue-500" : " border-red-500"),
+              [isValidHex]
+            )}
             placeholder="#000000"
           />
-          {!isValidHex && <ValidationMessage />}
+          {!isValidHex && validationMessage}
         </div>
       </div>
     );
@@ -71,13 +67,24 @@ interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = React.memo(
   ({ type, initialValue, onColorChange, className, placeholder }) => {
+    const handleChange = React.useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        onColorChange(event.target.value);
+      },
+      [onColorChange]
+    );
+
+    const combinedClassName = React.useMemo(
+      () => `backdrop-blur-md bg-white/30 ${className}`,
+      [className]
+    );
 
     return (
       <input
         type={type}
         value={initialValue}
-        onChange={({ target }) => {onColorChange(target.value)}}
-        className={`backdrop-blur-md bg-white/30 ${className}`}
+        onChange={handleChange}
+        className={combinedClassName}
         placeholder={placeholder}
       />
     );

@@ -5,7 +5,7 @@ import { LabelledColorDot } from "@/components/Tests/testComponents/LabelledColo
 import { ColorSelection } from "@/components/Tests/testComponents/ColorSelection";
 import { EnhanceColor } from "@/components/Tests/testComponents/enhance";
 import { ColorServicesHookResult, ColorAnalysisHookResult } from "@/hooks/types";
-import { HEXColor } from "@/domain/Entity/ColorValue/implementations/core";
+import { HEXColor } from "@/domain/Entity/ColorValue/implementations/core/hex";
 /**
  * Props pour le composant ColorSelectionPanel
  */
@@ -49,53 +49,88 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
     services,
     colorAnalysis,
   }) => {
-    const [colorSelectionValue, setColorSelectionValue] = React.useState<{
-      primaryInputValue: string;
-      backgroundInputValue: string;
-    }>({
-      primaryInputValue: primaryColor.stringValue(),
-      backgroundInputValue: backgroundColor.stringValue(),
+    // Mémoriser les conversions string pour éviter les recalculs
+    const primaryColorString = React.useMemo(() => primaryColor.stringValue(), [primaryColor]);
+    const backgroundColorString = React.useMemo(() => backgroundColor.stringValue(), [backgroundColor]);
+    
+    // État local pour les valeurs d'input (uniquement pour la validation temps réel)
+    const [inputValues, setInputValues] = React.useState(() => ({
+      primaryInputValue: primaryColorString,
+      backgroundInputValue: backgroundColorString,
+    }));
+    
+    // Utiliser un ref pour éviter les boucles de dépendances
+    const lastValidColors = React.useRef({
+      primary: primaryColorString,
+      background: backgroundColorString,
     });
-
-    const handleColorChange = (color:string, setter:(color: IHEXColor) => void, type: "primaryInputValue" | "backgroundInputValue") => {
-      setColorSelectionValue((prev) => ({
-          ...prev,
-          [type]: color
-      }));
-      console.log("ColorSelectionPanel: handleColorChange called with", { color, type });
-        try{
-            const newColor = new HEXColor(color);
-            setter(newColor);
-
-        }catch{
-            return;
-        }
+    
+    // Mettre à jour seulement si les couleurs ont vraiment changé
+    if (lastValidColors.current.primary !== primaryColorString || 
+        lastValidColors.current.background !== backgroundColorString) {
+      lastValidColors.current = {
+        primary: primaryColorString,
+        background: backgroundColorString,
+      };
+      
+      // Mettre à jour l'état local seulement si nécessaire
+      if (inputValues.primaryInputValue !== primaryColorString ||
+          inputValues.backgroundInputValue !== backgroundColorString) {
+        setInputValues({
+          primaryInputValue: primaryColorString,
+          backgroundInputValue: backgroundColorString,
+        });
+      }
     }
 
-    const handlePrimaryColorChange = (color:string) => handleColorChange(color, setPrimaryColor, "primaryInputValue");
-    const handleBackgroundColorChange = (color:string) => handleColorChange(color, setBackgroundColor, "secondaryInputValue");
+    const handleColorChange = React.useCallback((color: string, setter: (color: IHEXColor) => void, type: "primaryInputValue" | "backgroundInputValue") => {
+      // Mise à jour immédiate de l'état local pour la réactivité
+      setInputValues((prev) => ({
+        ...prev,
+        [type]: color
+      }));
+      
+      
+      try {
+        const newColor = new HEXColor(color);
+        setter(newColor);
+      } catch {
+        // Couleur invalide, on garde juste l'état local pour l'input
+        return;
+      }
+    }, []);
+
+    const handlePrimaryColorChange = React.useCallback((color: string) => 
+      handleColorChange(color, setPrimaryColor, "primaryInputValue"), 
+      [handleColorChange, setPrimaryColor]
+    );
+    
+    const handleBackgroundColorChange = React.useCallback((color: string) => 
+      handleColorChange(color, setBackgroundColor, "backgroundInputValue"), 
+      [handleColorChange, setBackgroundColor]
+    );
     return (
       <div className="flex flex-col gap-6 w-full sm:w-auto">
         {/* Color Selection Section */}
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/20 sticky top-6 w-full sm:*:w-auto">
-          <LabelledColorDot color={primaryColor.stringValue()} label="Color Selection" />
+          <LabelledColorDot color={primaryColorString} label="Color Selection" />
           <div className="flex justify-evenly w-full sm:w-fit sm:flex-col gap-6 sm:gap-4 mt-4">
             <ColorSelection
               onColorChange={handlePrimaryColorChange}
               label="Primary Color"
-              value={colorSelectionValue.primaryInputValue}
+              value={inputValues.primaryInputValue}
             />
             <ColorSelection
               onColorChange={handleBackgroundColorChange}
               label="Background Color"
-              value={colorSelectionValue.backgroundInputValue}
+              value={inputValues.backgroundInputValue}
             />
           </div>
         </div>
 
         {/* Color Enhancement Section */}
         <div>
-          <LabelledColorDot color={primaryColor.stringValue()} label="Enhance" />
+          <LabelledColorDot color={primaryColorString} label="Enhance" />
 
           {services && (
             <>
@@ -105,7 +140,7 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
                 amount={colorAnalysis?.saturationInfo.saturation || 0}
                 lightnessService={services.enhanceLightnessService}
                 saturationService={services.enhanceSaturationService}
-                onChange={handlePrimaryColorChange}
+                onChange={setPrimaryColor}
               />
               <EnhanceColor
                 color={primaryColor}
@@ -113,7 +148,7 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
                 amount={colorAnalysis?.luminanceInfo.lightness || 0}
                 lightnessService={services.enhanceLightnessService}
                 saturationService={services.enhanceSaturationService}
-                onChange={handlePrimaryColorChange}
+                onChange={setPrimaryColor}
               />
             </>
           )}

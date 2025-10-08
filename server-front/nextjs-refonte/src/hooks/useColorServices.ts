@@ -1,10 +1,8 @@
 import { useMemo } from "react";
-import { IConverterRegistry } from "@/domain/Entity/ColorValue/core/interfaces/registry/registry.interface";
 import { ColorConversionFactory } from "@/domain/Entity/ColorValue/implementations/factory/ColorConversion.factory";
 import { LightnessService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/lightness.service";
 import { SaturationService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/saturation.service";
 import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
-import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 import { ColorFormatService } from "@/domain/Entity/ColorValue/implementations/shared/services/colorFormat.service";
 import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceSaturation.service";
 import { EnhancedLightnessService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceLightness.service";
@@ -26,29 +24,30 @@ import { ColorServicesHookResult } from "./types";
  * ```
  */
 export const useColorServices = (): ColorServicesHookResult => {
-  // Memoize services to avoid recreating on each render
-  // Le tableau de dépendances est vide car les services ne dépendent pas d'éléments dynamiques.
+  // Mémoriser la factory et le registry pour éviter les recréations
+  const factory = useMemo(() => new ColorConversionFactory(), []);
+  const registry = useMemo(() => factory.createDefaultRegistry(), [factory]);
+  
+  // Mémoriser le service de conversion principal
+  const conversionService = useMemo(() => new ColorConversionService(registry), [registry]);
+  
+  // Mémoriser le formateur de couleur
+  const colorFormatter = useMemo(() => new ColorFormatService(conversionService), [conversionService]);
+  
+  // Mémoriser les services d'analyse
+  const lightnessService = useMemo(() => new LightnessService(colorFormatter), [colorFormatter]);
+  const saturationService = useMemo(() => new SaturationService(colorFormatter), [colorFormatter]);
+  
+  // Mémoriser les services d'amélioration
+  const enhanceSaturationService = useMemo(() => new EnhanceSaturationService(colorFormatter), [colorFormatter]);
+  const enhanceLightnessService = useMemo(() => new EnhancedLightnessService(colorFormatter), [colorFormatter]);
+  
+  // Mémoriser le service de contraste
+  const contrastService = useMemo(() => new ColorContrastService(colorFormatter, lightnessService), [colorFormatter, lightnessService]);
+  
+  // Mémoriser l'objet final des services
   const services = useMemo(() => {
     try {
-      const factory = new ColorConversionFactory();
-      const registry: IConverterRegistry = factory.createDefaultRegistry();
-      const conversionService = new ColorConversionService(registry);
-      const colorFormatter: IColorFormatHandler = new ColorFormatService(
-        conversionService
-      );
-      const lightnessService = new LightnessService(colorFormatter);
-      const saturationService = new SaturationService(colorFormatter);
-      const enhanceSaturationService = new EnhanceSaturationService(
-        colorFormatter
-      );
-      const enhanceLightnessService = new EnhancedLightnessService(
-        colorFormatter
-      );
-      const contrastService = new ColorContrastService(
-        colorFormatter,
-        lightnessService
-      );
-
       return {
         conversionService,
         saturationService,
@@ -61,7 +60,7 @@ export const useColorServices = (): ColorServicesHookResult => {
       console.error("Error initializing color services:", error);
       return null;
     }
-  }, []);
+  }, [conversionService, saturationService, lightnessService, enhanceSaturationService, enhanceLightnessService, contrastService]);
 
   return services;
 };

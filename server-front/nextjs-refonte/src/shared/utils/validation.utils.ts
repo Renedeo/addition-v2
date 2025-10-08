@@ -32,7 +32,7 @@ export const isValidRGBValue = (value: number): boolean => {
 export const isValidHue = (value: number): boolean => {
   return isInRange(value, VALIDATION_LIMITS.HSL.HUE.MIN, VALIDATION_LIMITS.HSL.HUE.MAX);
 };
-console.log(isValidHue(370)); // false
+
 /**
  * Valide une valeur de saturation/luminosité HSL (0-100).
  */
