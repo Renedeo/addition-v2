@@ -6,7 +6,7 @@ interface EnhanceColorProps {
   color: IHEXColor;
   enhancementType: "lightness" | "saturation";
   amount: number; // Amount to enhance (e.g., percentage)
-  onChange: (enhancedColor: IHEXColor) => void;
+  onChange: (enhancedColor: string) => void;
   lightnessService: IEnhancedColorService;
   saturationService: IEnhancedColorService;
 }
@@ -64,7 +64,7 @@ export const EnhanceColor: React.FC<EnhanceColorProps> = ({
     setSliderValue(newAmount);
 
     if (onChange) {
-      onChange(enhancedColor as IHEXColor);
+      onChange(enhancedColor.stringValue());
     }
   };
 

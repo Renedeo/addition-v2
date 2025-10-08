@@ -7,17 +7,16 @@ import React from "react";
 export interface ColorSelectionProps {
   onColorChange: (color: string) => void;
   label: string;
-  value: IColor;
+  value: string;
 }
 
 export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
   ({ onColorChange, label, value }) => {
     const [isValidHex, setIsValidHex] = React.useState(true);
-    const [inputValue, setInputValue] = React.useState(value.stringValue());
+    console.log(value)
 
     const handleColorChange = (color: string) => {
       onColorChange(color);
-      setInputValue(color);
       if (/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(color)) {
         setIsValidHex(true);
       } else {
@@ -39,7 +38,7 @@ export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
         <div className="relative flex items-center space-x-4 mb-2 justify-center">
           <InputField
             type="color"
-            initialValue={inputValue}
+            initialValue={value}
             onColorChange={handleColorChange}
             className="w-16 h-16 rounded-2xl border-4 border-white shadow-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl group-hover:border-gray-100"
           />
@@ -47,7 +46,7 @@ export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
         <div className="flex-1">
           <InputField
             type="text"
-            initialValue={inputValue}
+            initialValue={value}
             onColorChange={handleColorChange}
             className={
               "w-full px-3 py-2 font-mono text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" +

@@ -49,15 +49,31 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
     services,
     colorAnalysis,
   }) => {
+    const [colorSelectionValue, setColorSelectionValue] = React.useState<{
+      primaryInputValue: string;
+      backgroundInputValue: string;
+    }>({
+      primaryInputValue: primaryColor.stringValue(),
+      backgroundInputValue: backgroundColor.stringValue(),
+    });
 
-    const handleColorChange = (color:string, setter:(color: IHEXColor) => void) => {
+    const handleColorChange = (color:string, setter:(color: IHEXColor) => void, type: "primaryInputValue" | "backgroundInputValue") => {
+      setColorSelectionValue((prev) => ({
+          ...prev,
+          [type]: color
+      }));
+      console.log("ColorSelectionPanel: handleColorChange called with", { color, type });
         try{
             const newColor = new HEXColor(color);
             setter(newColor);
+
         }catch{
             return;
         }
     }
+
+    const handlePrimaryColorChange = (color:string) => handleColorChange(color, setPrimaryColor, "primaryInputValue");
+    const handleBackgroundColorChange = (color:string) => handleColorChange(color, setBackgroundColor, "secondaryInputValue");
     return (
       <div className="flex flex-col gap-6 w-full sm:w-auto">
         {/* Color Selection Section */}
@@ -65,14 +81,14 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
           <LabelledColorDot color={primaryColor.stringValue()} label="Color Selection" />
           <div className="flex justify-evenly w-full sm:w-fit sm:flex-col gap-6 sm:gap-4 mt-4">
             <ColorSelection
-              onColorChange={(color:string) => handleColorChange(color, setPrimaryColor)}
+              onColorChange={handlePrimaryColorChange}
               label="Primary Color"
-              value={primaryColor}
+              value={colorSelectionValue.primaryInputValue}
             />
             <ColorSelection
-              onColorChange={(color:string) => handleColorChange(color, setBackgroundColor)}
+              onColorChange={handleBackgroundColorChange}
               label="Background Color"
-              value={backgroundColor}
+              value={colorSelectionValue.backgroundInputValue}
             />
           </div>
         </div>
@@ -89,7 +105,7 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
                 amount={colorAnalysis?.saturationInfo.saturation || 0}
                 lightnessService={services.enhanceLightnessService}
                 saturationService={services.enhanceSaturationService}
-                onChange={setPrimaryColor}
+                onChange={handlePrimaryColorChange}
               />
               <EnhanceColor
                 color={primaryColor}
@@ -97,7 +113,7 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> = React.mem
                 amount={colorAnalysis?.luminanceInfo.lightness || 0}
                 lightnessService={services.enhanceLightnessService}
                 saturationService={services.enhanceSaturationService}
-                onChange={setPrimaryColor}
+                onChange={handlePrimaryColorChange}
               />
             </>
           )}
