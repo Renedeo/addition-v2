@@ -16,4 +16,4 @@ export * from './utils';
 export * from './hooks';
 
 // Services
-export * from './services';
+export * from '../domain/Entity/ColorValue/implementations/shared/services';

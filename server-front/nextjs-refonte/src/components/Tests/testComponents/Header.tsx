@@ -16,7 +16,7 @@ import React from "react";
  */
 export const Header: React.FC = React.memo(() => (
   <div className="text-center mb-8 sm:mb-12">
-    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-4">
+    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl">
       <div className="w-8 h-8 bg-white rounded-lg opacity-90"></div>
     </div>
 

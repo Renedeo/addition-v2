@@ -6,7 +6,6 @@ import { ColorSelection } from "@/components/Tests/testComponents/ColorSelection
 import { EnhanceColor } from "@/components/Tests/testComponents/enhance";
 import { ColorServicesHookResult, ColorAnalysisHookResult } from "@/hooks/types";
 import { HEXColor } from "@/domain/Entity/ColorValue/implementations/core";
-
 /**
  * Props pour le composant ColorSelectionPanel
  */

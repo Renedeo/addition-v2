@@ -23,4 +23,4 @@ export { RGBToHSLConverter } from './colorConversion/rgbTOhsl.converter';
 export { SATURATION_LEVELS, type SaturationInfo } from '@/shared/constants/saturation.constants';
 
 // Service de formatage partagé
-export { ColorFormatService } from '@/shared/services/colorFormat.service';
+export { ColorFormatService } from '@/domain/Entity/ColorValue/implementations/shared/services/colorFormat.service';
