@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@domain/ColorValue/*": ["./src/domain/Entity/ColorValue/*"],
+      "@domain/ColorValue/core/*": ["./src/domain/Entity/ColorValue/core/*"],
+      "@domain/ColorValue/implementations/*": ["./src/domain/Entity/ColorValue/implementations/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/domain/Entity/ColorValue/implementations/services/rgbTOhsl.converter.ts"],
+  "exclude": ["node_modules"]
+}
