@@ -8,6 +8,7 @@ import {
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
 import { IDirectConversionService } from "@/domain/Entity/ColorValue/core/interfaces/service/converter.interface";
 import { IColor, IHEXColor, IRGBColor, IHSLColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
+import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
 
 /**
  * Interface pour les services de couleur utilisés dans l'application
@@ -19,6 +20,7 @@ export interface IColorServices {
   enhanceSaturationService: IEnhancedColorService;
   enhanceLightnessService: IEnhancedColorService;
   contrastService: IColorComparisonService<IColor, IColor, IColorContrastResult>;
+  colorFormatter: IColorFormatHandler;
 }
 
 /**

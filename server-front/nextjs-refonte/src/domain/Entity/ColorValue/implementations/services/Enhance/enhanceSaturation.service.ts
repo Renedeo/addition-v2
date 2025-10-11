@@ -31,8 +31,12 @@ export class EnhanceSaturationService implements IEnhancedColorService{
         // Conversion en HSL
         const preferredFormat: IHSLColor = this.colorFormatter.formatColor(color, FormatConst.HSL) as IHSLColor;
         const saturation = preferredFormat.value.s;
-        // Modification de la saturation (bornée entre 0 et 100)
-        preferredFormat.value.s = clamp(saturation + amount, 0, 100);
+        const newSaturation = saturation + amount
+        //Erreur si hors des bornes
+        if (newSaturation < 0 || newSaturation > 100) {
+            throw new Error("La valeur de saturation doit être comprise entre 0 et 100.");
+        }
+        preferredFormat.value.s = newSaturation;
         // Retour au format original
         return this.colorFormatter.toOriginalFormat(color, preferredFormat);
     }

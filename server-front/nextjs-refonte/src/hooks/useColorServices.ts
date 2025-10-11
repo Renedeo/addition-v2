@@ -27,24 +27,24 @@ export const useColorServices = (): ColorServicesHookResult => {
   // Mémoriser la factory et le registry pour éviter les recréations
   const factory = useMemo(() => new ColorConversionFactory(), []);
   const registry = useMemo(() => factory.createDefaultRegistry(), [factory]);
-  
+
   // Mémoriser le service de conversion principal
   const conversionService = useMemo(() => new ColorConversionService(registry), [registry]);
-  
+
   // Mémoriser le formateur de couleur
   const colorFormatter = useMemo(() => new ColorFormatService(conversionService), [conversionService]);
-  
+
   // Mémoriser les services d'analyse
   const lightnessService = useMemo(() => new LightnessService(colorFormatter), [colorFormatter]);
   const saturationService = useMemo(() => new SaturationService(colorFormatter), [colorFormatter]);
-  
+
   // Mémoriser les services d'amélioration
   const enhanceSaturationService = useMemo(() => new EnhanceSaturationService(colorFormatter), [colorFormatter]);
   const enhanceLightnessService = useMemo(() => new EnhancedLightnessService(colorFormatter), [colorFormatter]);
-  
+
   // Mémoriser le service de contraste
   const contrastService = useMemo(() => new ColorContrastService(colorFormatter, lightnessService), [colorFormatter, lightnessService]);
-  
+
   // Mémoriser l'objet final des services
   const services = useMemo(() => {
     try {
@@ -55,12 +55,21 @@ export const useColorServices = (): ColorServicesHookResult => {
         enhanceSaturationService,
         enhanceLightnessService,
         contrastService,
+        colorFormatter,
       };
     } catch (error) {
       console.error("Error initializing color services:", error);
       return null;
     }
-  }, [conversionService, saturationService, lightnessService, enhanceSaturationService, enhanceLightnessService, contrastService]);
+  }, [
+    conversionService,
+    saturationService,
+    lightnessService,
+    enhanceSaturationService,
+    enhanceLightnessService,
+    contrastService,
+    colorFormatter
+  ]);
 
   return services;
 };

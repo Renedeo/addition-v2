@@ -31,8 +31,14 @@ export class EnhancedLightnessService implements IEnhancedColorService {
         // Conversion en HSL
         const preferredFormat: IHSLColor = this.colorFormatter.formatColor(color, FormatConst.HSL) as IHSLColor;
         const lightness = preferredFormat.value.l;
-        // Modification de la luminosité (bornée entre 0 et 100)
-        preferredFormat.value.l = clamp(lightness + amount, 0, 100);
+        const newLightness = lightness + amount
+        //Erreur si hors des bornes
+        if (newLightness < 0 || newLightness > 100) {
+            throw new Error("La valeur de luminosité doit être comprise entre 0 et 100.");
+        }
+        preferredFormat.value.l = newLightness;
+
+        // preferredFormat.value.l = clamp(lightness + amount, 0, 100);
         // Retour au format original
         return this.colorFormatter.toOriginalFormat(color, preferredFormat);
     }
