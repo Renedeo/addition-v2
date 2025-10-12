@@ -6,10 +6,15 @@ import { IHEXColor, IColor } from "@/domain/Entity/ColorValue/core/interfaces/co
 import { IColorComparisonService, IColorContrastResult } from "@/domain/Entity/ColorValue/core/interfaces/service/analysis.interface";
 import React, { useMemo } from "react";
 
-
+/**
+ * Props pour le composant ContrastRatio
+ */
 export interface ContrastRatioProps {
+  /** Couleur de premier plan (généralement le texte) */
   Foreground: IHEXColor;
+  /** Couleur d'arrière-plan */
   Background: IHEXColor;
+  /** Service de calcul du contraste entre deux couleurs */
   contrastService: IColorComparisonService<IColor, IColor, IColorContrastResult>;
 }
 

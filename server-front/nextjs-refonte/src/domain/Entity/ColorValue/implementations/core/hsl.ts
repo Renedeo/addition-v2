@@ -9,10 +9,10 @@ import { roundToPrecision } from "@/shared/utils/format.utils";
  * Classe représentant une couleur au format HSL.
  * Permet de manipuler et valider les couleurs HSL avec alpha optionnel.
  *
- * Exemple d'utilisation :
+ * @example
  * ```typescript
  * const hslColor = new HSLColor(10, 80, 50, 0.7);
- * console.log(hslColor.stringValue()); // "hsl(10°, 80%, 50%, 0.7)"
+ * const colorString = hslColor.stringValue(); // "hsl(10°, 80%, 50%, 0.7)"
  * ```
  */
 export class HSLColor implements IHSLColor {

@@ -34,7 +34,7 @@ export interface IColorComparisonService<FGColor, BGColor, TOutput> {
 export interface IColorSaturationResult {
     saturationLevel: "desaturated" | "low" | "balanced" | "high" | "pure";
     description: string;
-    saturation?: number;
+    saturation: number;
 }
 
 /**

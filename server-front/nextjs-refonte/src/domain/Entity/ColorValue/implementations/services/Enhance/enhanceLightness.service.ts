@@ -3,7 +3,6 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import { IHSLColor, IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { clamp } from "@/shared/utils/format.utils";
 
 /**
  * Service d'amélioration de la luminosité d'une couleur.
@@ -32,6 +31,9 @@ export class EnhancedLightnessService implements IEnhancedColorService {
         const preferredFormat: IHSLColor = this.colorFormatter.formatColor(color, FormatConst.HSL) as IHSLColor;
         const lightness = preferredFormat.value.l;
         const newLightness = lightness + amount
+        console.log("Current lightness:", lightness);
+        console.log("amount:", amount);
+        console.log("New lightness:", newLightness);
         //Erreur si hors des bornes
         if (newLightness < 0 || newLightness > 100) {
             throw new Error("La valeur de luminosité doit être comprise entre 0 et 100.");

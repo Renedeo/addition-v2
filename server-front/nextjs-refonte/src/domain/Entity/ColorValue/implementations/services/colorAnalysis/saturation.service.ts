@@ -19,7 +19,7 @@ import { IColorSaturationResult, IColorAnalysisService } from "@domain/ColorValu
  * const formatService = new ColorFormatService(conversionService);
  * const service = new SaturationService(formatService);
  * const result = service.analyzeColor(color);
- * console.log(result.saturationLevel); // "balanced", "high", etc.
+ * const level = result.saturationLevel; // "balanced", "high", etc.
  * ```
  */
 export class SaturationService implements IColorAnalysisService<IColorSaturationResult> {

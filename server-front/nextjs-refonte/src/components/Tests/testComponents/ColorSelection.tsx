@@ -1,29 +1,51 @@
 "use client";
-import React from "react";
+import React, { useMemo, useEffect } from "react";
 
+/**
+ * Props pour le composant ColorSelection
+ */
 export interface ColorSelectionProps {
-  onColorChange: (color: string) => void;
+  /** Callback appelé lorsqu'une couleur est sélectionnée */
+  onColorSelected: (color: string) => void;
+  /** Label affiché au-dessus du sélecteur */
   label: string;
-  value: string;
+  /** Couleur actuellement active */
+  activeColor: string;
 }
 
-// Regex mémorisée pour éviter de la recréer à chaque render
-const HEX_COLOR_REGEX = /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/;
-
+/**
+ * Composant de sélection de couleur avec input de type color et input texte HEX synchronisés.
+ * Les deux champs se mettent à jour mutuellement pour maintenir la cohérence.
+ * 
+ * @component
+ * @param {ColorSelectionProps} props - Les props du composant
+ * @returns {JSX.Element} Le composant ColorSelection
+ * 
+ * @example
+ * ```tsx
+ * <ColorSelection
+ *   onColorSelected={(color) => console.log(color)}
+ *   label="Couleur principale"
+ *   activeColor="#ff5733"
+ * />
+ * ```
+ */
 export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
-  ({ onColorChange, label, value }) => {
-    const [isValidHex, setIsValidHex] = React.useState(true);
-    
-    const handleColorChange = React.useCallback((color: string) => {
-      onColorChange(color);
-      setIsValidHex(HEX_COLOR_REGEX.test(color));
-    }, [onColorChange]);
+  ({ onColorSelected, label, activeColor }) => {
+    const [inputValue, setInputValue] = React.useState(activeColor);
 
-    const validationMessage = React.useMemo(() => (
-      <p className="text-xs text-red-500 mt-1">
-        Please enter a valid hex color code (e.g., #FFFFFF).
-      </p>
-    ), []);
+    // Synchroniser l'état local avec la prop activeColor
+    useEffect(() => {
+      setInputValue(activeColor);
+    }, [activeColor]);
+
+    const onChange = React.useCallback(
+      (newColor: string) => {
+        setInputValue(newColor);
+        onColorSelected(newColor);
+      },
+      [onColorSelected]
+    );
 
     return (
       <div className="sticky top-0 z-10 backdrop-blur-md bg-white/10 max-w-[200px]">
@@ -31,66 +53,108 @@ export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
           {label}
         </label>
         <div className="relative flex items-center space-x-4 mb-2 justify-center">
-          <InputField
-            type="color"
-            initialValue={value}
-            onColorChange={handleColorChange}
-            className="w-16 h-16 rounded-2xl border-4 border-white shadow-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl group-hover:border-gray-100"
+          <ColorInputField
+            value={inputValue}
+            onColorChange={onChange}
           />
         </div>
         <div className="flex-1">
-          <InputField
-            type="text"
-            initialValue={value}
-            onColorChange={handleColorChange}
-            className={React.useMemo(() => 
-              "w-full px-3 py-2 font-mono text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" +
-              (isValidHex ? " border-blue-500" : " border-red-500"),
-              [isValidHex]
-            )}
-            placeholder="#000000"
+          <HexTextInputField
+            value={inputValue}
+            onColorChange={onChange}
           />
-          {!isValidHex && validationMessage}
         </div>
       </div>
     );
   }
 );
 
-interface InputFieldProps {
-  type: "color" | "text";
-  initialValue: string;
+/**
+ * Input de type color pour la sélection de couleur.
+ * Se synchronise automatiquement avec l'input texte.
+ */
+function ColorInputField({
+  value,
+  onColorChange,
+}: {
+  /** Valeur actuelle de la couleur */
+  value: string;
+  /** Callback appelé lors du changement de couleur */
   onColorChange: (value: string) => void;
-  className?: string;
-  placeholder?: string;
+}) {
+  const handleChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onColorChange(event.target.value);
+    },
+    [onColorChange]
+  );
+
+  return (
+    <input
+      type="color"
+      value={value}
+      className="w-16 h-16 rounded-2xl border-4 border-white shadow-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl group-hover:border-gray-100"
+      onChange={handleChange}
+    />
+  );
 }
 
-const InputField: React.FC<InputFieldProps> = React.memo(
-  ({ type, initialValue, onColorChange, className, placeholder }) => {
-    const handleChange = React.useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        onColorChange(event.target.value);
-      },
-      [onColorChange]
-    );
+/**
+ * Input texte pour saisir une couleur HEX.
+ * Valide le format HEX et se synchronise avec l'input color.
+ * Permet la saisie de valeurs temporairement invalides pendant la frappe.
+ */
+function HexTextInputField({
+  value,
+  onColorChange,
+}: {
+  /** Valeur actuelle de la couleur */
+  value: string;
+  /** Callback appelé lors du changement de couleur valide */
+  onColorChange: (value: string) => void;
+}) {
+  // Regex pour valider le format HEX (6 caractères hexadécimaux avec #)
+  const HEX_COLOR_REGEX = useMemo(() => /^#([0-9A-Fa-f]{6})$/, []);
+  
+  // État local pour l'input text (permet la saisie de valeurs invalides temporaires)
+  const [textValue, setTextValue] = React.useState(value);
 
-    const combinedClassName = React.useMemo(
-      () => `backdrop-blur-md bg-white/30 ${className}`,
-      [className]
-    );
+  // Synchroniser avec la valeur externe
+  React.useEffect(() => {
+    setTextValue(value);
+  }, [value]);
 
-    return (
-      <input
-        type={type}
-        value={initialValue}
-        onChange={handleChange}
-        className={combinedClassName}
-        placeholder={placeholder}
-      />
-    );
-  }
-);
+  const handleChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      setTextValue(newValue);
+      
+      // Ne propager que si la valeur est valide
+      if (HEX_COLOR_REGEX.test(newValue)) {
+        onColorChange(newValue);
+      }
+    },
+    [onColorChange, HEX_COLOR_REGEX]
+  );
 
-InputField.displayName = "InputField";
+  const isValid = HEX_COLOR_REGEX.test(textValue);
+
+  return (
+    <input
+      type="text"
+      maxLength={7}
+      minLength={1}
+      value={textValue}
+      onChange={handleChange}
+      className={`w-full px-3 py-2 font-mono text-sm border rounded-lg focus:ring-2 outline-none transition-all duration-200 ${
+        isValid
+          ? "border-blue-500 focus:ring-blue-500"
+          : "border-red-500 focus:ring-red-500"
+      }`}
+      placeholder="#000000"
+    />
+  );
+}
+
 
 ColorSelection.displayName = "ColorSelection";

@@ -3,7 +3,6 @@ import { FormatConst } from "@/domain/Entity/ColorValue/core/constants/colorRepr
 import { IHSLColor, IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { clamp } from "@/shared/utils/format.utils";
 
 /**
  * Service d'amélioration de la saturation d'une couleur.

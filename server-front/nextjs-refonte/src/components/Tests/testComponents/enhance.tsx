@@ -1,100 +1,79 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { IHEXColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
-import { useState, useCallback, useMemo } from "react";
 
+/**
+ * Props pour le composant EnhanceColor
+ */
 interface EnhanceColorProps {
+  /** Couleur de base à améliorer */
   color: IHEXColor;
-  enhancementType: "lightness" | "saturation";
-  amount: number; // Amount to enhance (e.g., percentage)
-  onChange: (enhancedColor: IHEXColor) => void;
-  lightnessService: IEnhancedColorService;
-  saturationService: IEnhancedColorService;
+  /** Valeur initiale du curseur (luminosité ou saturation) */
+  initialValue: number;
+  /** Service d'amélioration (luminosité ou saturation) */
+  enhanceServices: IEnhancedColorService;
+  /** Callback appelé avec la couleur améliorée */
+  onColorEnhanced: (enhancedColor: IHEXColor) => void;
 }
 
 /**
- * EnhanceColor is a React functional component that provides a slider to adjust
- * the enhancement of a color based on a specified enhancement type (e.g., lightness or saturation).
+ * EnhanceColor is a React functional component that provides a UI for enhancing a color value
+ * using a range input slider. It utilizes the `IEnhancedColorService` to compute the enhanced
+ * color based on the provided input.
  *
+ * @component
  * @param {EnhanceColorProps} props - The properties for the EnhanceColor component.
- * @param {IHEXColor} props.color - The initial color to be enhanced, represented as a HEX color.
- * @param {"lightness" | "saturation"} props.enhancementType - The type of enhancement to apply (lightness or saturation).
- * @param {number} props.amount - The initial enhancement amount, used to set the slider's value.
- * @param {(enhancedColor: IHEXColor) => void} [props.onChange] - Optional callback function triggered when the color is enhanced.
- * @param {LightnessService} props.lightnessService - Service object providing the logic to enhance lightness.
- * @param {SaturationService} props.saturationService - Service object providing the logic to enhance saturation.
+ * @param {IColor} props.color - The initial color to be enhanced.
+ * @param {number} props.initialValue - The initial value for the range slider.
+ * @param {IEnhancedColorService} props.enhanceServices - The service used to enhance the color.
+ * @param {(color: IHEXColor) => void} props.onColorEnhanced - Callback function invoked with the enhanced color.
  *
- * @returns {JSX.Element} A slider input for adjusting the enhancement of the color.
+ * @returns {JSX.Element} A React component that renders a range slider and displays the current color.
  *
  * @example
  * ```tsx
+ * const handleColorEnhanced = (enhancedColor: IHEXColor) => {
+ *   // enhancedColor contient la couleur améliorée
+ * };
+ *
  * <EnhanceColor
- *   color="#ff0000"
- *   enhancementType="lightness"
- *   amount={50}
- *   onChange={(enhancedColor) => console.log(enhancedColor)}
- *   lightnessService={lightnessServiceInstance}
- *   saturationService={saturationServiceInstance}
+ *   color={initialColor}
+ *   initialValue={50}
+ *   enhanceServices={enhancedColorService}
+ *   onColorEnhanced={handleColorEnhanced}
  * />
  * ```
  */
-export const EnhanceColor: React.FC<EnhanceColorProps> = React.memo(({
-  color,
-  enhancementType,
-  amount,
-  onChange,
-  lightnessService,
-  saturationService,
-}) => {
-  const [sliderValue, setSliderValue] = useState<number>(amount);
+export const EnhanceColor: React.FC<EnhanceColorProps> = React.memo(
+  ({
+    color,
+    initialValue,
+    enhanceServices,
+    onColorEnhanced
+  }) => {
+    const handleChange = useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = Number(event.target.value);
+        const newColor = enhanceServices.enhanceColor(color, newValue - initialValue);
+        onColorEnhanced(newColor as IHEXColor);
+      },
+      [color, enhanceServices, initialValue, onColorEnhanced]
+    );
 
-  // Mémoriser l'objet services pour éviter les recréations
-  const services = useMemo(() => ({
-    lightness: lightnessService,
-    saturation: saturationService,
-  }), [lightnessService, saturationService]);
-
-  // Mémoriser le gestionnaire d'événement
-  const handleEnhance = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newAmount = parseFloat(e.target.value);
-    if (isNaN(newAmount)) return;
-
-    const difference = newAmount - sliderValue;
-    if (difference === 0) return;
-
-    try {
-      const enhancedColor = services[enhancementType].enhanceColor(color, difference);
-      setSliderValue(newAmount);
-
-      if (onChange) {
-        onChange(enhancedColor as IHEXColor);
-      }
-    } catch (error) {
-      console.error('Error enhancing color:', error);
-    }
-  }, [sliderValue, services, enhancementType, color, onChange]);
-  
-  // Synchroniser sliderValue avec amount quand il change
-  React.useEffect(() => {
-    setSliderValue(amount);
-  }, [amount]);
-
-  return (
-    <div className="flex flex-col gap-2">
-      <label className="pt-5" htmlFor={`enhance-${enhancementType}`}>
-        {enhancementType}
-      </label>
-      <input
-        type="range"
-        id={`enhance-${enhancementType}`}
-        name={`enhance-${enhancementType}`}
-        min="0"
-        max="100"
-        value={sliderValue}
-        onChange={handleEnhance}
-      />
-    </div>
-  );
-});
+    return (
+      <div>
+        <p>Enhance Color Component Placeholder</p>
+        <p>Color: {color.stringValue()}</p>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          defaultValue={initialValue}
+          onChange={handleChange}
+        />
+      </div>
+    );
+  }
+);
 
 EnhanceColor.displayName = "EnhanceColor";

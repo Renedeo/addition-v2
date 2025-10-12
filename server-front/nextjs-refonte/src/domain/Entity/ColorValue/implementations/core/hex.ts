@@ -9,10 +9,10 @@ import { roundToPrecision } from "@/shared/utils/format.utils";
  * Classe représentant une couleur au format HEX.
  * Permet de manipuler et valider les couleurs HEX avec alpha optionnel.
  *
- * Exemple d'utilisation :
+ * @example
  * ```typescript
  * const hexColor = new HEXColor("#ff5733", 0.8);
- * console.log(hexColor.stringValue()); // "#ff5733cc"
+ * const colorString = hexColor.stringValue(); // "#ff5733cc"
  * ```
  */
 export class HEXColor implements IHEXColor {

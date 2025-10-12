@@ -12,7 +12,7 @@ import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/
  * ```typescript
  * const service = new LightnessService(formatHandler);
  * const result = service.analyzeColor(color);
- * console.log(result.lightnessLevel); // "Light" ou "Dark"
+ * const level = result.lightnessLevel; // "Light" ou "Dark"
  * ```
  */
 export class LightnessService implements IColorAnalysisService<IColorLightnessResult> {
@@ -44,8 +44,8 @@ export class LightnessService implements IColorAnalysisService<IColorLightnessRe
         const lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
         return {
-            lightnessLevel: lightness < 0.5 ? "Dark" : "Light",
-            description: lightness < 0.5 ? "The color is perceived as dark." : "The color is perceived as light.",
+            lightnessLevel: (lightness * 100) < 50 ? "Dark" : "Light",
+            description: (lightness * 100) < 50 ? "The color is perceived as dark." : "The color is perceived as light.",
             lightness: (lightness * 100),
         };
     }

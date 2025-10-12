@@ -3,6 +3,25 @@ import { IConverter } from "@domain/ColorValue/core/interfaces/service/converter
 import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
 import { RegistryKey } from "@domain/ColorValue/core/types/registry/registry.types";
 
+/**
+ * Implémentation concrète du registre de convertisseurs de couleurs.
+ * Utilise une Map interne pour stocker et récupérer les convertisseurs
+ * basée sur une clé composée des formats source et cible.
+ * 
+ * @class ConverterRegistry
+ * @implements {IConverterRegistry}
+ * 
+ * @example
+ * ```typescript
+ * const registry = new ConverterRegistry();
+ * registry.register('RGB', 'HEX', new RGBToHEXConverter());
+ * 
+ * const converter = registry.get('RGB', 'HEX');
+ * if (converter) {
+ *   const hexColor = converter.convert(rgbColor);
+ * }
+ * ```
+ */
 export class ConverterRegistry implements IConverterRegistry{
     /** 
      * **Type générique :**
@@ -13,6 +32,14 @@ export class ConverterRegistry implements IConverterRegistry{
     */
     private converters: Map<RegistryKey, IConverter<unknown, unknown>> = new Map();
 
+    /**
+     * Enregistre un convertisseur pour une paire de formats spécifiée.
+     * La clé est composée sous la forme "FORMAT_SOURCE->FORMAT_CIBLE".
+     * 
+     * @param fromType - Format source de la conversion
+     * @param toType - Format cible de la conversion
+     * @param converter - Instance du convertisseur à enregistrer
+     */
     register<From, To>(
         fromType: ColorFormat,
         toType: ColorFormat,
@@ -22,6 +49,13 @@ export class ConverterRegistry implements IConverterRegistry{
         this.converters.set(key, converter);
     }
 
+    /**
+     * Récupère un convertisseur pour une paire de formats spécifiée.
+     * 
+     * @param fromType - Format source
+     * @param toType - Format cible
+     * @returns Le convertisseur correspondant ou undefined si non trouvé
+     */
     get<From, To>(
         fromType: ColorFormat,
         toType: ColorFormat
@@ -30,6 +64,12 @@ export class ConverterRegistry implements IConverterRegistry{
         return this.converters.get(key) as IConverter<From, To> | undefined;
     }
 
+    /**
+     * Retourne la liste de tous les formats de couleur supportés.
+     * Extrait les formats depuis les clés des convertisseurs enregistrés.
+     * 
+     * @returns Tableau des formats supportés sans doublons
+     */
     getSupportedFormats(): ColorFormat[] {
         const formats = new Set<ColorFormat>();
         this.converters.forEach((_, key) => {

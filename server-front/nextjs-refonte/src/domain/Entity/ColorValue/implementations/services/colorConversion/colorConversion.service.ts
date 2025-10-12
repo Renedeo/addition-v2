@@ -5,16 +5,26 @@ import { IConversionCapabilityService, IDirectConversionService, IIntermediateCo
 import { ColorFormat } from "@domain/ColorValue/core/types/colorRepresention.types";
 
 /**
- * Service principal de conversion de couleurs entre différents formats (HEX, RGB, HSL, etc).
- * Utilise un registre de convertisseurs pour effectuer les conversions directes ou via un format intermédiaire.
+ * Interface principale du service de conversion de couleurs.
+ * Combine plusieurs interfaces pour fournir un service complet :
+ * - Conversion directe entre formats
+ * - Vérification des capacités de conversion
+ * - Conversion via format intermédiaire
+ * - Gestion des formats supportés
  *
- * Exemple d'utilisation :
+ * @example
  * ```typescript
  * const service = new ColorConversionService(registry);
  * const rgb = service.convert(hexColor, FormatConst.HEX, FormatConst.RGB);
+ * const canConvert = service.canConvert(FormatConst.HEX, FormatConst.LAB);
+ * const formats = service.getSupportedFormats();
  * ```
  */
 export interface IColorConversionService extends IDirectConversionService, IConversionCapabilityService, IIntermediateColorConversionService {
+    /**
+     * Retourne la liste de tous les formats de couleur supportés par le service.
+     * @returns Tableau des formats supportés
+     */
     getSupportedFormats(): ColorFormat[];
 }
 

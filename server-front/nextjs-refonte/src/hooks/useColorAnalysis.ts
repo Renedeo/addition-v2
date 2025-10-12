@@ -24,23 +24,17 @@ import { ColorServicesHookResult, ColorAnalysisHookResult } from "./types";
  * const colorAnalysis = useColorAnalysis(primaryColor, services);
  * 
  * if (colorAnalysis) {
- *   console.log(colorAnalysis.saturationInfo);
+ *   const saturationInfo = colorAnalysis.saturationInfo;
  * }
  * ```
  */
 
 
 export const useColorAnalysis = (primaryColor: IHEXColor, services: ColorServicesHookResult): ColorAnalysisHookResult => {
-  // Débounce la couleur pour éviter les recalculs excessifs
-  const [, debouncedPrimaryColor] = useDebouncedValue(primaryColor, 150);
-  
-  // Cache pour éviter les recalculs inutiles même avec la même couleur
   const analysisCache = useRef<Map<string, ColorAnalysisHookResult>>(new Map());
-
-  // Memoize color analysis to avoid recalculation
   const colorAnalysis = useMemo(() => {
     // Vérifications préventives pour éviter les erreurs
-    if (!debouncedPrimaryColor) {
+    if (!primaryColor) {
       console.warn("useColorAnalysis: primaryColor is null or undefined");
       return null;
     }
@@ -51,7 +45,7 @@ export const useColorAnalysis = (primaryColor: IHEXColor, services: ColorService
     }
 
     // Clé de cache basée sur la couleur
-    const cacheKey = debouncedPrimaryColor.stringValue();
+    const cacheKey = primaryColor.stringValue();
     
     // Vérifier le cache
     if (analysisCache.current.has(cacheKey)) {
@@ -60,20 +54,20 @@ export const useColorAnalysis = (primaryColor: IHEXColor, services: ColorService
 
     try {
       const result = {
-        saturationInfo: services.saturationService.analyzeColor(debouncedPrimaryColor),
-        luminanceInfo: services.lightnessService.analyzeColor(debouncedPrimaryColor),
+        saturationInfo: services.saturationService.analyzeColor(primaryColor),
+        luminanceInfo: services.lightnessService.analyzeColor(primaryColor),
         rgbValue: services.conversionService.convert(
-          debouncedPrimaryColor,
+          primaryColor,
           FormatConst.HEX,
           FormatConst.RGB
         ) as IRGBColor,
         hexValue: services.conversionService.convert(
-          debouncedPrimaryColor,
+          primaryColor,
           FormatConst.HEX,
           FormatConst.HEX
         ) as IHEXColor,
         hslValue: services.conversionService.convert(
-          debouncedPrimaryColor,
+          primaryColor,
           FormatConst.HEX,
           FormatConst.HSL
         ) as IHSLColor,
@@ -95,7 +89,7 @@ export const useColorAnalysis = (primaryColor: IHEXColor, services: ColorService
       console.error("Error during color analysis:", error);
       return null;
     }
-  }, [debouncedPrimaryColor, services]);
+  }, [primaryColor, services]);
 
   return colorAnalysis;
 };

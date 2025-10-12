@@ -9,10 +9,10 @@ import { roundToPrecision } from "@/shared/utils/format.utils";
  * Classe représentant une couleur au format RGB.
  * Permet de manipuler et valider les couleurs RGB avec alpha optionnel.
  *
- * Exemple d'utilisation :
+ * @example
  * ```typescript
  * const rgbColor = new RGBColor(255, 87, 51, 0.8);
- * console.log(rgbColor.stringValue()); // "rgba(255, 87, 51, 0.8)"
+ * const colorString = rgbColor.stringValue(); // "rgba(255, 87, 51, 0.8)"
  * ```
  */
 export class RGBColor implements IRGBColor {

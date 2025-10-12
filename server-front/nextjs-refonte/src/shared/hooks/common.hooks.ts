@@ -9,7 +9,6 @@ import React, { useState, useCallback, useMemo } from 'react';
  * Hook pour gérer une valeur avec debounce.
  */
 export const useDebouncedValue = <T>(initialValue: T, delay: number = 300) => {
-  const [value, setValue] = useState<T>(initialValue);
   const [debouncedValue, setDebouncedValue] = useState<T>(initialValue);
 
   const debouncedUpdate = useMemo(() => {
@@ -20,18 +19,15 @@ export const useDebouncedValue = <T>(initialValue: T, delay: number = 300) => {
     };
   }, [delay]);
   
-  // Synchroniser avec les changements d'initialValue
   React.useEffect(() => {
-    setValue(initialValue);
     debouncedUpdate(initialValue);
   }, [initialValue, debouncedUpdate]);
 
   const updateValue = useCallback((newValue: T) => {
-    setValue(newValue);
     debouncedUpdate(newValue);
   }, [debouncedUpdate]);
 
-  return [value, debouncedValue, updateValue] as const;
+  return [debouncedValue, updateValue] as const;
 };
 
 /**

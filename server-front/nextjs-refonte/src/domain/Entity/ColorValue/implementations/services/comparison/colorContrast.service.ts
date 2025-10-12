@@ -19,7 +19,7 @@ import { ACCESSIBILITY_THRESHOLDS } from "@/shared/constants/accessibility.const
  * const lightnessService = new LightnessService(formatService);
  * const service = new ColorContrastService(formatService, lightnessService);
  * const result = service.compareColors(color1, color2);
- * console.log(result.contrastRatio); // Ratio numérique
+ * const ratio = result.contrastRatio; // Ratio numérique
  * ```
  */
 export class ColorContrastService implements IColorComparisonService<IColor, IColor, IColorContrastResult> {

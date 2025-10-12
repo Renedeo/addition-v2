@@ -1,24 +1,26 @@
 "use client";
 import React from "react";
 
+/**
+ * Props pour le composant ColorValueCard
+ */
+interface ColorValueCardProps {
+  /** Label affiché en haut de la carte */
+  label: string;
+  /** Valeur de couleur à afficher */
+  value: string;
+  /** Thème de couleur de la carte */
+  color: "blue" | "green" | "purple";
+}
 
 /**
- * A React functional component that displays a card with a label, a color value, and a background color
- * based on the specified color theme.
+ * Carte d'affichage d'une valeur de couleur avec thème colorisé.
  *
  * @component
- * @param {Object} props - The props object.
- * @param {string} props.label - The label to display on the card.
- * @param {string} props.value - The color value as a string representation.
- * @param {"blue" | "green" | "purple"} props.color - The color theme for the card, which determines the border and background color.
- *
- * @returns {JSX.Element} A styled card component with the specified label, color value, and theme.
+ * @param {ColorValueCardProps} props - Les props du composant
+ * @returns {JSX.Element} Carte stylisée avec la valeur de couleur
  */
-export const ColorValueCard: React.FC<{
-  label: string;
-  value: string;
-  color: "blue" | "green" | "purple";
-}> = ({ label, value, color }) => {
+export const ColorValueCard: React.FC<ColorValueCardProps> = ({ label, value, color }) => {
   const colorClasses = {
     blue: "border-blue-200 bg-blue-50",
     green: "border-green-200 bg-green-50",
