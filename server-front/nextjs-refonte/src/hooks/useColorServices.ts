@@ -4,8 +4,8 @@ import { LightnessService } from "@/domain/Entity/ColorValue/implementations/ser
 import { SaturationService } from "@/domain/Entity/ColorValue/implementations/services/colorAnalysis/saturation.service";
 import { ColorConversionService } from "@/domain/Entity/ColorValue/implementations/services/colorConversion/colorConversion.service";
 import { ColorFormatService } from "@/domain/Entity/ColorValue/implementations/shared/services/colorFormat.service";
-import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceSaturation.service";
-import { EnhancedLightnessService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceLightness.service";
+import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/enhance/enhanceSaturation.service";
+import { EnhancedLightnessService } from "@/domain/Entity/ColorValue/implementations/services/enhance/enhanceLightness.service";
 import { ColorContrastService } from "@/domain/Entity/ColorValue/implementations/services/comparison/colorContrast.service";
 import { ColorServicesHookResult } from "./types";
 

@@ -2,8 +2,8 @@ import { IColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.i
 import { PaletteInterface } from "@/domain/Entity/ColorValue/core/interfaces/color/palette/palette.interface";
 import { IEnhancedColorService } from "@/domain/Entity/ColorValue/core/interfaces/service/enhanced.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { EnhancedLightnessService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceLightness.service";
-import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/Enhance/enhanceSaturation.service";
+import { EnhancedLightnessService } from "@/domain/Entity/ColorValue/implementations/services/enhance/enhanceLightness.service";
+import { EnhanceSaturationService } from "@/domain/Entity/ColorValue/implementations/services/enhance/enhanceSaturation.service";
 
 /**
  * Abstract class `ColorEnhancementPaletteService` that extends the `PaletteInterface`.

@@ -119,12 +119,14 @@ export const ColorSelectionPanel: React.FC<ColorSelectionPanelProps> =
                   initialValue={colorAnalysis.hslValue.value.l}
                   enhanceServices={services.enhanceLightnessService}
                   onColorEnhanced={setPrimaryColor}
+                  label="Lightness"
                 />
                 <EnhanceColor
                   color={primaryColor}
                   initialValue={colorAnalysis.hslValue.value.s}
                   enhanceServices={services.enhanceSaturationService}
                   onColorEnhanced={setPrimaryColor}
+                  label="Saturation"
                 />
               </>
             )}

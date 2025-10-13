@@ -1,7 +1,7 @@
 "use client";
 import { IHEXColor } from "@/domain/Entity/ColorValue/core/interfaces/color/color.interface";
 import { IColorFormatHandler } from "@/domain/Entity/ColorValue/core/interfaces/service/shared.interface";
-import { DarkenPaletteService, LightenPaletteService, SaturatePaletteService, DesaturatePaletteService } from "@/domain/Entity/ColorValue/implementations/services/Palette/palette.service";
+import { DarkenPaletteService, LightenPaletteService, SaturatePaletteService, DesaturatePaletteService } from "@/domain/Entity/ColorValue/implementations/services/palette/palette.service";
 import React from "react";
 
 /**

@@ -14,6 +14,8 @@ interface EnhanceColorProps {
   enhanceServices: IEnhancedColorService;
   /** Callback appelé avec la couleur améliorée */
   onColorEnhanced: (enhancedColor: IHEXColor) => void;
+  /** Label pour le slider */
+  label?: string;
 }
 
 /**
@@ -49,7 +51,8 @@ export const EnhanceColor: React.FC<EnhanceColorProps> = React.memo(
     color,
     initialValue,
     enhanceServices,
-    onColorEnhanced
+    onColorEnhanced,
+    label = "Enhance",
   }) => {
     const handleChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,16 +65,15 @@ export const EnhanceColor: React.FC<EnhanceColorProps> = React.memo(
 
     return (
       <div>
-        <p>Enhance Color Component Placeholder</p>
-        <p>Color: {color.stringValue()}</p>
+        <label>{label}</label>
         <input
           type="range"
           min="0"
           max="100"
           defaultValue={initialValue}
           onChange={handleChange}
-        />
-      </div>
+          />
+          </div>
     );
   }
 );

@@ -31,9 +31,6 @@ export class EnhancedLightnessService implements IEnhancedColorService {
         const preferredFormat: IHSLColor = this.colorFormatter.formatColor(color, FormatConst.HSL) as IHSLColor;
         const lightness = preferredFormat.value.l;
         const newLightness = lightness + amount
-        console.log("Current lightness:", lightness);
-        console.log("amount:", amount);
-        console.log("New lightness:", newLightness);
         //Erreur si hors des bornes
         if (newLightness < 0 || newLightness > 100) {
             throw new Error("La valeur de luminosité doit être comprise entre 0 et 100.");

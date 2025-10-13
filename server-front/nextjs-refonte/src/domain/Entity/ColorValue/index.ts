@@ -29,8 +29,8 @@ export { ColorFormatService } from './implementations/shared/services/colorForma
 export { SaturationService } from './implementations/services/colorAnalysis/saturation.service';
 export { LightnessService } from './implementations/services/colorAnalysis/lightness.service';
 
-export { EnhanceSaturationService } from './implementations/services/Enhance/enhanceSaturation.service';
-export { EnhancedLightnessService } from './implementations/services/Enhance/enhanceLightness.service';
+export { EnhanceSaturationService } from './implementations/services/enhance/enhanceSaturation.service';
+export { EnhancedLightnessService } from './implementations/services/enhance/enhanceLightness.service';
 
 export { ColorContrastService } from './implementations/services/comparison/colorContrast.service';
 
@@ -39,7 +39,7 @@ export {
   LightenPaletteService, 
   SaturatePaletteService, 
   DesaturatePaletteService 
-} from './implementations/services/Palette/palette.service';
+} from './implementations/services/palette/palette.service';
 
 export { ColorConversionFactory } from './implementations/factory/ColorConversion.factory';
 export { ConverterRegistry } from './implementations/registry/converter.registry';

@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 
 /**
  * Props pour le composant ColorSelection
@@ -32,16 +32,8 @@ export interface ColorSelectionProps {
  */
 export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
   ({ onColorSelected, label, activeColor }) => {
-    const [inputValue, setInputValue] = React.useState(activeColor);
-
-    // Synchroniser l'état local avec la prop activeColor
-    useEffect(() => {
-      setInputValue(activeColor);
-    }, [activeColor]);
-
     const onChange = React.useCallback(
       (newColor: string) => {
-        setInputValue(newColor);
         onColorSelected(newColor);
       },
       [onColorSelected]
@@ -54,13 +46,13 @@ export const ColorSelection: React.FC<ColorSelectionProps> = React.memo(
         </label>
         <div className="relative flex items-center space-x-4 mb-2 justify-center">
           <ColorInputField
-            value={inputValue}
+            value={activeColor}
             onColorChange={onChange}
           />
         </div>
         <div className="flex-1">
           <HexTextInputField
-            value={inputValue}
+            value={activeColor}
             onColorChange={onChange}
           />
         </div>
@@ -155,6 +147,5 @@ function HexTextInputField({
     />
   );
 }
-
 
 ColorSelection.displayName = "ColorSelection";
